@@ -1,0 +1,57 @@
+---
+import Section from '../layout/Section.astro';
+import Button from '../ui/Button';
+---
+
+<Section id="sponsors" background="cream">
+  <h2 class="font-display text-4xl md:text-5xl text-center mb-4 text-purple uppercase fade-in-up">
+    Gracias a Nuestros Sponsors
+  </h2>
+  
+  <p class="font-body text-xl text-center mb-12 text-dark fade-in-up" style="animation-delay: 0.1s;">
+    Este evento es posible gracias al apoyo de nuestros patrocinadores
+  </p>
+
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center mb-12">
+    <!-- Placeholders para logos de sponsors -->
+    <div class="aspect-square bg-white-warm rounded-lg flex items-center justify-center shadow-md hover:scale-105 transition-transform border-2 border-black fade-in-up" style="animation-delay: 0.2s;">
+      <span class="text-gray text-sm">Sponsor 1</span>
+    </div>
+    <div class="aspect-square bg-white-warm rounded-lg flex items-center justify-center shadow-md hover:scale-105 transition-transform border-2 border-black fade-in-up" style="animation-delay: 0.3s;">
+      <span class="text-gray text-sm">Sponsor 2</span>
+    </div>
+    <div class="aspect-square bg-white-warm rounded-lg flex items-center justify-center shadow-md hover:scale-105 transition-transform border-2 border-black fade-in-up" style="animation-delay: 0.4s;">
+      <span class="text-gray text-sm">Sponsor 3</span>
+    </div>
+    <div class="aspect-square bg-white-warm rounded-lg flex items-center justify-center shadow-md hover:scale-105 transition-transform border-2 border-black fade-in-up" style="animation-delay: 0.5s;">
+      <span class="text-gray text-sm">Sponsor 4</span>
+    </div>
+    <div class="aspect-square bg-white-warm rounded-lg flex items-center justify-center shadow-md hover:scale-105 transition-transform border-2 border-black fade-in-up" style="animation-delay: 0.6s;">
+      <span class="text-gray text-sm">Sponsor 5</span>
+    </div>
+    <div class="aspect-square bg-white-warm rounded-lg flex items-center justify-center shadow-md hover:scale-105 transition-transform border-2 border-black fade-in-up" style="animation-delay: 0.7s;">
+      <span class="text-gray text-sm">Sponsor 6</span>
+    </div>
+    <div class="aspect-square bg-white-warm rounded-lg flex items-center justify-center shadow-md hover:scale-105 transition-transform border-2 border-black fade-in-up" style="animation-delay: 0.8s;">
+      <span class="text-gray text-sm">Sponsor 7</span>
+    </div>
+    <div class="aspect-square bg-white-warm rounded-lg flex items-center justify-center shadow-md hover:scale-105 transition-transform border-2 border-black fade-in-up" style="animation-delay: 0.9s;">
+      <span class="text-gray text-sm">Sponsor 8</span>
+    </div>
+  </div>
+
+  <div class="text-center fade-in-up" style="animation-delay: 1s;">
+    <p class="font-heading text-xl mb-4 text-dark">
+      ¿Quieres ser sponsor?
+    </p>
+    <p class="font-body mb-6 text-dark max-w-2xl mx-auto">
+      El LongFest ofrece diversas oportunidades de patrocinio 
+      para marcas que comparten nuestros valores de comunidad, 
+      deporte y sostenibilidad.
+    </p>
+    <Button variant="outline" client:load>
+      Contáctanos
+    </Button>
+  </div>
+</Section>
+

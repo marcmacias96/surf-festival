@@ -1,0 +1,154 @@
+---
+import Section from '../layout/Section.astro';
+import Button from '../ui/Button';
+---
+
+<Section id="prizes" background="cream">
+  <div class="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-16 md:py-20 lg:py-24">
+    
+    <!-- Header -->
+    <div class="text-center mb-12 md:mb-16 fade-in-up">
+      <h2 class="font-display text-4xl md:text-5xl lg:text-6xl text-black uppercase mb-6 md:mb-8 leading-tight tracking-tight">
+        Premios y<br />Atractivos
+      </h2>
+      <p class="font-body text-base md:text-lg lg:text-xl text-center mb-4 max-w-3xl mx-auto text-dark fade-in-up leading-relaxed px-4" style="animation-delay: 0.1s;">
+        Compite por premios en efectivo y reconocimientos especiales. 
+        Riders nacionales e internacionales, música en vivo y mucho más.
+      </p>
+    </div>
+
+    <!-- Layout de dos columnas -->
+    <div class="grid md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start mb-12 md:mb-16">
+      
+      <!-- Columna Izquierda - Premios en Efectivo -->
+      <div class="space-y-6 fade-in-up" style="animation-delay: 0.2s;">
+        
+        <!-- Premio Principal -->
+        <div class="bg-gradient-to-br from-yellow via-orange to-pink border-[4px] border-black shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] p-6 md:p-8 text-center">
+          <div class="mb-6 flex justify-center">
+            <img 
+              src="/Group 1.png" 
+              alt="" 
+              class="w-24 h-24 md:w-32 md:h-32 object-contain drop-shadow-[4px_4px_0px_rgba(0,0,0,0.3)]" 
+              aria-hidden="true"
+              loading="lazy"
+            />
+          </div>
+          <h3 class="font-display text-3xl md:text-4xl lg:text-5xl mb-4 text-black uppercase leading-tight">
+            Premios en<br />Efectivo
+          </h3>
+          <p class="font-body text-base md:text-lg text-black font-medium mb-6 leading-relaxed">
+            Los mejores riders de cada categoría se llevan premios en efectivo 
+            y productos de nuestros sponsors.
+          </p>
+          <div class="bg-white-warm/90 border-2 border-black p-4 md:p-6 rounded-lg">
+            <p class="font-heading text-sm md:text-base text-black font-bold uppercase mb-2 tracking-wide">
+              Montos por confirmar
+            </p>
+            <p class="font-body text-sm md:text-base text-black">
+              Los premios se distribuyen entre los primeros 3 lugares de cada categoría
+            </p>
+          </div>
+        </div>
+
+        <!-- Premios Especiales -->
+        <div class="bg-white-warm border-[4px] border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] p-6 md:p-8">
+          <h3 class="font-heading text-xl md:text-2xl font-bold text-black uppercase mb-6 tracking-wide text-center">
+            Premios Especiales
+          </h3>
+          <div class="space-y-4">
+            <div class="border-2 border-black p-4 bg-yellow/20">
+              <h4 class="font-heading text-base md:text-lg font-bold text-black uppercase mb-2">Best Performance</h4>
+              <p class="font-body text-sm md:text-base text-black">Reconocimiento a la mejor maniobra del festival</p>
+            </div>
+            <div class="border-2 border-black p-4 bg-orange/20">
+              <h4 class="font-heading text-base md:text-lg font-bold text-black uppercase mb-2">Best Style</h4>
+              <p class="font-body text-sm md:text-base text-black">Premio al estilo más creativo y fluido</p>
+            </div>
+            <div class="border-2 border-black p-4 bg-pink/20">
+              <h4 class="font-heading text-base md:text-lg font-bold text-black uppercase mb-2">Photo of the Day</h4>
+              <p class="font-body text-sm md:text-base text-black">Mejor foto capturada durante el evento</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna Derecha - Atractivos del Festival -->
+      <div class="space-y-6 fade-in-up" style="animation-delay: 0.25s;">
+        
+        <!-- Riders Internacionales -->
+        <div class="bg-white-warm border-[4px] border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] p-6 md:p-8 transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] transition-all">
+          <h3 class="font-display text-2xl md:text-3xl lg:text-4xl mb-4 text-black uppercase leading-tight text-center">
+            Riders<br />Internacionales
+          </h3>
+          <p class="font-body text-base md:text-lg text-black leading-relaxed text-center mb-4">
+            Atletas de renombre participan y comparten su experiencia con la comunidad local
+          </p>
+          <div class="bg-yellow/30 border-2 border-black p-4 rounded-lg text-center">
+            <p class="font-heading text-sm md:text-base text-black font-bold uppercase tracking-wide">
+              Lineup por confirmar
+            </p>
+          </div>
+        </div>
+
+        <!-- Música en Vivo -->
+        <div class="bg-gradient-to-br from-orange to-pink border-[4px] border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] p-6 md:p-8 text-center transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] transition-all">
+          <div class="font-display text-5xl md:text-6xl lg:text-7xl text-black mb-4 leading-none">3</div>
+          <h3 class="font-heading text-xl md:text-2xl font-bold text-black uppercase mb-4 tracking-wide">
+            Noches de<br />Música en Vivo
+          </h3>
+          <p class="font-body text-base md:text-lg text-black font-medium leading-relaxed">
+            Después de cada día de competencia, disfruta de música en vivo 
+            con artistas locales y nacionales
+          </p>
+          <div class="mt-6 bg-white-warm/90 border-2 border-black p-4 rounded-lg">
+            <p class="font-heading text-sm md:text-base text-black font-bold uppercase tracking-wide">
+              Lineup por confirmar
+            </p>
+          </div>
+        </div>
+
+        <!-- Experiencia Completa -->
+        <div class="bg-white-warm border-[4px] border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] p-6 md:p-8">
+          <h3 class="font-heading text-xl md:text-2xl font-bold text-black uppercase mb-4 tracking-wide text-center">
+            Experiencia Completa
+          </h3>
+          <ul class="space-y-3">
+            <li class="flex items-start gap-3">
+              <span class="text-orange font-bold text-xl">✓</span>
+              <span class="font-body text-sm md:text-base text-black">Competencia de longboard de nivel internacional</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-orange font-bold text-xl">✓</span>
+              <span class="font-body text-sm md:text-base text-black">Feria de emprendedores locales</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-orange font-bold text-xl">✓</span>
+              <span class="font-body text-sm md:text-base text-black">Gastronomía costeña tradicional</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-orange font-bold text-xl">✓</span>
+              <span class="font-body text-sm md:text-base text-black">Arte y cultura local</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-orange font-bold text-xl">✓</span>
+              <span class="font-body text-sm md:text-base text-black">Actividades para toda la familia</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="flex justify-center fade-in-up" style="animation-delay: 0.3s;">
+      <Button 
+        variant="primary" 
+        size="default"
+        client:load
+        className="w-full sm:w-auto"
+      >
+        VER MÁS DETALLES
+      </Button>
+    </div>
+  </div>
+</Section>

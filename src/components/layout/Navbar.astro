@@ -1,0 +1,210 @@
+---
+---
+
+<!-- Indicador de progreso de scroll -->
+<div 
+  id="scroll-progress" 
+  class="fixed top-0 left-0 h-1 bg-gradient-to-r from-yellow via-orange to-pink z-[201] transition-all duration-150 ease-out"
+  style="width: 0%;"
+  role="progressbar"
+  aria-valuenow="0"
+  aria-valuemin="0"
+  aria-valuemax="100"
+  aria-label="Progreso de scroll"
+></div>
+
+<nav class="fixed top-0 w-full bg-white-warm border-b-[3px] border-black z-[200] shadow-md">
+  <div class="container mx-auto px-4">
+    <div class="flex items-center justify-between py-4">
+      <!-- Logo -->
+      <a href="/" class="flex items-center" aria-label="Ir al inicio">
+        <img 
+          src="/logo.png" 
+          alt="San Mateo Longboard Festival" 
+          class="h-12"
+          loading="eager"
+        />
+      </a>
+
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#about" class="font-heading text-base font-semibold uppercase tracking-wide text-black hover:bg-yellow px-4 py-2 rounded-md transition-all">
+          Sobre el Festival
+        </a>
+        <a href="#categories" class="font-heading text-base font-semibold uppercase tracking-wide text-black hover:bg-yellow px-4 py-2 rounded-md transition-all">
+          Categorías
+        </a>
+        <a href="#prizes" class="font-heading text-base font-semibold uppercase tracking-wide text-black hover:bg-yellow px-4 py-2 rounded-md transition-all">
+          Premios
+        </a>
+        <a href="#activities" class="font-heading text-base font-semibold uppercase tracking-wide text-black hover:bg-yellow px-4 py-2 rounded-md transition-all">
+          Actividades
+        </a>
+        <a href="#contact" class="font-heading text-base font-semibold uppercase tracking-wide text-black hover:bg-yellow px-4 py-2 rounded-md transition-all">
+          Contacto
+        </a>
+        <button
+          id="register-btn-desktop"
+          class="bg-yellow text-black px-6 py-2 rounded-md font-heading font-bold uppercase shadow-md hover:shadow-sm hover:translate-x-[2px] hover:translate-y-[2px] transition-all min-h-[44px]"
+        >
+          Inscríbete
+        </button>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <button
+        id="menu-toggle"
+        class="md:hidden w-12 h-12 border-[3px] border-black rounded-md flex flex-col items-center justify-center gap-1 hover:bg-yellow transition-all"
+        aria-label="Abrir menú"
+        aria-expanded="false"
+      >
+        <span class="nav-toggle-line w-6 h-0.5 bg-black transition-all"></span>
+        <span class="nav-toggle-line w-6 h-0.5 bg-black transition-all"></span>
+        <span class="nav-toggle-line w-6 h-0.5 bg-black transition-all"></span>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div
+      id="mobile-menu"
+      class="hidden md:hidden pb-4 border-t-2 border-gray-light"
+    >
+      <a href="#about" class="block py-3 font-heading text-base font-semibold uppercase tracking-wide text-black hover:bg-yellow px-4 rounded-md transition-all">
+        Sobre el Festival
+      </a>
+      <a href="#categories" class="block py-3 font-heading text-base font-semibold uppercase tracking-wide text-black hover:bg-yellow px-4 rounded-md transition-all">
+        Categorías
+      </a>
+      <a href="#prizes" class="block py-3 font-heading text-base font-semibold uppercase tracking-wide text-black hover:bg-yellow px-4 rounded-md transition-all">
+        Premios
+      </a>
+      <a href="#activities" class="block py-3 font-heading text-base font-semibold uppercase tracking-wide text-black hover:bg-yellow px-4 rounded-md transition-all">
+        Actividades
+      </a>
+      <a href="#contact" class="block py-3 font-heading text-base font-semibold uppercase tracking-wide text-black hover:bg-yellow px-4 rounded-md transition-all">
+        Contacto
+      </a>
+      <button
+        id="register-btn-mobile"
+        class="w-full bg-yellow text-black px-6 py-3 rounded-md font-heading font-bold uppercase shadow-md mt-4 min-h-[44px]"
+      >
+        Inscríbete
+      </button>
+    </div>
+  </div>
+</nav>
+
+<script>
+  // Toggle menu mobile
+  const menuToggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const navLinks = document.querySelectorAll('#mobile-menu a, #mobile-menu button');
+
+  menuToggle?.addEventListener('click', () => {
+    const isOpen = !mobileMenu?.classList.contains('hidden');
+    mobileMenu?.classList.toggle('hidden');
+    menuToggle?.setAttribute('aria-expanded', String(!isOpen));
+    
+    // Animar hamburger
+    menuToggle?.classList.toggle('active');
+  });
+
+  // Cerrar menú al hacer click en link
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu?.classList.add('hidden');
+      menuToggle?.setAttribute('aria-expanded', 'false');
+      menuToggle?.classList.remove('active');
+    });
+  });
+
+  // Smooth scroll para todos los links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const targetId = (e.currentTarget as HTMLAnchorElement).getAttribute('href')?.substring(1);
+      const targetElement = document.getElementById(targetId || '');
+      if (targetElement) {
+        const offsetTop = targetElement.offsetTop - 80; // Ajustar por navbar sticky
+        window.scrollTo({
+          top: offsetTop,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+
+  // Registrar botones de inscripción
+  const registerBtns = document.querySelectorAll('#register-btn-desktop, #register-btn-mobile');
+  registerBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const event = new CustomEvent('open-registration-modal');
+      window.dispatchEvent(event);
+    });
+  });
+
+  // Indicador de progreso de scroll
+  const scrollProgress = document.getElementById('scroll-progress');
+  
+  function updateScrollProgress() {
+    if (!scrollProgress) return;
+    
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    // Calcular el porcentaje de scroll
+    const scrollableHeight = documentHeight - windowHeight;
+    const scrollPercentage = scrollableHeight > 0 
+      ? Math.min((scrollTop / scrollableHeight) * 100, 100)
+      : 0;
+    
+    // Actualizar el ancho y el aria-valuenow
+    scrollProgress.style.width = `${scrollPercentage}%`;
+    scrollProgress.setAttribute('aria-valuenow', Math.round(scrollPercentage).toString());
+  }
+  
+  // Throttle para optimizar rendimiento
+  let ticking = false;
+  function requestTick() {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        updateScrollProgress();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }
+  
+  // Escuchar eventos de scroll
+  window.addEventListener('scroll', requestTick, { passive: true });
+  window.addEventListener('resize', requestTick, { passive: true });
+  
+  // Inicializar al cargar
+  updateScrollProgress();
+</script>
+
+<style>
+  .nav-toggle-line {
+    transition: all 0.3s ease;
+  }
+
+  .nav-toggle.active .nav-toggle-line:nth-child(1) {
+    transform: rotate(45deg) translateY(7px);
+  }
+
+  .nav-toggle.active .nav-toggle-line:nth-child(2) {
+    opacity: 0;
+  }
+
+  .nav-toggle.active .nav-toggle-line:nth-child(3) {
+    transform: rotate(-45deg) translateY(-7px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav-toggle-line {
+      transition: none;
+    }
+  }
+</style>
+

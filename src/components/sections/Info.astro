@@ -1,0 +1,360 @@
+---
+import Section from '../layout/Section.astro';
+---
+
+<Section id="info" background="white">
+  <div class="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-16 md:py-20 lg:py-24">
+    
+    <!-- Header -->
+    <div class="text-center mb-12 md:mb-16 fade-in-up">
+      <h2 class="font-display text-4xl md:text-5xl lg:text-6xl text-black uppercase mb-6 md:mb-8 leading-tight tracking-tight">
+        Todo lo que<br />Necesitas Saber
+      </h2>
+      <p class="font-body text-base md:text-lg lg:text-xl text-center mb-4 max-w-3xl mx-auto text-dark fade-in-up leading-relaxed px-4" style="animation-delay: 0.1s;">
+        Información importante sobre ubicación, horarios y preguntas frecuentes 
+        para que disfrutes al máximo del festival.
+      </p>
+    </div>
+
+    <!-- Layout de dos columnas -->
+    <div class="grid md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 mb-12 md:mb-16">
+      
+      <!-- Columna Izquierda - Ubicación -->
+      <div class="fade-in-up" style="animation-delay: 0.2s;">
+        <div class="bg-white-warm border-[4px] border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] p-6 md:p-8 mb-6">
+          <h3 class="font-display text-2xl md:text-3xl mb-6 text-black uppercase leading-tight">
+            📍 Ubicación
+          </h3>
+          <div class="mb-6">
+            <p class="font-heading text-xl md:text-2xl mb-2 text-black font-bold">
+              El Faro, San Mateo
+            </p>
+            <p class="font-body text-base md:text-lg text-dark">
+              Manabí, Ecuador
+            </p>
+          </div>
+          
+          <div class="space-y-4 mb-6">
+            <div class="border-[3px] border-black p-4 bg-yellow shadow-[3px_3px_0px_0px_rgba(26,26,26,1)] transform hover:-translate-x-[1px] hover:-translate-y-[1px] hover:shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] transition-all">
+              <p class="font-heading text-sm md:text-base font-bold text-black uppercase mb-2">Desde Quito:</p>
+              <p class="font-body text-sm md:text-base text-black font-medium">6 horas vía Santo Domingo - Pedernales</p>
+            </div>
+            
+            <div class="border-[3px] border-black p-4 bg-orange shadow-[3px_3px_0px_0px_rgba(26,26,26,1)] transform hover:-translate-x-[1px] hover:-translate-y-[1px] hover:shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] transition-all">
+              <p class="font-heading text-sm md:text-base font-bold text-black uppercase mb-2">Desde Guayaquil:</p>
+              <p class="font-body text-sm md:text-base text-black font-medium">3.5 horas vía Jipijapa - Puerto Cayo</p>
+            </div>
+            
+            <div class="border-[3px] border-black p-4 bg-pink shadow-[3px_3px_0px_0px_rgba(26,26,26,1)] transform hover:-translate-x-[1px] hover:-translate-y-[1px] hover:shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] transition-all">
+              <p class="font-heading text-sm md:text-base font-bold text-black uppercase mb-2">Desde Manta:</p>
+              <p class="font-body text-sm md:text-base text-black font-medium">1 hora por la Ruta del Spondylus</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Mapa placeholder -->
+        <div class="bg-white-warm border-[4px] border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] p-6 md:p-8">
+          <div class="aspect-video bg-gray-light border-2 border-black rounded-lg flex items-center justify-center">
+            <div class="text-center">
+              <p class="font-heading text-base md:text-lg text-black font-bold uppercase mb-2">Mapa Interactivo</p>
+              <p class="font-body text-sm md:text-base text-gray">Próximamente</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna Derecha - FAQs -->
+      <div class="fade-in-up" style="animation-delay: 0.25s;">
+        <div class="bg-white-warm border-[4px] border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] p-6 md:p-8">
+          <h3 class="font-display text-2xl md:text-3xl mb-6 text-black uppercase leading-tight">
+            ❓ Preguntas<br />Frecuentes
+          </h3>
+
+          <div class="space-y-4">
+            <details class="bg-yellow border-[3px] border-black p-4 shadow-[3px_3px_0px_0px_rgba(26,26,26,1)] cursor-pointer group transform hover:-translate-x-[1px] hover:-translate-y-[1px] hover:shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] transition-all">
+              <summary class="font-heading text-base md:text-lg font-bold text-black uppercase cursor-pointer list-none flex items-center justify-between">
+                <span>¿Cuánto cuesta la inscripción?</span>
+                <span class="text-black text-xl group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <p class="font-body mt-3 text-sm md:text-base text-black leading-relaxed font-medium">
+                $10 por categoría. Puedes inscribirte en múltiples categorías si cumples con los requisitos.
+              </p>
+            </details>
+
+            <details class="bg-orange border-[3px] border-black p-4 shadow-[3px_3px_0px_0px_rgba(26,26,26,1)] cursor-pointer group transform hover:-translate-x-[1px] hover:-translate-y-[1px] hover:shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] transition-all">
+              <summary class="font-heading text-base md:text-lg font-bold text-black uppercase cursor-pointer list-none flex items-center justify-between">
+                <span>¿Hay alojamiento disponible?</span>
+                <span class="text-black text-xl group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <p class="font-body mt-3 text-sm md:text-base text-black leading-relaxed font-medium">
+                San Mateo cuenta con hostales, hoteles y opciones de camping. 
+                Se recomienda reservar con anticipación durante el festival.
+              </p>
+            </details>
+
+            <details class="bg-pink border-[3px] border-black p-4 shadow-[3px_3px_0px_0px_rgba(26,26,26,1)] cursor-pointer group transform hover:-translate-x-[1px] hover:-translate-y-[1px] hover:shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] transition-all">
+              <summary class="font-heading text-base md:text-lg font-bold text-black uppercase cursor-pointer list-none flex items-center justify-between">
+                <span>¿Necesito llevar mi propia tabla?</span>
+                <span class="text-black text-xl group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <p class="font-body mt-3 text-sm md:text-base text-black leading-relaxed font-medium">
+                Sí, los competidores deben traer su propio equipamiento. 
+                Hay stands con alquiler disponible para práctica.
+              </p>
+            </details>
+
+            <details class="bg-yellow border-[3px] border-black p-4 shadow-[3px_3px_0px_0px_rgba(26,26,26,1)] cursor-pointer group transform hover:-translate-x-[1px] hover:-translate-y-[1px] hover:shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] transition-all">
+              <summary class="font-heading text-base md:text-lg font-bold text-black uppercase cursor-pointer list-none flex items-center justify-between">
+                <span>¿El evento es solo para competidores?</span>
+                <span class="text-black text-xl group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <p class="font-body mt-3 text-sm md:text-base text-black leading-relaxed font-medium">
+                ¡No! El festival es abierto al público. Espectadores, familias 
+                y turistas son bienvenidos. Hay actividades para todos.
+              </p>
+            </details>
+
+            <details class="bg-orange border-[3px] border-black p-4 shadow-[3px_3px_0px_0px_rgba(26,26,26,1)] cursor-pointer group transform hover:-translate-x-[1px] hover:-translate-y-[1px] hover:shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] transition-all">
+              <summary class="font-heading text-base md:text-lg font-bold text-black uppercase cursor-pointer list-none flex items-center justify-between">
+                <span>¿Qué debo traer?</span>
+                <span class="text-black text-xl group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <p class="font-body mt-3 text-sm md:text-base text-black leading-relaxed font-medium">
+                Protección solar biodegradable, sombrero, lentes de sol, 
+                ropa ligera, toalla, traje de baño extra, agua reutilizable 
+                y efectivo (no todos los stands aceptan tarjetas).
+              </p>
+            </details>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Horarios del Festival - Timeline limpio con ilustraciones -->
+    <div class="relative fade-in-up overflow-hidden halftone-effect" style="animation-delay: 0.3s;">
+      <div class="relative bg-gradient-to-br from-yellow via-orange to-pink border-[4px] border-black shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] p-6 md:p-8 lg:p-10">
+        <h3 class="font-display text-3xl md:text-4xl lg:text-5xl mb-8 md:mb-10 text-black uppercase text-center leading-tight drop-shadow-[3px_3px_0px_rgba(255,255,255,0.5)]">
+          ⏰ Agenda del<br />Festival
+        </h3>
+        
+        <!-- Timeline Vertical Limpio -->
+        <div class="relative max-w-6xl mx-auto">
+          <!-- Línea del timeline central -->
+          <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-yellow via-orange to-pink transform -translate-x-1/2 z-0" style="background: linear-gradient(to bottom, #FFD700 0%, #FF8C42 50%, #FF4D8C 100%);"></div>
+          
+          <!-- Timeline Items -->
+          <div class="space-y-8 md:space-y-16 relative z-20">
+            
+            <!-- DÍA 1 - VIERNES -->
+            <div class="relative">
+              <div class="flex flex-col md:flex-row items-center gap-6 md:gap-8">
+                <!-- Card izquierda -->
+                <div class="w-full md:w-[45%] md:mr-auto relative">
+                  <div class="bg-yellow border-[4px] border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] p-5 md:p-6 transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] transition-all relative z-10">
+                    <div class="flex items-center gap-3 mb-4">
+                      <div class="bg-black text-yellow w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center font-display text-xl md:text-2xl font-bold border-2 border-black flex-shrink-0">
+                        1
+                      </div>
+                      <h4 class="font-heading text-xl md:text-2xl font-bold text-black uppercase">VIERNES</h4>
+                    </div>
+                    <ul class="font-body text-sm md:text-base space-y-3 text-black">
+                      <li class="flex items-start gap-3">
+                        <span class="text-black font-bold text-lg flex-shrink-0">🌅</span>
+                        <div>
+                          <span class="font-heading font-bold text-orange">8:00am</span>
+                          <span class="ml-2">Apertura de acreditaciones</span>
+                        </div>
+                      </li>
+                      <li class="flex items-start gap-3">
+                        <span class="text-black font-bold text-lg flex-shrink-0">🏄</span>
+                        <div>
+                          <span class="font-heading font-bold text-orange">9:00am</span>
+                          <span class="ml-2">Bienvenida oficial</span>
+                        </div>
+                      </li>
+                      <li class="flex items-start gap-3">
+                        <span class="text-black font-bold text-lg flex-shrink-0">👶</span>
+                        <div>
+                          <span class="font-heading font-bold text-orange">10:00am</span>
+                          <span class="ml-2">Competencia: Categoría Niños</span>
+                        </div>
+                      </li>
+                      <li class="flex items-start gap-3">
+                        <span class="text-black font-bold text-lg flex-shrink-0">🌊</span>
+                        <div>
+                          <span class="font-heading font-bold text-orange">2:30pm</span>
+                          <span class="ml-2">Principiante Mujeres</span>
+                        </div>
+                      </li>
+                      <li class="flex items-start gap-3">
+                        <span class="text-black font-bold text-lg flex-shrink-0">🎵</span>
+                        <div>
+                          <span class="font-heading font-bold text-orange">7:00pm</span>
+                          <span class="ml-2">Opening Party + Música en vivo</span>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                
+                <!-- Punto del timeline (centro) -->
+                <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 z-30">
+                  <div class="bg-yellow border-4 border-black w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(26,26,26,1)]">
+                    <div class="bg-black w-8 h-8 md:w-10 md:h-10 rounded-full"></div>
+                  </div>
+                </div>
+                
+                <!-- Espacio derecho con ilustración -->
+                <div class="hidden md:block w-[45%] relative">
+                  <div class="absolute top-1/2 right-0 transform -translate-y-1/2 pointer-events-none z-10">
+                    <img src="/turtule.png" alt="" class="w-24 h-24 md:w-32 md:h-32 sprite-float-delayed opacity-70" aria-hidden="true" loading="lazy" style="filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.1));" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- DÍA 2 - SÁBADO -->
+            <div class="relative">
+              <div class="flex flex-col md:flex-row items-center gap-6 md:gap-8">
+                <!-- Espacio izquierdo con ilustración -->
+                <div class="hidden md:block w-[45%] relative">
+                  <div class="absolute top-1/2 left-0 transform -translate-y-1/2 pointer-events-none z-10">
+                    <img src="/dolfin.png" alt="" class="w-24 h-24 md:w-32 md:h-32 sprite-float opacity-70" aria-hidden="true" loading="lazy" style="filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.1));" />
+                  </div>
+                </div>
+                
+                <!-- Punto del timeline (centro) -->
+                <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 z-30">
+                  <div class="bg-orange border-4 border-black w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(26,26,26,1)]">
+                    <div class="bg-black w-8 h-8 md:w-10 md:h-10 rounded-full"></div>
+                  </div>
+                </div>
+                
+                <!-- Card derecha -->
+                <div class="w-full md:w-[45%] md:ml-auto relative">
+                  <div class="bg-orange border-[4px] border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] p-5 md:p-6 transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] transition-all relative z-10">
+                    <div class="flex items-center gap-3 mb-4">
+                      <div class="bg-black text-orange w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center font-display text-xl md:text-2xl font-bold border-2 border-black flex-shrink-0">
+                        2
+                      </div>
+                      <h4 class="font-heading text-xl md:text-2xl font-bold text-black uppercase">SÁBADO</h4>
+                    </div>
+                    <ul class="font-body text-sm md:text-base space-y-3 text-black">
+                      <li class="flex items-start gap-3">
+                        <span class="text-black font-bold text-lg flex-shrink-0">🏁</span>
+                        <div>
+                          <span class="font-heading font-bold text-black">8:00am</span>
+                          <span class="ml-2">Inicio competencias principales</span>
+                        </div>
+                      </li>
+                      <li class="flex items-start gap-3">
+                        <span class="text-black font-bold text-lg flex-shrink-0">👩</span>
+                        <div>
+                          <span class="font-heading font-bold text-black">8am-11am</span>
+                          <span class="ml-2">Open Mujeres - Clasificatorias</span>
+                        </div>
+                      </li>
+                      <li class="flex items-start gap-3">
+                        <span class="text-black font-bold text-lg flex-shrink-0">👨</span>
+                        <div>
+                          <span class="font-heading font-bold text-black">11am-2pm</span>
+                          <span class="ml-2">Open Hombres - Clasificatorias</span>
+                        </div>
+                      </li>
+                      <li class="flex items-start gap-3">
+                        <span class="text-black font-bold text-lg flex-shrink-0">⚡</span>
+                        <div>
+                          <span class="font-heading font-bold text-black">3:00pm</span>
+                          <span class="ml-2">Semifinales Open categorías</span>
+                        </div>
+                      </li>
+                      <li class="flex items-start gap-3">
+                        <span class="text-black font-bold text-lg flex-shrink-0">🎸</span>
+                        <div>
+                          <span class="font-heading font-bold text-black">7:00pm</span>
+                          <span class="ml-2">Concierto principal + DJ sets</span>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- DÍA 3 - DOMINGO -->
+            <div class="relative">
+              <div class="flex flex-col md:flex-row items-center gap-6 md:gap-8">
+                <!-- Card izquierda -->
+                <div class="w-full md:w-[45%] md:mr-auto relative">
+                  <div class="bg-pink border-[4px] border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] p-5 md:p-6 transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] transition-all relative z-10">
+                    <div class="flex items-center gap-3 mb-4">
+                      <div class="bg-black text-pink w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center font-display text-xl md:text-2xl font-bold border-2 border-black flex-shrink-0">
+                        3
+                      </div>
+                      <h4 class="font-heading text-xl md:text-2xl font-bold text-black uppercase">DOMINGO</h4>
+                    </div>
+                    <ul class="font-body text-sm md:text-base space-y-3 text-black">
+                      <li class="flex items-start gap-3">
+                        <span class="text-black font-bold text-lg flex-shrink-0">🏆</span>
+                        <div>
+                          <span class="font-heading font-bold text-black">10:00am</span>
+                          <span class="ml-2 font-bold">FINALES Open Mujeres</span>
+                        </div>
+                      </li>
+                      <li class="flex items-start gap-3">
+                        <span class="text-black font-bold text-lg flex-shrink-0">🏆</span>
+                        <div>
+                          <span class="font-heading font-bold text-black">12:00pm</span>
+                          <span class="ml-2 font-bold">FINALES Open Hombres</span>
+                        </div>
+                      </li>
+                      <li class="flex items-start gap-3">
+                        <span class="text-black font-bold text-lg flex-shrink-0">⭐</span>
+                        <div>
+                          <span class="font-heading font-bold text-black">3:00pm</span>
+                          <span class="ml-2">Exhibición riders internacionales</span>
+                        </div>
+                      </li>
+                      <li class="flex items-start gap-3">
+                        <span class="text-black font-bold text-lg flex-shrink-0">🎉</span>
+                        <div>
+                          <span class="font-heading font-bold text-black">4:30pm</span>
+                          <span class="ml-2 font-bold uppercase">CEREMONIA DE PREMIACIÓN</span>
+                        </div>
+                      </li>
+                      <li class="flex items-start gap-3">
+                        <span class="text-black font-bold text-lg flex-shrink-0">🎊</span>
+                        <div>
+                          <span class="font-heading font-bold text-black">6:00pm</span>
+                          <span class="ml-2">Closing party</span>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                
+                <!-- Punto del timeline (centro) -->
+                <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 z-30">
+                  <div class="bg-pink border-4 border-black w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(26,26,26,1)]">
+                    <div class="bg-black w-8 h-8 md:w-10 md:h-10 rounded-full"></div>
+                  </div>
+                </div>
+                
+                <!-- Espacio derecho con ilustración -->
+                <div class="hidden md:block w-[45%] relative">
+                  <div class="absolute top-1/2 right-0 transform -translate-y-1/2 pointer-events-none z-10">
+                    <img src="/Group 1.png" alt="" class="w-24 h-24 md:w-32 md:h-32 sprite-rotate-float opacity-70" aria-hidden="true" loading="lazy" style="filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.1));" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <p class="font-body text-xs md:text-sm text-black text-center mt-8 font-medium drop-shadow-[2px_2px_0px_rgba(255,255,255,0.5)]">
+          * Horarios sujetos a condiciones de marea y clima
+        </p>
+      </div>
+    </div>
+  </div>
+</Section>

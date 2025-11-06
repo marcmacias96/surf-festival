@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sanmateolongfest.com/sitemap-index.xml
+

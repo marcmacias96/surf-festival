@@ -1,0 +1,38 @@
+/* ============================================
+   Animation Classes for Images
+   ============================================
+   
+   Clases de animación reutilizables para imágenes decorativas.
+   Ya no usamos sistema de sprites CSS, pero mantenemos estas animaciones.
+   ============================================ */
+
+.sprite-float {
+  animation: float 3s ease-in-out infinite;
+  will-change: transform;
+}
+
+.sprite-float-delayed {
+  animation: float-delayed 4s ease-in-out infinite;
+  animation-delay: 0.5s;
+  will-change: transform;
+}
+
+.sprite-rotate-float {
+  animation: rotate-float 5s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Animación más suave para elementos grandes */
+.sprite-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sprite-float,
+  .sprite-float-delayed,
+  .sprite-rotate-float,
+  .sprite-float-slow {
+    animation: none;
+  }
+}

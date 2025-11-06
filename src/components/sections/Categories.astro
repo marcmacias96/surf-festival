@@ -1,0 +1,281 @@
+---
+import Section from '../layout/Section.astro';
+import Button from '../ui/Button';
+---
+
+<Section id="categories" background="white">
+  <div class="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-16 md:py-20 lg:py-24">
+    
+    <!-- Header -->
+    <div class="text-center mb-12 md:mb-16 fade-in-up">
+      <h2 class="font-display text-4xl md:text-5xl lg:text-6xl text-black uppercase mb-6 md:mb-8 leading-tight tracking-tight">
+        Categorías de<br />Competencia
+  </h2>
+      <p class="font-body text-base md:text-lg lg:text-xl text-center mb-4 max-w-3xl mx-auto text-dark fade-in-up leading-relaxed px-4" style="animation-delay: 0.1s;">
+    Encuentra tu categoría y demuestra tu estilo. 
+    Desde principiantes hasta riders experimentados, 
+    todos tienen su lugar en el LongFest.
+  </p>
+      <p class="font-heading text-lg md:text-xl lg:text-2xl text-center mb-8 text-black font-bold fade-in-up tracking-wide" style="animation-delay: 0.15s;">
+    Inscripción: $10 por categoría
+  </p>
+    </div>
+
+    <!-- Layout de dos columnas -->
+    <div class="grid md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start mb-12 md:mb-16">
+      
+      <!-- Columna Izquierda - Información General -->
+      <div class="space-y-6 fade-in-up" style="animation-delay: 0.2s;">
+        
+        <!-- Bloque de texto principal -->
+        <div class="bg-white-warm border-[4px] border-black shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] p-6 md:p-8">
+          <p class="font-body text-base md:text-lg lg:text-xl mb-4 text-black leading-relaxed font-medium">
+            El <strong class="font-bold">San Mateo Longboard Festival</strong> ofrece 
+            <strong class="font-bold text-orange">5 categorías de competencia</strong> diseñadas 
+            para riders de todos los niveles. Cada categoría tiene sus propias reglas y criterios 
+            de evaluación.
+          </p>
+          
+          <p class="font-body text-base md:text-lg lg:text-xl text-black leading-relaxed font-medium">
+            Las competencias se realizan en las olas de El Faro, San Mateo, con condiciones 
+            ideales para el longboard. Los jueces evalúan técnica, estilo y conexión con la ola.
+          </p>
+        </div>
+
+        <!-- Estadísticas destacadas -->
+        <div class="grid grid-cols-2 gap-4">
+          <!-- III EDICIÓN -->
+          <div class="bg-gradient-to-br from-orange to-pink border-[4px] border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] p-5 md:p-6 text-center transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] transition-all">
+            <div class="font-display text-4xl md:text-5xl text-black mb-2 leading-none">III</div>
+            <div class="font-heading text-sm md:text-base font-bold text-black uppercase tracking-wide">EDICIÓN</div>
+          </div>
+
+          <!-- Precio -->
+          <div class="bg-yellow border-[4px] border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] p-5 md:p-6 text-center transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] transition-all">
+            <div class="font-display text-4xl md:text-5xl text-black mb-2 leading-none">$10</div>
+            <div class="font-heading text-sm md:text-base font-bold text-black uppercase tracking-wide">POR CATEGORÍA</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna Derecha - Niveles de Dificultad -->
+      <div class="space-y-4 md:space-y-6 fade-in-up" style="animation-delay: 0.25s;">
+        
+        <!-- Niveles de Dificultad -->
+        <div class="bg-white-warm border-[4px] border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] p-6 md:p-8">
+          <h3 class="font-heading text-xl md:text-2xl font-bold text-black uppercase mb-6 tracking-wide text-center">Niveles de Dificultad</h3>
+          
+          <div class="space-y-4">
+            <!-- Pro/Inter -->
+            <div class="border-2 border-black p-4 bg-yellow/20">
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-heading text-base md:text-lg font-bold text-black uppercase">PRO/INTERMEDIO</span>
+                <span class="font-display text-2xl md:text-3xl text-orange">⭐⭐⭐</span>
+              </div>
+              <p class="font-body text-sm md:text-base text-black">Riders con experiencia competitiva. Técnica avanzada y dominio del longboard.</p>
+            </div>
+
+            <!-- Intermedio -->
+            <div class="border-2 border-black p-4 bg-orange/20">
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-heading text-base md:text-lg font-bold text-black uppercase">INTERMEDIO</span>
+                <span class="font-display text-2xl md:text-3xl text-orange">⭐⭐</span>
+              </div>
+              <p class="font-body text-sm md:text-base text-black">Surfistas que están desarrollando su técnica. Nivel intermedio de competencia.</p>
+            </div>
+
+            <!-- Principiante -->
+            <div class="border-2 border-black p-4 bg-pink/20">
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-heading text-base md:text-lg font-bold text-black uppercase">PRINCIPIANTE</span>
+                <span class="font-display text-2xl md:text-3xl text-orange">⭐</span>
+              </div>
+              <p class="font-body text-sm md:text-base text-black">Primera competencia. Ambiente amigable para aprender y disfrutar.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grid de Categorías Detalladas -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-12 md:mb-16">
+      
+      <!-- Open Hombres -->
+      <div class="bg-white-warm border-[4px] border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] p-6 md:p-8 transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] transition-all fade-in-up" style="animation-delay: 0.3s;">
+        <div class="mb-4 flex justify-center">
+          <img src="/Group 1.png" alt="" class="w-16 h-16 md:w-20 md:h-20 object-contain" aria-hidden="true" loading="lazy" />
+        </div>
+        <h3 class="font-display text-2xl md:text-3xl text-center mb-4 text-black uppercase leading-tight">Open Hombres</h3>
+        <div class="space-y-3 mb-6">
+          <div class="flex items-center justify-between border-b-2 border-black/10 pb-2">
+            <span class="font-body text-sm md:text-base text-black font-medium">Nivel:</span>
+            <span class="font-heading text-sm md:text-base text-orange font-bold uppercase">Pro/Inter</span>
+          </div>
+          <div class="flex items-center justify-between border-b-2 border-black/10 pb-2">
+            <span class="font-body text-sm md:text-base text-black font-medium">Dificultad:</span>
+            <span class="font-display text-lg md:text-xl text-orange">⭐⭐⭐</span>
+          </div>
+          <div class="flex items-center justify-between border-b-2 border-black/10 pb-2">
+            <span class="font-body text-sm md:text-base text-black font-medium">Edad:</span>
+            <span class="font-heading text-sm md:text-base text-black font-bold">18+ años</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="font-body text-sm md:text-base text-black font-medium">Precio:</span>
+            <span class="font-heading text-lg md:text-xl text-black font-bold">$10</span>
+          </div>
+        </div>
+        <p class="font-body text-sm md:text-base text-black leading-relaxed text-center">
+          La categoría más competitiva. Los mejores longboarders masculinos compiten por el título y premios en efectivo.
+        </p>
+      </div>
+
+      <!-- Open Mujeres -->
+      <div class="bg-white-warm border-[4px] border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] p-6 md:p-8 transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] transition-all fade-in-up" style="animation-delay: 0.35s;">
+        <div class="mb-4 flex justify-center">
+          <img src="/big-wave.png" alt="" class="w-16 h-16 md:w-20 md:h-20 object-contain" aria-hidden="true" loading="lazy" />
+        </div>
+        <h3 class="font-display text-2xl md:text-3xl text-center mb-4 text-black uppercase leading-tight">Open Mujeres</h3>
+        <div class="space-y-3 mb-6">
+          <div class="flex items-center justify-between border-b-2 border-black/10 pb-2">
+            <span class="font-body text-sm md:text-base text-black font-medium">Nivel:</span>
+            <span class="font-heading text-sm md:text-base text-orange font-bold uppercase">Pro/Inter</span>
+          </div>
+          <div class="flex items-center justify-between border-b-2 border-black/10 pb-2">
+            <span class="font-body text-sm md:text-base text-black font-medium">Dificultad:</span>
+            <span class="font-display text-lg md:text-xl text-orange">⭐⭐⭐</span>
+          </div>
+          <div class="flex items-center justify-between border-b-2 border-black/10 pb-2">
+            <span class="font-body text-sm md:text-base text-black font-medium">Edad:</span>
+            <span class="font-heading text-sm md:text-base text-black font-bold">18+ años</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="font-body text-sm md:text-base text-black font-medium">Precio:</span>
+            <span class="font-heading text-lg md:text-xl text-black font-bold">$10</span>
+          </div>
+        </div>
+        <p class="font-body text-sm md:text-base text-black leading-relaxed text-center">
+          Las mejores longboarders femeninas del país y la región compiten en una de las categorías más emocionantes.
+        </p>
+      </div>
+
+      <!-- Mujeres Intermedio -->
+      <div class="bg-white-warm border-[4px] border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] p-6 md:p-8 transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] transition-all fade-in-up" style="animation-delay: 0.4s;">
+        <div class="mb-4 flex justify-center">
+          <img src="/wave.png" alt="" class="w-16 h-16 md:w-20 md:h-20 object-contain" aria-hidden="true" loading="lazy" />
+        </div>
+        <h3 class="font-display text-2xl md:text-3xl text-center mb-4 text-black uppercase leading-tight">Mujeres Intermedio</h3>
+        <div class="space-y-3 mb-6">
+          <div class="flex items-center justify-between border-b-2 border-black/10 pb-2">
+            <span class="font-body text-sm md:text-base text-black font-medium">Nivel:</span>
+            <span class="font-heading text-sm md:text-base text-orange font-bold uppercase">Intermedio</span>
+          </div>
+          <div class="flex items-center justify-between border-b-2 border-black/10 pb-2">
+            <span class="font-body text-sm md:text-base text-black font-medium">Dificultad:</span>
+            <span class="font-display text-lg md:text-xl text-orange">⭐⭐</span>
+          </div>
+          <div class="flex items-center justify-between border-b-2 border-black/10 pb-2">
+            <span class="font-body text-sm md:text-base text-black font-medium">Edad:</span>
+            <span class="font-heading text-sm md:text-base text-black font-bold">16+ años</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="font-body text-sm md:text-base text-black font-medium">Precio:</span>
+            <span class="font-heading text-lg md:text-xl text-black font-bold">$10</span>
+          </div>
+        </div>
+        <p class="font-body text-sm md:text-base text-black leading-relaxed text-center">
+          Para surfistas femeninas que están desarrollando su técnica y quieren competir en un ambiente amigable.
+        </p>
+      </div>
+
+      <!-- Mujeres Principiante -->
+      <div class="bg-white-warm border-[4px] border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] p-6 md:p-8 transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] transition-all fade-in-up" style="animation-delay: 0.45s;">
+        <div class="mb-4 flex justify-center">
+          <img src="/dolfin.png" alt="" class="w-16 h-16 md:w-20 md:h-20 object-contain" aria-hidden="true" loading="lazy" />
+        </div>
+        <h3 class="font-display text-2xl md:text-3xl text-center mb-4 text-black uppercase leading-tight">Mujeres Principiante</h3>
+        <div class="space-y-3 mb-6">
+          <div class="flex items-center justify-between border-b-2 border-black/10 pb-2">
+            <span class="font-body text-sm md:text-base text-black font-medium">Nivel:</span>
+            <span class="font-heading text-sm md:text-base text-orange font-bold uppercase">Principiante</span>
+          </div>
+          <div class="flex items-center justify-between border-b-2 border-black/10 pb-2">
+            <span class="font-body text-sm md:text-base text-black font-medium">Dificultad:</span>
+            <span class="font-display text-lg md:text-xl text-orange">⭐</span>
+          </div>
+          <div class="flex items-center justify-between border-b-2 border-black/10 pb-2">
+            <span class="font-body text-sm md:text-base text-black font-medium">Edad:</span>
+            <span class="font-heading text-sm md:text-base text-black font-bold">14+ años</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="font-body text-sm md:text-base text-black font-medium">Precio:</span>
+            <span class="font-heading text-lg md:text-xl text-black font-bold">$10</span>
+          </div>
+        </div>
+        <p class="font-body text-sm md:text-base text-black leading-relaxed text-center">
+          ¡Tu primera competencia! Categoría diseñada para mujeres que están comenzando su aventura en el longboard.
+        </p>
+      </div>
+
+      <!-- Niños -->
+      <div class="bg-white-warm border-[4px] border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] p-6 md:p-8 transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] transition-all fade-in-up md:col-span-2 lg:col-span-1" style="animation-delay: 0.5s;">
+        <div class="mb-4 flex justify-center">
+          <img src="/turtule.png" alt="" class="w-16 h-16 md:w-20 md:h-20 object-contain" aria-hidden="true" loading="lazy" />
+        </div>
+        <h3 class="font-display text-2xl md:text-3xl text-center mb-4 text-black uppercase leading-tight">Niños</h3>
+        <div class="space-y-3 mb-6">
+          <div class="flex items-center justify-between border-b-2 border-black/10 pb-2">
+            <span class="font-body text-sm md:text-base text-black font-medium">Nivel:</span>
+            <span class="font-heading text-sm md:text-base text-orange font-bold uppercase">Todos</span>
+          </div>
+          <div class="flex items-center justify-between border-b-2 border-black/10 pb-2">
+            <span class="font-body text-sm md:text-base text-black font-medium">Dificultad:</span>
+            <span class="font-display text-lg md:text-xl text-orange">⭐</span>
+          </div>
+          <div class="flex items-center justify-between border-b-2 border-black/10 pb-2">
+            <span class="font-body text-sm md:text-base text-black font-medium">Edad:</span>
+            <span class="font-heading text-sm md:text-base text-black font-bold">8-13 años</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="font-body text-sm md:text-base text-black font-medium">Precio:</span>
+            <span class="font-heading text-lg md:text-xl text-black font-bold">$10</span>
+          </div>
+        </div>
+        <p class="font-body text-sm md:text-base text-black leading-relaxed text-center">
+          Los futuros campeones del longboard ecuatoriano. Categoría especial para los más pequeños de la familia surf.
+        </p>
+      </div>
+  </div>
+
+    <!-- CTAs -->
+    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8 fade-in-up" style="animation-delay: 0.6s;">
+    <Button 
+      variant="primary" 
+      size="default"
+      client:load
+      className="w-full sm:w-auto"
+    >
+      VER REGLAMENTO COMPLETO
+    </Button>
+    <button
+      id="categories-register-btn"
+        class="bg-transparent text-black px-6 py-3 rounded-md font-heading font-bold uppercase tracking-wide border-[3px] border-black hover:bg-black hover:text-white-warm transition-all min-h-[56px] w-full sm:w-auto shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] hover:shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] hover:-translate-x-[2px] hover:-translate-y-[2px] active:translate-x-[4px] active:translate-y-[4px] active:shadow-[2px_2px_0px_0px_rgba(26,26,26,1)] focus-visible:outline-4 focus-visible:outline-orange focus-visible:outline-offset-4"
+    >
+      INSCRIBIRME AHORA
+    </button>
+  </div>
+
+    <p class="text-center mt-8 font-body text-sm md:text-base text-gray fade-in-up" style="animation-delay: 0.7s;">
+      * Categoría niños requiere autorización parental
+    </p>
+  </div>
+</Section>
+
+<script>
+  if (typeof window !== 'undefined') {
+    const categoriesBtn = document.getElementById('categories-register-btn');
+    categoriesBtn?.addEventListener('click', () => {
+      const event = new CustomEvent('open-registration-modal');
+      window.dispatchEvent(event);
+    });
+  }
+</script>
