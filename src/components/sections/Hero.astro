@@ -3,7 +3,7 @@ import Button from '../ui/Button';
 import RegistrationWrapper from './RegistrationWrapper';
 ---
 
-<section class="relative min-h-screen flex items-center justify-center overflow-hidden halftone-effect">
+<section class="relative min-h-[calc(100vh-85px)] flex items-center justify-center overflow-x-hidden overflow-y-auto halftone-effect w-full">
   <!-- Indicador de scroll (flecha animada) -->
   <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 fade-in-up" style="animation-delay: 1s;">
     <a 
@@ -27,14 +27,14 @@ import RegistrationWrapper from './RegistrationWrapper';
   <!-- Ilustraciones decorativas - Reorganizadas para mejor visualización -->
   
   <!-- Faro - Elemento destacado principal (visible en mobile también) -->
-  <div class="absolute bottom-0 right-0 md:right-2 lg:right-6 xl:right-10 h-full flex items-end z-[2] pointer-events-none">
+  <div class="absolute bottom-0 right-0 md:right-0 lg:right-2 xl:right-4 h-full flex items-end z-[2] pointer-events-none overflow-hidden">
     <img 
       src="/faro-xl.png" 
       alt="El Faro de San Mateo" 
       class="opacity-60 md:opacity-75 lg:opacity-85"
       aria-hidden="true"
       loading="eager"
-      style="height: 25%; width: auto; max-width: 400px; object-fit: contain; object-position: bottom; filter: drop-shadow(8px 8px 0px rgba(0,0,0,0.15));"
+      style="height: 25%; width: auto; max-width: 350px; object-fit: contain; object-position: bottom; filter: drop-shadow(8px 8px 0px rgba(0,0,0,0.15));"
       onerror="this.onerror=null; this.src='/faro.png';"
       id="hero-lighthouse"
     />
@@ -42,8 +42,14 @@ import RegistrationWrapper from './RegistrationWrapper';
   <style>
     @media (min-width: 768px) {
       #hero-lighthouse {
+        height: 80% !important;
+        max-width: 600px !important;
+      }
+    }
+    @media (min-width: 1024px) {
+      #hero-lighthouse {
         height: 85% !important;
-        max-width: 800px !important;
+        max-width: 700px !important;
       }
     }
   </style>
@@ -138,7 +144,7 @@ import RegistrationWrapper from './RegistrationWrapper';
   </div>
 
   <!-- Contenido principal -->
-  <div class="relative z-[10] text-center max-w-6xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-24 md:pr-[160px] lg:pr-[220px] xl:pr-[280px]">
+  <div class="relative z-[10] text-center max-w-6xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-24 md:pr-[120px] lg:pr-[160px] xl:pr-[200px]">
     <!-- Logo -->
     <div class="mb-4 sm:mb-6 md:mb-8 fade-in-up">
       <img 
@@ -150,7 +156,7 @@ import RegistrationWrapper from './RegistrationWrapper';
     </div>
 
     <!-- Título principal -->
-    <h1 class="font-display text-5xl sm:text-6xl md:text-6xl lg:text-7xl xl:text-8xl mb-3 sm:mb-4 md:mb-6 text-black leading-[0.95] tracking-tight fade-in-up px-2" style="animation-delay: 0.2s;">
+    <h1 class="font-display text-4xl sm:text-5xl md:text-5xl lg:text-6xl xl:text-7xl mb-3 sm:mb-4 md:mb-6 text-black leading-[0.95] tracking-tight fade-in-up px-2" style="animation-delay: 0.2s;">
       SAN MATEO<br />
       <span class="text-black drop-shadow-[3px_3px_0px_rgba(255,255,255,0.8)]">
         LONGBOARD FESTIVAL
