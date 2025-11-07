@@ -9,6 +9,9 @@ export default defineConfig({
   // Cambiar por URL real cuando esté disponible
   site: 'https://sanmateolongfest.com',
 
+  // Habilitar modo servidor para endpoints de API
+  output: 'server',
+
   integrations: [
     tailwind({
       applyBaseStyles: false, // Usaremos nuestros propios estilos base

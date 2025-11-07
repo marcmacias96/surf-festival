@@ -1,6 +1,5 @@
 import type { FormEvent } from 'react';
 import { useState } from 'react';
-import { supabase } from '../../services/supabase';
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
@@ -14,30 +13,31 @@ export default function LoginForm() {
     setLoading(true);
 
     try {
-      // Login directo con Supabase desde el cliente
-      const { data, error: authError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+      // Login usando API endpoint del servidor (mejor manejo de cookies)
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+        credentials: 'same-origin', // Importante: enviar cookies
       });
 
-      if (authError) {
-        setError(authError.message);
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || 'Error al iniciar sesión');
         setLoading(false);
         return;
       }
 
-      console.log('Login successful, session:', data.session);
+      console.log('Login successful via API');
 
-      if (data.session) {
-        // Esperar un momento para que las cookies se establezcan
-        await new Promise(resolve => setTimeout(resolve, 100));
-        
-        // Redirigir al admin después del login exitoso
-        window.location.href = '/admin';
-      } else {
-        setError('No se pudo crear la sesión');
-        setLoading(false);
-      }
+      // Esperar un momento para que las cookies se establezcan
+      await new Promise(resolve => setTimeout(resolve, 200));
+
+      // Redirigir al admin después del login exitoso
+      window.location.href = '/admin';
     } catch (e) {
       const errorMessage = e instanceof Error ? e.message : 'Error al procesar el formulario';
       setError(errorMessage);

@@ -36,7 +36,7 @@ try {
 // Si no está autenticado, redirigir al login
 if (!isAuthenticated) {
     console.log('No session found. Redirecting to login.');
-//   return Astro.redirect('/admin/login?redirect=/admin');
+  return Astro.redirect('/admin/login?redirect=/admin');
 }
 
 let registrations: Registration[] = [];
@@ -156,13 +156,13 @@ const categoryLabels: Record<string, string> = {
 
             <!-- Total Aprobadas -->
             <div class="bg-success-light border-[4px] border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] p-6 md:p-8 text-center transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] transition-all">
-              <div class="font-display text-5xl md:text-6xl text-white-warm mb-2 leading-none">{approvedCount}</div>
+              <div id="approved-count" class="font-display text-5xl md:text-6xl text-white-warm mb-2 leading-none">{approvedCount}</div>
               <div class="font-heading text-sm md:text-base font-bold text-white-warm uppercase tracking-wide">TOTAL APROBADAS</div>
             </div>
 
             <!-- Total Denegadas -->
             <div class="bg-error-light border-[4px] border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] p-6 md:p-8 text-center transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] transition-all">
-              <div class="font-display text-5xl md:text-6xl text-white-warm mb-2 leading-none">{rejectedCount}</div>
+              <div id="rejected-count" class="font-display text-5xl md:text-6xl text-white-warm mb-2 leading-none">{rejectedCount}</div>
               <div class="font-heading text-sm md:text-base font-bold text-white-warm uppercase tracking-wide">TOTAL DENEGADAS</div>
             </div>
           </div>
@@ -283,16 +283,11 @@ const categoryLabels: Record<string, string> = {
                             )}
                           </td>
                           <td class="font-body text-sm md:text-base px-4 py-3 md:px-6 md:py-4 border-2 border-black/10">
-                            <client:only>
-                              <RegistrationActions 
-                                registrationId={reg.id}
-                                currentStatus={reg.status}
-                                onStatusUpdate={(id, newStatus) => {
-                                  // Recargar la página para reflejar cambios
-                                  window.location.reload();
-                                }}
-                              />
-                            </client:only>
+                            <RegistrationActions 
+                              client:load
+                              registrationId={reg.id}
+                              currentStatus={reg.status}
+                            />
                           </td>
                         </tr>
                       );
@@ -330,4 +325,39 @@ const categoryLabels: Record<string, string> = {
     }
   }
 </style>
+
+<script>
+  // Escuchar eventos de actualización de estado y actualizar estadísticas
+  window.addEventListener('registration-status-updated', ((event: Event) => {
+    const customEvent = event as CustomEvent<{ registrationId: string; oldStatus: string; newStatus: string }>;
+    const { oldStatus, newStatus } = customEvent.detail;
+    
+    // Obtener elementos de contadores
+    const approvedCountEl = document.getElementById('approved-count');
+    const rejectedCountEl = document.getElementById('rejected-count');
+    
+    if (!approvedCountEl || !rejectedCountEl) return;
+    
+    // Obtener valores actuales
+    let approvedCount = parseInt(approvedCountEl.textContent || '0', 10);
+    let rejectedCount = parseInt(rejectedCountEl.textContent || '0', 10);
+    
+    // Actualizar contadores según el cambio de estado
+    if (oldStatus === 'approved') {
+      approvedCount = Math.max(0, approvedCount - 1);
+    } else if (oldStatus === 'rejected') {
+      rejectedCount = Math.max(0, rejectedCount - 1);
+    }
+    
+    if (newStatus === 'approved') {
+      approvedCount += 1;
+    } else if (newStatus === 'rejected') {
+      rejectedCount += 1;
+    }
+    
+    // Actualizar el DOM
+    approvedCountEl.textContent = approvedCount.toString();
+    rejectedCountEl.textContent = rejectedCount.toString();
+  }) as EventListener);
+</script>
 
