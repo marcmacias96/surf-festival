@@ -103,7 +103,9 @@ const categoryLabels: Record<string, string> = {
             Admin
           </h1>
         </div>
-        <div class="flex items-center gap-3">
+        
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex items-center gap-3">
           <a 
             href="/" 
             class="px-4 py-2 bg-yellow border-2 border-black rounded-md font-heading text-sm font-bold uppercase tracking-wide hover:bg-yellow/80 transition-colors shadow-sm"
@@ -119,6 +121,39 @@ const categoryLabels: Record<string, string> = {
             </button>
           </form>
         </div>
+
+        <!-- Mobile Menu Toggle -->
+        <button
+          id="admin-menu-toggle"
+          class="md:hidden w-12 h-12 border-[3px] border-black rounded-md flex flex-col items-center justify-center gap-1 hover:bg-yellow transition-all"
+          aria-label="Abrir menú"
+          aria-expanded="false"
+        >
+          <span class="admin-toggle-line w-6 h-0.5 bg-black transition-all"></span>
+          <span class="admin-toggle-line w-6 h-0.5 bg-black transition-all"></span>
+          <span class="admin-toggle-line w-6 h-0.5 bg-black transition-all"></span>
+        </button>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div
+        id="admin-mobile-menu"
+        class="hidden md:hidden pb-4 border-t-2 border-gray-light"
+      >
+        <a 
+          href="/" 
+          class="block py-3 px-4 bg-yellow border-2 border-black rounded-md font-heading text-sm font-bold uppercase tracking-wide hover:bg-yellow/80 transition-colors shadow-sm mb-3"
+        >
+          Volver al Sitio
+        </a>
+        <form method="POST" action="/admin/logout">
+          <button
+            type="submit"
+            class="w-full py-3 px-4 bg-error-light text-white-warm border-2 border-black rounded-md font-heading text-sm font-bold uppercase tracking-wide hover:bg-error transition-colors shadow-sm"
+          >
+            Cerrar Sesión
+          </button>
+        </form>
       </div>
     </div>
   </header>
@@ -319,14 +354,59 @@ const categoryLabels: Record<string, string> = {
     }
   }
 
+  .admin-toggle-line {
+    transition: all 0.3s ease;
+  }
+
+  #admin-menu-toggle.active .admin-toggle-line:nth-child(1) {
+    transform: rotate(45deg) translateY(7px);
+  }
+
+  #admin-menu-toggle.active .admin-toggle-line:nth-child(2) {
+    opacity: 0;
+  }
+
+  #admin-menu-toggle.active .admin-toggle-line:nth-child(3) {
+    transform: rotate(-45deg) translateY(-7px);
+  }
+
   @media (max-width: 640px) {
     table {
       font-size: 0.75rem;
     }
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    .admin-toggle-line {
+      transition: none;
+    }
+  }
 </style>
 
 <script>
+  // Toggle menu mobile admin
+  const adminMenuToggle = document.getElementById('admin-menu-toggle');
+  const adminMobileMenu = document.getElementById('admin-mobile-menu');
+  const adminMenuLinks = document.querySelectorAll('#admin-mobile-menu a, #admin-mobile-menu button');
+
+  adminMenuToggle?.addEventListener('click', () => {
+    const isOpen = !adminMobileMenu?.classList.contains('hidden');
+    adminMobileMenu?.classList.toggle('hidden');
+    adminMenuToggle?.setAttribute('aria-expanded', String(!isOpen));
+    
+    // Animar hamburger
+    adminMenuToggle?.classList.toggle('active');
+  });
+
+  // Cerrar menú al hacer click en link
+  adminMenuLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      adminMobileMenu?.classList.add('hidden');
+      adminMenuToggle?.setAttribute('aria-expanded', 'false');
+      adminMenuToggle?.classList.remove('active');
+    });
+  });
+
   // Escuchar eventos de actualización de estado y actualizar estadísticas
   window.addEventListener('registration-status-updated', ((event: Event) => {
     const customEvent = event as CustomEvent<{ registrationId: string; oldStatus: string; newStatus: string }>;
