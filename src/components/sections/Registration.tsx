@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import Modal from '../ui/Modal';
 import FormInput from '../ui/FormInput';
+import FileInput from '../ui/FileInput';
 import Button from '../ui/Button';
 import { createRegistration, checkEmailExists } from '../../services/registration';
+import { uploadPaymentReceipt } from '../../services/storage';
 import { registrationSchema } from '../../utils/validation';
 import { z } from 'zod';
 
@@ -20,14 +22,17 @@ export default function Registration({ isOpen, onClose }: RegistrationProps) {
     age: ''
   });
 
+  const [paymentReceipt, setPaymentReceipt] = useState<File | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [success, setSuccess] = useState(false);
 
   // Reset form when modal closes
   useEffect(() => {
     if (!isOpen) {
       setFormData({ name: '', email: '', phone: '', category: '', age: '' });
+      setPaymentReceipt(null);
       setErrors({});
       setSuccess(false);
     }
@@ -67,8 +72,33 @@ export default function Registration({ isOpen, onClose }: RegistrationProps) {
         return;
       }
 
-      // Crear registro
-      await createRegistration(validated);
+      // Generar ID temporal para el registro (para usar en el nombre del archivo)
+      const tempId = crypto.randomUUID();
+      let paymentReceiptUrl: string | undefined;
+
+      // Subir comprobante de pago si existe
+      if (paymentReceipt) {
+        try {
+          setUploading(true);
+          const uploadResult = await uploadPaymentReceipt(paymentReceipt, tempId);
+          paymentReceiptUrl = uploadResult.url;
+        } catch (uploadError: any) {
+          setErrors({ 
+            paymentReceipt: uploadError.message || 'Error al subir el comprobante de pago' 
+          });
+          setLoading(false);
+          setUploading(false);
+          return;
+        } finally {
+          setUploading(false);
+        }
+      }
+
+      // Crear registro con URL del comprobante si existe
+      await createRegistration({
+        ...validated,
+        payment_receipt_url: paymentReceiptUrl
+      });
 
       // Éxito
       setSuccess(true);
@@ -76,6 +106,7 @@ export default function Registration({ isOpen, onClose }: RegistrationProps) {
         onClose();
         setSuccess(false);
         setFormData({ name: '', email: '', phone: '', category: '', age: '' });
+        setPaymentReceipt(null);
       }, 2000);
 
     } catch (error: any) {
@@ -190,6 +221,16 @@ export default function Registration({ isOpen, onClose }: RegistrationProps) {
             helperText="Debe coincidir con los requisitos de la categoría seleccionada"
           />
 
+          <FileInput
+            label="Comprobante de Pago"
+            name="paymentReceipt"
+            accept=".pdf,.jpg,.jpeg,.png"
+            maxSize={5 * 1024 * 1024} // 5MB
+            onChange={setPaymentReceipt}
+            error={errors.paymentReceipt}
+            helperText="Sube una foto o PDF de tu comprobante de pago (opcional)"
+          />
+
           {errors.general && (
             <div className="mb-6 p-4 bg-error-light/20 border-2 border-error rounded-md text-error">
               <p className="font-medium">{errors.general}</p>
@@ -200,10 +241,10 @@ export default function Registration({ isOpen, onClose }: RegistrationProps) {
             <Button 
               type="submit" 
               variant="primary" 
-              disabled={loading} 
+              disabled={loading || uploading} 
               className="flex-1"
             >
-              {loading ? 'Procesando...' : 'Inscribirme'}
+              {uploading ? 'Subiendo comprobante...' : loading ? 'Procesando...' : 'Inscribirme'}
             </Button>
             <Button 
               type="button" 
