@@ -1,8 +1,43 @@
 ---
 import AdminLayout from '../layouts/AdminLayout.astro';
 import { getAllRegistrations } from '../services/registration';
+import { createServerClient } from '../services/supabase-server';
 import type { Registration, RegistrationStatus } from '../services/registration';
 import RegistrationActions from '../components/admin/RegistrationActions';
+
+// Verificar autenticación usando cliente de servidor con cookies
+let isAuthenticated = false;
+try {
+  console.log('=== Admin Auth Check ===');
+
+  // Debug: Ver qué cookies tenemos
+  const cookieHeader = Astro.request.headers.get('cookie') || '';
+  console.log('Cookie header:', cookieHeader);
+
+  const supabase = createServerClient(Astro.cookies, Astro.request);
+  const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+
+  if (sessionError) {
+    console.error('Error getting session:', sessionError);
+  }
+
+  console.log('Session found:', !!session);
+  if (session) {
+    console.log('User ID:', session.user.id);
+    console.log('Session expires:', session.expires_at);
+  }
+
+  isAuthenticated = !!session;
+} catch (e) {
+  console.error('Error in auth check:', e);
+  isAuthenticated = false;
+}
+
+// Si no está autenticado, redirigir al login
+if (!isAuthenticated) {
+    console.log('No session found. Redirecting to login.');
+//   return Astro.redirect('/admin/login?redirect=/admin');
+}
 
 let registrations: Registration[] = [];
 let error: string | null = null;
@@ -68,12 +103,22 @@ const categoryLabels: Record<string, string> = {
             Admin
           </h1>
         </div>
-        <a 
-          href="/" 
-          class="px-4 py-2 bg-yellow border-2 border-black rounded-md font-heading text-sm font-bold uppercase tracking-wide hover:bg-yellow/80 transition-colors shadow-sm"
-        >
-          Volver al Sitio
-        </a>
+        <div class="flex items-center gap-3">
+          <a 
+            href="/" 
+            class="px-4 py-2 bg-yellow border-2 border-black rounded-md font-heading text-sm font-bold uppercase tracking-wide hover:bg-yellow/80 transition-colors shadow-sm"
+          >
+            Volver al Sitio
+          </a>
+          <form method="POST" action="/admin/logout">
+            <button
+              type="submit"
+              class="px-4 py-2 bg-error-light text-white-warm border-2 border-black rounded-md font-heading text-sm font-bold uppercase tracking-wide hover:bg-error transition-colors shadow-sm"
+            >
+              Cerrar Sesión
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   </header>

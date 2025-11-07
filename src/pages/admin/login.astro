@@ -1,0 +1,57 @@
+---
+import LoginForm from '../../components/admin/LoginForm';
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { createServerClient } from '../../services/supabase-server';
+
+// Si ya está autenticado, redirigir al admin
+try {
+  const supabase = createServerClient(Astro.cookies, Astro.request);
+  const { data: { session } } = await supabase.auth.getSession();
+  if (session) {
+    return Astro.redirect('/admin');
+  }
+} catch {
+  // No hay sesión, continuar con el login
+}
+---
+
+<AdminLayout title="Login Admin | San Mateo Longboard Festival">
+  <div class="min-h-screen bg-cream flex items-center justify-center py-12 px-4">
+    <div class="w-full max-w-md">
+      <!-- Card de Login -->
+      <div class="bg-white-warm border-[4px] border-black shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] p-8 md:p-10">
+        <!-- Logo y Título -->
+        <div class="text-center mb-8">
+          <div class="flex justify-center mb-4">
+            <img 
+              src="/logo.png" 
+              alt="San Mateo Longboard Festival" 
+              class="h-16 md:h-20"
+              loading="eager"
+            />
+          </div>
+          <h1 class="font-display text-3xl md:text-4xl text-black uppercase mb-2 leading-tight tracking-tight">
+            Panel de Administración
+          </h1>
+          <p class="font-body text-sm md:text-base text-dark">
+            Inicia sesión para continuar
+          </p>
+        </div>
+
+        <!-- Formulario de Login -->
+        <LoginForm client:load />
+
+        <!-- Link de regreso -->
+        <div class="mt-6 text-center">
+          <a 
+            href="/" 
+            class="font-body text-sm text-dark hover:text-black underline transition-colors"
+          >
+            ← Volver al sitio principal
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</AdminLayout>
+

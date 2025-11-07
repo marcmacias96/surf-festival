@@ -1,0 +1,15 @@
+---
+import { createServerClient } from '../../services/supabase-server';
+
+// Cerrar sesión usando cliente de servidor
+try {
+  const supabase = createServerClient(Astro.cookies, Astro.request);
+  await supabase.auth.signOut();
+} catch (e) {
+  // Continuar aunque haya error
+}
+
+// Redirigir al login
+return Astro.redirect('/admin/login');
+---
+
