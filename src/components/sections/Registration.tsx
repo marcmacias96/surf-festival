@@ -3,6 +3,7 @@ import Modal from '../ui/Modal';
 import FormInput from '../ui/FormInput';
 import FileInput from '../ui/FileInput';
 import Button from '../ui/Button';
+import Card from '../ui/Card';
 import { createRegistration, checkEmailExists } from '../../services/registration';
 import { uploadPaymentReceipt } from '../../services/storage';
 import { registrationSchema } from '../../utils/validation';
@@ -220,6 +221,41 @@ export default function Registration({ isOpen, onClose }: RegistrationProps) {
             required
             helperText="Debe coincidir con los requisitos de la categoría seleccionada"
           />
+
+          <Card className="mb-6" hover={false}>
+            <div className="space-y-3">
+              <h3 className="font-heading text-lg font-bold uppercase tracking-wide text-black mb-4">
+                💳 Información para Transferencia
+              </h3>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between items-start">
+                  <span className="font-semibold text-dark">Banco:</span>
+                  <span className="text-dark text-right">Banco Guayaquil</span>
+                </div>
+                <div className="flex justify-between items-start">
+                  <span className="font-semibold text-dark">Tipo de Cuenta:</span>
+                  <span className="text-dark text-right">CTA Ahorros</span>
+                </div>
+                <div className="flex justify-between items-start">
+                  <span className="font-semibold text-dark">Número de Cuenta:</span>
+                  <span className="text-dark text-right font-mono">35920191</span>
+                </div>
+                <div className="flex justify-between items-start">
+                  <span className="font-semibold text-dark">Titular:</span>
+                  <span className="text-dark text-right">Franco Bonilla Angelo Fernando</span>
+                </div>
+                <div className="flex justify-between items-start">
+                  <span className="font-semibold text-dark">Cédula:</span>
+                  <span className="text-dark text-right font-mono">131507090-2</span>
+                </div>
+                <div className="pt-3 mt-3 border-t-2 border-black">
+                  <p className="text-xs text-gray font-medium">
+                    💡 Realiza la transferencia por <strong>$10</strong> y sube el comprobante a continuación
+                  </p>
+                </div>
+              </div>
+            </div>
+          </Card>
 
           <FileInput
             label="Comprobante de Pago"
