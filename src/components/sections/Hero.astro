@@ -26,43 +26,36 @@ import RegistrationWrapper from './RegistrationWrapper';
 
   <!-- Ilustraciones decorativas - Reorganizadas para mejor visualización -->
   
-  <!-- Faro - Elemento destacado principal (fondo, detrás del contenido) -->
-  <div class="absolute top-1/2 right-0 md:right-2 lg:right-6 xl:right-10 -translate-y-1/2 hidden md:block z-[2] pointer-events-none">
+  <!-- Faro - Elemento destacado principal (visible en mobile también) -->
+  <div class="absolute bottom-0 right-0 md:right-2 lg:right-6 xl:right-10 h-full flex items-end z-[2] pointer-events-none">
     <img 
       src="/faro-xl.png" 
       alt="El Faro de San Mateo" 
-      class="w-[280px] md:w-[340px] lg:w-[420px] xl:w-[500px] sprite-float-slow opacity-75 md:opacity-85"
+      class="opacity-60 md:opacity-75 lg:opacity-85"
       aria-hidden="true"
       loading="eager"
-      style="max-height: 85vh; object-fit: contain; height: auto; filter: drop-shadow(8px 8px 0px rgba(0,0,0,0.15));"
+      style="height: 65%; width: auto; max-width: 300px; object-fit: contain; object-position: bottom; filter: drop-shadow(8px 8px 0px rgba(0,0,0,0.15));"
       onerror="this.onerror=null; this.src='/faro.png';"
+      id="hero-lighthouse"
     />
   </div>
+  <style>
+    @media (min-width: 768px) {
+      #hero-lighthouse {
+        height: 85% !important;
+        max-width: 800px !important;
+      }
+    }
+  </style>
   
   <!-- Grupo Top Left: Ola grande con pájaros -->
-  <div class="absolute top-20 md:top-24 lg:top-28 left-2 md:left-6 lg:left-10 hidden md:block z-[1] pointer-events-none">
+  <div class="absolute top-32 sm:top-36 md:top-40 lg:top-44 left-2 md:left-6 lg:left-10 z-[1] pointer-events-none">
     <div class="relative">
-      <!-- Pájaros volando -->
-      <div class="absolute -top-3 left-6 opacity-70 sprite-float" style="animation-duration: 2.5s;">
-        <svg class="w-4 h-4 text-black" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M12 2L8 6h2v2l-4-4 4-4v2h2zm0 0l4 4h-2V4l4 4-4 4V8h-2z" transform="rotate(-20 12 12)"/>
-        </svg>
-      </div>
-      <div class="absolute -top-1 left-10 opacity-60 sprite-float-delayed" style="animation-duration: 3s;">
-        <svg class="w-3 h-3 text-black" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M12 2L8 6h2v2l-4-4 4-4v2h2zm0 0l4 4h-2V4l4 4-4 4V8h-2z" transform="rotate(-15 12 12)"/>
-        </svg>
-      </div>
-      <div class="absolute -top-2 left-14 opacity-65 sprite-float" style="animation-duration: 2.8s;">
-        <svg class="w-3.5 h-3.5 text-black" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M12 2L8 6h2v2l-4-4 4-4v2h2zm0 0l4 4h-2V4l4 4-4 4V8h-2z" transform="rotate(-25 12 12)"/>
-        </svg>
-      </div>
       <!-- Ola grande -->
       <img 
         src="/wage-xl.png" 
         alt="" 
-        class="w-36 md:w-44 lg:w-52 sprite-float opacity-55 md:opacity-65"
+        class="w-28 sm:w-36 md:w-48 lg:w-56 sprite-float opacity-40 sm:opacity-50 md:opacity-55 lg:opacity-65"
         aria-hidden="true"
         loading="lazy"
         onerror="this.onerror=null; this.src='/big-wave.png';"
@@ -71,28 +64,66 @@ import RegistrationWrapper from './RegistrationWrapper';
   </div>
   
   <!-- Grupo Bottom Left: Tortuga marina -->
-  <div class="absolute bottom-12 md:bottom-16 lg:bottom-20 left-4 md:left-8 lg:left-12 hidden lg:block z-[1] pointer-events-none">
+  <div class="absolute bottom-16 md:bottom-16 lg:bottom-20 left-4 md:left-8 lg:left-12 z-[1] pointer-events-none">
     <img 
       src="/turtule.png" 
       alt="" 
-      class="w-28 md:w-32 lg:w-36 sprite-float-delayed opacity-55 md:opacity-65"
+      class="sprite-float-delayed opacity-40 sm:opacity-50 md:opacity-55 lg:opacity-65"
+      style="width: 88px; height: auto;"
       aria-hidden="true"
       loading="lazy"
+      id="hero-turtle"
     />
+    <style>
+      @media (min-width: 640px) {
+        #hero-turtle {
+          width: 105.6px !important;
+        }
+      }
+      @media (min-width: 768px) {
+        #hero-turtle {
+          width: 140.8px !important;
+        }
+      }
+      @media (min-width: 1024px) {
+        #hero-turtle {
+          width: 158.4px !important;
+        }
+      }
+    </style>
   </div>
   
   
  
   
   <!-- Ola pequeña decorativa - Centro izquierda -->
-  <div class="absolute top-[40%] left-6 md:left-10 lg:left-14 hidden xl:block z-[1] pointer-events-none">
+  <div class="absolute top-[45%] sm:top-[40%] md:top-[35%] left-4 md:left-10 lg:left-14 z-[1] pointer-events-none">
     <img 
       src="/wave.png" 
       alt="" 
-      class="w-20 md:w-24 lg:w-28 sprite-float-delayed opacity-45 md:opacity-55"
+      class="sprite-float-delayed opacity-35 sm:opacity-40 md:opacity-45 lg:opacity-55"
+      style="width: 70.4px; height: auto;"
       aria-hidden="true"
       loading="lazy"
+      id="hero-small-wave"
     />
+    <style>
+      @media (min-width: 640px) {
+        #hero-small-wave {
+          width: 88px !important;
+        }
+      }
+      @media (min-width: 768px) {
+        #hero-small-wave {
+          width: 105.6px !important;
+        }
+      }
+      @media (min-width: 1024px) {
+        #hero-small-wave {
+          width: 123.2px !important;
+        }
+      }
+    </style>
   </div>
 
    <!-- Faro decorativo - único elemento preservado -->
@@ -107,19 +138,19 @@ import RegistrationWrapper from './RegistrationWrapper';
   </div>
 
   <!-- Contenido principal -->
-  <div class="relative z-[10] text-center max-w-6xl px-4 sm:px-6 lg:px-8 py-16 md:py-24 md:pr-[160px] lg:pr-[220px] xl:pr-[280px]">
+  <div class="relative z-[10] text-center max-w-6xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-24 md:pr-[160px] lg:pr-[220px] xl:pr-[280px]">
     <!-- Logo -->
-    <div class="mb-6 md:mb-8 fade-in-up">
+    <div class="mb-4 sm:mb-6 md:mb-8 fade-in-up">
       <img 
         src="/logo.png" 
         alt="San Mateo Longboard Festival" 
-        class="w-28 sm:w-32 md:w-40 lg:w-48 mx-auto drop-shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
+        class="w-40 sm:w-48 md:w-40 lg:w-48 mx-auto drop-shadow-[4px_4px_0px_rgba(255,255,255,0.5)]"
         loading="eager"
       />
     </div>
 
     <!-- Título principal -->
-    <h1 class="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl mb-4 md:mb-6 text-black leading-[0.95] tracking-tight fade-in-up" style="animation-delay: 0.2s;">
+    <h1 class="font-display text-5xl sm:text-6xl md:text-6xl lg:text-7xl xl:text-8xl mb-3 sm:mb-4 md:mb-6 text-black leading-[0.95] tracking-tight fade-in-up px-2" style="animation-delay: 0.2s;">
       SAN MATEO<br />
       <span class="text-black drop-shadow-[3px_3px_0px_rgba(255,255,255,0.8)]">
         LONGBOARD FESTIVAL
