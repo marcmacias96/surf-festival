@@ -8,6 +8,8 @@ interface RequestBody {
   email: string;
   category: string;
   registrationId: string;
+  status: 'approved' | 'rejected';
+  rejectionReason?: string;
 }
 
 interface ResendResponse {
@@ -60,24 +62,45 @@ serve(async (req) => {
       );
     }
     
-    const { name, email, category, registrationId } = body;
+    const { name, email, category, registrationId, status, rejectionReason } = body;
     console.log('[Send Ticket Email] Datos recibidos:', {
       name,
       email,
       category,
-      registrationId: registrationId ? `${registrationId.substring(0, 8)}...` : 'undefined'
+      registrationId: registrationId ? `${registrationId.substring(0, 8)}...` : 'undefined',
+      status,
+      rejectionReason: rejectionReason ? `${rejectionReason.substring(0, 50)}...` : 'undefined'
     });
 
     // Validar campos requeridos
-    if (!name || !email || !category || !registrationId) {
+    if (!name || !email || !category || !registrationId || !status) {
       console.error('[Send Ticket Email] ERROR: Campos faltantes:', {
         name: !!name,
         email: !!email,
         category: !!category,
-        registrationId: !!registrationId
+        registrationId: !!registrationId,
+        status: !!status
       });
       return new Response(
-        JSON.stringify({ error: 'Missing required fields: name, email, category, registrationId' }),
+        JSON.stringify({ error: 'Missing required fields: name, email, category, registrationId, status' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Validar que el estado sea válido
+    if (status !== 'approved' && status !== 'rejected') {
+      console.error('[Send Ticket Email] ERROR: Estado inválido:', status);
+      return new Response(
+        JSON.stringify({ error: 'Invalid status. Must be "approved" or "rejected"' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Si es rechazo, validar que haya motivo
+    if (status === 'rejected' && !rejectionReason) {
+      console.error('[Send Ticket Email] ERROR: Motivo de rechazo faltante');
+      return new Response(
+        JSON.stringify({ error: 'Missing required field: rejectionReason (required when status is "rejected")' }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
     }
@@ -88,54 +111,23 @@ serve(async (req) => {
     const shortId = registrationId.substring(0, 8).toUpperCase();
     console.log('[Send Ticket Email] ID formateado:', shortId);
 
-    // Generar mensaje simple con los datos de la inscripción
-    console.log('[Send Ticket Email] Generando contenido HTML...');
-    const emailContent = `
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
-  <h2 style="color: #000;">¡Tu inscripción ha sido aprobada!</h2>
-  
-  <p>Hola <strong>${escapeHtml(name)}</strong>,</p>
-  
-  <p>Nos complace informarte que tu inscripción para el <strong>San Mateo Longboard Festival</strong> ha sido aprobada.</p>
-  
-  <div style="background-color: #f5f5f5; border-left: 4px solid #000; padding: 15px; margin: 20px 0;">
-    <h3 style="margin-top: 0; color: #000;">Detalles de tu inscripción:</h3>
-    <p style="margin: 5px 0;"><strong>Nombre:</strong> ${escapeHtml(name)}</p>
-    <p style="margin: 5px 0;"><strong>Categoría:</strong> ${escapeHtml(category)}</p>
-    <p style="margin: 5px 0;"><strong>ID de Registro:</strong> <code style="background-color: #e0e0e0; padding: 2px 6px; border-radius: 3px;">${shortId}</code></p>
-    <p style="margin: 5px 0;"><strong>Fecha del Evento:</strong> Diciembre 2025</p>
-  </div>
-  
-  <p>Presenta este email el día del evento para confirmar tu participación.</p>
-  
-  <p>Si tienes alguna pregunta, no dudes en contactarnos:</p>
-  <p style="margin: 10px 0;">
-    📧 Email: sanmateolongfestival@gmail.com<br>
-    📱 WhatsApp: +593 96 931 0187
-  </p>
-  
-  <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;">
-  
-  <p style="font-size: 12px; color: #666;">
-    San Mateo Longboard Festival - III Edición 2025
-  </p>
-</body>
-</html>
-    `.trim();
+    // Generar contenido HTML según el estado
+    console.log('[Send Ticket Email] Generando contenido HTML para estado:', status);
+    const emailContent = status === 'approved' 
+      ? generateApprovalEmail(name, category, shortId)
+      : generateRejectionEmail(name, category, shortId, rejectionReason || '');
 
     console.log('[Send Ticket Email] Contenido HTML generado. Longitud:', emailContent.length, 'caracteres');
     
-    // Preparar payload para Resend
+    // Preparar payload para Resend según el estado
+    const subject = status === 'approved' 
+      ? '✅ Inscripción Aprobada - San Mateo Longboard Festival'
+      : '❌ Inscripción Rechazada - San Mateo Longboard Festival';
+    
     const resendPayload = {
       from: RESEND_FROM_EMAIL,
       to: [email],
-      subject: '✅ Inscripción Aprobada - San Mateo Longboard Festival',
+      subject,
       html: emailContent,
     };
     
@@ -223,6 +215,96 @@ serve(async (req) => {
     );
   }
 });
+
+/**
+ * Genera el contenido HTML para email de aprobación
+ */
+function generateApprovalEmail(name: string, category: string, shortId: string): string {
+  return `
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <h2 style="color: #000;">¡Tu inscripción ha sido aprobada!</h2>
+  
+  <p>Hola <strong>${escapeHtml(name)}</strong>,</p>
+  
+  <p>Nos complace informarte que tu inscripción para el <strong>San Mateo Longboard Festival</strong> ha sido aprobada.</p>
+  
+  <div style="background-color: #f5f5f5; border-left: 4px solid #000; padding: 15px; margin: 20px 0;">
+    <h3 style="margin-top: 0; color: #000;">Detalles de tu inscripción:</h3>
+    <p style="margin: 5px 0;"><strong>Nombre:</strong> ${escapeHtml(name)}</p>
+    <p style="margin: 5px 0;"><strong>Categoría:</strong> ${escapeHtml(category)}</p>
+    <p style="margin: 5px 0;"><strong>ID de Registro:</strong> <code style="background-color: #e0e0e0; padding: 2px 6px; border-radius: 3px;">${shortId}</code></p>
+    <p style="margin: 5px 0;"><strong>Fecha del Evento:</strong> Diciembre 2025</p>
+  </div>
+  
+  <p>Presenta este email el día del evento para confirmar tu participación.</p>
+  
+  <p>Si tienes alguna pregunta, no dudes en contactarnos:</p>
+  <p style="margin: 10px 0;">
+    📧 Email: sanmateolongfestival@gmail.com<br>
+    📱 WhatsApp: +593 96 931 0187
+  </p>
+  
+  <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;">
+  
+  <p style="font-size: 12px; color: #666;">
+    San Mateo Longboard Festival - III Edición 2025
+  </p>
+</body>
+</html>
+  `.trim();
+}
+
+/**
+ * Genera el contenido HTML para email de rechazo
+ */
+function generateRejectionEmail(name: string, category: string, shortId: string, rejectionReason: string): string {
+  return `
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <h2 style="color: #000;">Actualización sobre tu inscripción</h2>
+  
+  <p>Hola <strong>${escapeHtml(name)}</strong>,</p>
+  
+  <p>Lamentamos informarte que tu inscripción para el <strong>San Mateo Longboard Festival</strong> no ha sido aprobada en esta ocasión.</p>
+  
+  <div style="background-color: #f5f5f5; border-left: 4px solid #000; padding: 15px; margin: 20px 0;">
+    <h3 style="margin-top: 0; color: #000;">Detalles de tu inscripción:</h3>
+    <p style="margin: 5px 0;"><strong>Nombre:</strong> ${escapeHtml(name)}</p>
+    <p style="margin: 5px 0;"><strong>Categoría:</strong> ${escapeHtml(category)}</p>
+    <p style="margin: 5px 0;"><strong>ID de Registro:</strong> <code style="background-color: #e0e0e0; padding: 2px 6px; border-radius: 3px;">${shortId}</code></p>
+  </div>
+  
+  <div style="background-color: #fff3cd; border-left: 4px solid #ff9800; padding: 15px; margin: 20px 0;">
+    <h3 style="margin-top: 0; color: #000;">Motivo del rechazo:</h3>
+    <p style="margin: 0; color: #333;">${escapeHtml(rejectionReason)}</p>
+  </div>
+  
+  <p>Si tienes alguna pregunta o deseas más información sobre esta decisión, no dudes en contactarnos:</p>
+  <p style="margin: 10px 0;">
+    📧 Email: sanmateolongfestival@gmail.com<br>
+    📱 WhatsApp: +593 96 931 0187
+  </p>
+  
+  <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;">
+  
+  <p style="font-size: 12px; color: #666;">
+    San Mateo Longboard Festival - III Edición 2025
+  </p>
+</body>
+</html>
+  `.trim();
+}
 
 /**
  * Escapa HTML para prevenir XSS

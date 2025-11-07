@@ -5,6 +5,8 @@ export interface SendTicketEmailParams {
   email: string;
   category: string;
   registrationId: string;
+  status: 'approved' | 'rejected';
+  rejectionReason?: string;
 }
 
 /**
@@ -12,11 +14,16 @@ export interface SendTicketEmailParams {
  */
 export async function sendTicketEmail(params: SendTicketEmailParams): Promise<{ success: boolean; messageId?: string; error?: string }> {
   try {
-    const { name, email, category, registrationId } = params;
+    const { name, email, category, registrationId, status, rejectionReason } = params;
 
     // Validar campos requeridos
-    if (!name || !email || !category || !registrationId) {
-      throw new Error('Missing required fields: name, email, category, registrationId');
+    if (!name || !email || !category || !registrationId || !status) {
+      throw new Error('Missing required fields: name, email, category, registrationId, status');
+    }
+
+    // Validar que si es rechazo, haya motivo
+    if (status === 'rejected' && !rejectionReason) {
+      throw new Error('Missing required field: rejectionReason (required when status is "rejected")');
     }
 
     // Construir la URL de la Edge Function
@@ -29,16 +36,24 @@ export async function sendTicketEmail(params: SendTicketEmailParams): Promise<{ 
       name,
       email,
       category,
-      registrationId: registrationId ? `${registrationId.substring(0, 8)}...` : 'undefined'
+      registrationId: registrationId ? `${registrationId.substring(0, 8)}...` : 'undefined',
+      status,
+      rejectionReason: rejectionReason ? `${rejectionReason.substring(0, 50)}...` : 'undefined'
     });
 
     // Preparar payload
-    const payload = {
+    const payload: any = {
       name,
       email,
       category,
       registrationId,
+      status,
     };
+
+    // Agregar motivo de rechazo si existe
+    if (rejectionReason) {
+      payload.rejectionReason = rejectionReason;
+    }
     
     console.log('[Email Service] Payload completo:', JSON.stringify(payload, null, 2));
 

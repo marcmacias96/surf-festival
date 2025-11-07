@@ -6,7 +6,7 @@ import { createServerClient } from '../../../services/supabase-server';
 /**
  * API endpoint para actualizar el estado de una inscripción
  * POST /api/registrations/update-status
- * Body: { registrationId: string, status: 'pending' | 'approved' | 'rejected' }
+ * Body: { registrationId: string, status: 'pending' | 'approved' | 'rejected', rejectionReason?: string }
  */
 export const POST: APIRoute = async ({ request, cookies }) => {
   try {
@@ -37,7 +37,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       );
     }
 
-    const { registrationId, status } = body;
+    const { registrationId, status, rejectionReason } = body;
 
     // Validar campos requeridos
     if (!registrationId || !status) {
@@ -52,6 +52,14 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     if (!validStatuses.includes(status)) {
       return new Response(
         JSON.stringify({ error: `Estado inválido. Debe ser uno de: ${validStatuses.join(', ')}` }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Validar que si es rechazo, haya motivo
+    if (status === 'rejected' && !rejectionReason) {
+      return new Response(
+        JSON.stringify({ error: 'Falta el campo requerido: rejectionReason (obligatorio cuando el estado es "rejected")' }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
     }
@@ -83,9 +91,9 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 
     console.log('[Update Status API] Estado actualizado exitosamente');
 
-    // Si la inscripción fue aprobada, enviar email con ticket
-    if (status === 'approved') {
-      console.log('[Update Status API] Inscripción aprobada, enviando email con ticket...');
+    // Si la inscripción fue aprobada o rechazada, enviar email
+    if (status === 'approved' || status === 'rejected') {
+      console.log(`[Update Status API] Inscripción ${status === 'approved' ? 'aprobada' : 'rechazada'}, enviando email...`);
       
       // Enviar email de forma asíncrona (no bloquea la respuesta)
       sendTicketEmail({
@@ -93,6 +101,8 @@ export const POST: APIRoute = async ({ request, cookies }) => {
         email: data.email,
         category: data.category,
         registrationId: data.id,
+        status: status === 'approved' ? 'approved' : 'rejected',
+        rejectionReason: status === 'rejected' ? rejectionReason : undefined,
       }).then((result) => {
         if (result.success) {
           console.log('[Update Status API] Email enviado exitosamente. Message ID:', result.messageId);
