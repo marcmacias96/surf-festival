@@ -1,5 +1,6 @@
 # San Mateo Longboard Festival - Landing Page
 
+
 Landing page oficial del San Mateo Longboard Festival (III Edición 2025).
 
 ## 🚀 Tech Stack
