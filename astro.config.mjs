@@ -2,7 +2,7 @@
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
-import node from '@astrojs/node';
+import vercel from '@astrojs/vercel';
 import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
@@ -13,10 +13,8 @@ export default defineConfig({
   // Habilitar modo servidor para endpoints de API
   output: 'server',
   
-  // Configurar adapter para Node.js
-  adapter: node({
-    mode: 'standalone',
-  }),
+  // Configurar adapter para Vercel (serverless)
+  adapter: vercel(),
 
   integrations: [
     tailwind({
