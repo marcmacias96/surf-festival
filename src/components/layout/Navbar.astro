@@ -118,21 +118,64 @@
     });
   });
 
-  // Smooth scroll para todos los links
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      e.preventDefault();
-      const targetId = (e.currentTarget as HTMLAnchorElement).getAttribute('href')?.substring(1);
-      const targetElement = document.getElementById(targetId || '');
+  // Smooth scroll para todos los links de navegación
+  function handleSmoothScroll(e: Event) {
+    const anchor = e.currentTarget as HTMLAnchorElement;
+    const href = anchor.getAttribute('href');
+    
+    if (!href || href === '#' || href === '#main-content') {
+      return;
+    }
+    
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const targetId = href.substring(1);
+    if (!targetId) return;
+    
+    // Función para hacer scroll al elemento
+    const scrollToTarget = () => {
+      const targetElement = document.getElementById(targetId);
+      
       if (targetElement) {
-        const offsetTop = targetElement.offsetTop - 80; // Ajustar por navbar sticky
-        window.scrollTo({
-          top: offsetTop,
-          behavior: 'smooth'
+        // Usar scrollIntoView con block: start y el scroll-margin-top de CSS se encargará del offset
+        targetElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
         });
+        return true;
       }
+      return false;
+    };
+    
+    // Intentar hacer scroll inmediatamente
+    if (!scrollToTarget()) {
+      // Si no se encuentra el elemento, intentar de nuevo después de un breve delay
+      setTimeout(() => {
+        scrollToTarget();
+      }, 100);
+    }
+  }
+
+  // Inicializar smooth scroll cuando el DOM esté listo
+  function initSmoothScroll() {
+    const anchors = document.querySelectorAll('a[href^="#"]');
+    anchors.forEach(anchor => {
+      anchor.addEventListener('click', handleSmoothScroll, { passive: false });
     });
-  });
+  }
+
+  // Ejecutar cuando el DOM esté completamente cargado
+  function setupSmoothScroll() {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initSmoothScroll);
+    } else {
+      // Si el DOM ya está cargado, ejecutar inmediatamente
+      initSmoothScroll();
+    }
+  }
+
+  setupSmoothScroll();
 
   // Registrar botones de inscripción
   const registerBtns = document.querySelectorAll('#register-btn-desktop, #register-btn-mobile');

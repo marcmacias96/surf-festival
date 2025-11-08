@@ -259,6 +259,11 @@ section, main, article, header, footer {
   overflow-x: hidden;
 }
 
+/* Scroll margin para compensar el navbar fijo */
+section[id] {
+  scroll-margin-top: 80px;
+}
+
 /* ============================================
    Typography Classes
    ============================================ */
