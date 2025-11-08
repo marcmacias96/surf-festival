@@ -219,6 +219,13 @@ html {
   html {
     scroll-behavior: smooth;
   }
+
+  /* Personalizar la duración del scroll en navegadores que lo soportan */
+  @supports (scroll-behavior: smooth) {
+    html {
+      scroll-padding-top: 80px; /* Compensar altura del navbar */
+    }
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
