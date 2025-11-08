@@ -118,52 +118,8 @@
     });
   });
 
-  // Smooth scroll simplificado y compatible con todos los navegadores
-  function handleSmoothScroll(e: Event) {
-    const anchor = e.currentTarget as HTMLAnchorElement;
-    const href = anchor.getAttribute('href');
-
-    // Ignorar enlaces sin href o que apuntan al inicio
-    if (!href || href === '#' || href === '#main-content') {
-      return;
-    }
-
-    e.preventDefault();
-
-    const targetId = href.substring(1);
-    if (!targetId) return;
-
-    const targetElement = document.getElementById(targetId);
-
-    if (targetElement) {
-      // Usar scrollIntoView que funciona bien en la mayoría de navegadores modernos
-      // El scroll-margin-top del CSS se encargará del offset de la navbar
-      targetElement.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-    }
-  }
-
-  // Inicializar smooth scroll cuando el DOM esté listo
-  function initSmoothScroll() {
-    const anchors = document.querySelectorAll('a[href^="#"]');
-    anchors.forEach(anchor => {
-      anchor.addEventListener('click', handleSmoothScroll, { passive: false });
-    });
-  }
-
-  // Ejecutar cuando el DOM esté completamente cargado
-  function setupSmoothScroll() {
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initSmoothScroll);
-    } else {
-      // Si el DOM ya está cargado, ejecutar inmediatamente
-      initSmoothScroll();
-    }
-  }
-
-  setupSmoothScroll();
+  // El smooth scroll se maneja automáticamente con CSS (scroll-behavior: smooth)
+  // No necesitamos JavaScript adicional para eso
 
   // Registrar botones de inscripción
   const registerBtns = document.querySelectorAll('#register-btn-desktop, #register-btn-mobile');
