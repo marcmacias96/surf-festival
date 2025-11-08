@@ -123,3 +123,33 @@ export async function getRegistrationsByStatus(status: RegistrationStatus): Prom
   return data || [];
 }
 
+export async function getRegistrationsWithFilters(
+  category?: string | null,
+  status?: RegistrationStatus | null
+): Promise<Registration[]> {
+  let query = supabase
+    .from('registrations')
+    .select('*');
+
+  // Aplicar filtro por categoría si existe
+  if (category) {
+    query = query.eq('category', category);
+  }
+
+  // Aplicar filtro por estado si existe
+  if (status) {
+    query = query.eq('status', status);
+  }
+
+  // Ordenar por fecha de creación (más recientes primero)
+  query = query.order('created_at', { ascending: false });
+
+  const { data, error } = await query;
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data || [];
+}
+

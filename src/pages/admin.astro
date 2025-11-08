@@ -1,6 +1,6 @@
 ---
 import AdminLayout from '../layouts/AdminLayout.astro';
-import { getAllRegistrations } from '../services/registration';
+import { getAllRegistrations, getRegistrationsWithFilters } from '../services/registration';
 import { createServerClient } from '../services/supabase-server';
 import type { Registration, RegistrationStatus } from '../services/registration';
 import RegistrationActions from '../components/admin/RegistrationActions';
@@ -39,11 +39,20 @@ if (!isAuthenticated) {
   return Astro.redirect('/admin/login?redirect=/admin');
 }
 
+// Leer query params para filtros
+const selectedCategory = Astro.url.searchParams.get('category');
+const selectedStatus = Astro.url.searchParams.get('status') as RegistrationStatus | null;
+
 let registrations: Registration[] = [];
+let filteredRegistrations: Registration[] = [];
 let error: string | null = null;
 
 try {
+  // Obtener todas las registraciones para estadísticas
   registrations = await getAllRegistrations();
+  
+  // Obtener registraciones filtradas directamente desde la base de datos
+  filteredRegistrations = await getRegistrationsWithFilters(selectedCategory, selectedStatus);
 } catch (e) {
   error = e instanceof Error ? e.message : 'Error desconocido al cargar registros';
 }
@@ -65,9 +74,9 @@ const approvedCount = statsByStatus.approved || 0;
 const rejectedCount = statsByStatus.rejected || 0;
 const pendingCount = statsByStatus.pending || 0;
 
-// Estadísticas por categoría - Solo aprobadas
-const approvedByCategory = registrations
-  .filter(reg => reg.status === 'approved')
+// Estadísticas por categoría - Aprobadas + Rechazadas
+const approvedAndRejectedByCategory = registrations
+  .filter(reg => reg.status === 'approved' || reg.status === 'rejected')
   .reduce((acc, reg) => {
     acc[reg.category] = (acc[reg.category] || 0) + 1;
     return acc;
@@ -184,32 +193,41 @@ const categoryLabels: Record<string, string> = {
           <!-- Métricas Principales: Totales Generales -->
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-10">
             <!-- Total Solicitudes Todas -->
-            <div class="bg-gradient-to-br from-yellow via-orange to-pink border-[4px] border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] p-6 md:p-8 text-center transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] transition-all">
+            <a 
+              href="/admin"
+              class={`bg-gradient-to-br from-yellow via-orange to-pink border-[4px] ${selectedStatus === null && !selectedCategory ? 'border-purple shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] ring-4 ring-purple/30' : 'border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)]'} p-6 md:p-8 text-center transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] transition-all cursor-pointer`}
+            >
               <div class="font-display text-5xl md:text-6xl text-black mb-2 leading-none">{totalRegistrations}</div>
               <div class="font-heading text-sm md:text-base font-bold text-black uppercase tracking-wide">TOTAL SOLICITUDES</div>
-            </div>
+            </a>
 
             <!-- Total Aprobadas -->
-            <div class="bg-success-light border-[4px] border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] p-6 md:p-8 text-center transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] transition-all">
+            <a 
+              href={`/admin?status=approved${selectedCategory ? `&category=${encodeURIComponent(selectedCategory)}` : ''}`}
+              class={`bg-success-light border-[4px] ${selectedStatus === 'approved' ? 'border-purple shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] ring-4 ring-purple/30' : 'border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)]'} p-6 md:p-8 text-center transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] transition-all cursor-pointer`}
+            >
               <div id="approved-count" class="font-display text-5xl md:text-6xl text-white-warm mb-2 leading-none">{approvedCount}</div>
               <div class="font-heading text-sm md:text-base font-bold text-white-warm uppercase tracking-wide">TOTAL APROBADAS</div>
-            </div>
+            </a>
 
             <!-- Total Denegadas -->
-            <div class="bg-error-light border-[4px] border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] p-6 md:p-8 text-center transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] transition-all">
+            <a 
+              href={`/admin?status=rejected${selectedCategory ? `&category=${encodeURIComponent(selectedCategory)}` : ''}`}
+              class={`bg-error-light border-[4px] ${selectedStatus === 'rejected' ? 'border-purple shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] ring-4 ring-purple/30' : 'border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)]'} p-6 md:p-8 text-center transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] transition-all cursor-pointer`}
+            >
               <div id="rejected-count" class="font-display text-5xl md:text-6xl text-white-warm mb-2 leading-none">{rejectedCount}</div>
               <div class="font-heading text-sm md:text-base font-bold text-white-warm uppercase tracking-wide">TOTAL DENEGADAS</div>
-            </div>
+            </a>
           </div>
 
-          <!-- Total por Categoría Aprobadas -->
+          <!-- Total por Categoría Aprobadas + Rechazadas -->
           <div class="mb-8 md:mb-10">
             <h2 class="font-display text-2xl md:text-3xl text-black uppercase mb-4 md:mb-6 text-center">
-              Aprobadas por Categoría
+              Aprobadas y Rechazadas por Categoría
             </h2>
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
               {categories.map((category) => {
-                const count = approvedByCategory[category] || 0;
+                const count = approvedAndRejectedByCategory[category] || 0;
                 const colors = {
                   'Open Hombres': 'bg-yellow',
                   'Open Mujeres': 'bg-orange',
@@ -218,11 +236,16 @@ const categoryLabels: Record<string, string> = {
                   'Niños': 'bg-orange/80'
                 };
                 const label = categoryLabels[category] || category;
+                const isActive = selectedCategory === category;
+                const filterUrl = `/admin?category=${encodeURIComponent(category)}${selectedStatus ? `&status=${selectedStatus}` : ''}`;
                 return (
-                  <div class={`${colors[category as keyof typeof colors] || 'bg-white-warm'} border-[4px] border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] p-5 md:p-6 text-center transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] transition-all`}>
+                  <a 
+                    href={filterUrl}
+                    class={`${colors[category as keyof typeof colors] || 'bg-white-warm'} border-[4px] ${isActive ? 'border-purple shadow-[8px_8px_0px_0px_rgba(26,26,26,1)]' : 'border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)]'} p-5 md:p-6 text-center transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] transition-all cursor-pointer ${isActive ? 'ring-4 ring-purple/30' : ''}`}
+                  >
                     <div class="font-display text-3xl md:text-4xl text-black mb-2 leading-none">{count}</div>
                     <div class="font-heading text-xs md:text-sm font-bold text-black uppercase tracking-wide leading-tight">{label}</div>
-                  </div>
+                  </a>
                 );
               })}
             </div>
@@ -231,20 +254,82 @@ const categoryLabels: Record<string, string> = {
           <!-- Lista de Registros -->
           <div class="bg-white-warm border-[4px] border-black shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] p-6 md:p-8 lg:p-10">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 md:mb-8 gap-4">
-              <h2 class="font-display text-2xl md:text-3xl lg:text-4xl text-black uppercase leading-tight">
-                Participantes Registrados
-              </h2>
+              <div class="flex flex-col gap-2">
+                <h2 class="font-display text-2xl md:text-3xl lg:text-4xl text-black uppercase leading-tight">
+                  Participantes Registrados
+                </h2>
+                {(selectedCategory || selectedStatus) && (
+                  <div class="flex flex-wrap items-center gap-3">
+                    {selectedCategory && (
+                      <div class="inline-flex items-center gap-2 px-4 py-2 bg-purple/20 border-2 border-purple rounded-md">
+                        <span class="font-heading text-sm font-bold text-purple uppercase">
+                          Categoría: {categoryLabels[selectedCategory] || selectedCategory}
+                        </span>
+                        <a 
+                          href={selectedStatus ? `/admin?status=${selectedStatus}` : '/admin'}
+                          class="inline-flex items-center justify-center w-6 h-6 bg-purple text-white-warm rounded-full hover:bg-purple/80 transition-colors font-bold text-xs"
+                          aria-label="Limpiar filtro de categoría"
+                          title="Limpiar filtro de categoría"
+                        >
+                          ×
+                        </a>
+                      </div>
+                    )}
+                    {selectedStatus && (
+                      <div class="inline-flex items-center gap-2 px-4 py-2 bg-purple/20 border-2 border-purple rounded-md">
+                        <span class="font-heading text-sm font-bold text-purple uppercase">
+                          Estado: {selectedStatus === 'approved' ? 'Aprobadas' : selectedStatus === 'rejected' ? 'Rechazadas' : 'Pendientes'}
+                        </span>
+                        <a 
+                          href={selectedCategory ? `/admin?category=${encodeURIComponent(selectedCategory)}` : '/admin'}
+                          class="inline-flex items-center justify-center w-6 h-6 bg-purple text-white-warm rounded-full hover:bg-purple/80 transition-colors font-bold text-xs"
+                          aria-label="Limpiar filtro de estado"
+                          title="Limpiar filtro de estado"
+                        >
+                          ×
+                        </a>
+                      </div>
+                    )}
+                    {(selectedCategory || selectedStatus) && (
+                      <a 
+                        href="/admin"
+                        class="inline-flex items-center gap-2 px-4 py-2 bg-yellow border-2 border-black rounded-md font-heading text-sm font-bold uppercase tracking-wide hover:bg-yellow/80 transition-colors shadow-sm"
+                      >
+                        Limpiar todos los filtros
+                      </a>
+                    )}
+                  </div>
+                )}
+              </div>
               <div class="font-body text-sm md:text-base text-dark">
-                Total: <span class="font-bold text-black">{totalRegistrations}</span> participantes
+                {(selectedCategory || selectedStatus) ? (
+                  <>
+                    Mostrando: <span class="font-bold text-black">{filteredRegistrations.length}</span> de <span class="font-bold text-black">{totalRegistrations}</span> participantes
+                  </>
+                ) : (
+                  <>
+                    Total: <span class="font-bold text-black">{totalRegistrations}</span> participantes
+                  </>
+                )}
               </div>
             </div>
 
-            {registrations.length === 0 ? (
+            {filteredRegistrations.length === 0 ? (
               <div class="text-center py-12 md:py-16">
                 <div class="text-6xl mb-4">📋</div>
                 <p class="font-body text-lg md:text-xl text-dark">
-                  No hay participantes registrados aún
+                  {selectedCategory || selectedStatus
+                    ? `No hay participantes que coincidan con los filtros aplicados`
+                    : 'No hay participantes registrados aún'}
                 </p>
+                {(selectedCategory || selectedStatus) && (
+                  <a 
+                    href="/admin"
+                    class="inline-block mt-4 px-6 py-2 bg-yellow border-2 border-black rounded-md font-heading text-sm font-bold uppercase tracking-wide hover:bg-yellow/80 transition-colors shadow-sm"
+                  >
+                    Ver todos los participantes
+                  </a>
+                )}
               </div>
             ) : (
               <div class="overflow-x-auto">
@@ -260,7 +345,7 @@ const categoryLabels: Record<string, string> = {
                     </tr>
                   </thead>
                   <tbody id="registrations-table-body">
-                    {registrations.map((reg, index) => {
+                    {filteredRegistrations.map((reg, index) => {
                       const categoryColors = {
                         'Open Hombres': 'bg-yellow/30',
                         'Open Mujeres': 'bg-orange/30',
