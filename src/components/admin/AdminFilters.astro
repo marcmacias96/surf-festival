@@ -1,0 +1,102 @@
+---
+import type { RegistrationStatus } from '../../services/registration';
+import { CATEGORY_LABELS } from '../../utils/admin-stats';
+
+interface Props {
+  selectedCategory: string | null;
+  selectedStatus: RegistrationStatus | null;
+  totalCount: number;
+  filteredCount: number;
+}
+
+const { selectedCategory, selectedStatus, totalCount, filteredCount } = Astro.props;
+
+const getStatusLabel = (status: RegistrationStatus): string => {
+  switch (status) {
+    case 'approved':
+      return 'Aprobadas';
+    case 'rejected':
+      return 'Rechazadas';
+    case 'pending':
+      return 'Pendientes';
+    default:
+      return status;
+  }
+};
+
+const buildCategoryFilterUrl = (): string => {
+  if (selectedStatus) {
+    return `/admin?status=${selectedStatus}`;
+  }
+  return '/admin';
+};
+
+const buildStatusFilterUrl = (): string => {
+  if (selectedCategory) {
+    return `/admin?category=${encodeURIComponent(selectedCategory)}`;
+  }
+  return '/admin';
+};
+---
+
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 md:mb-8 gap-4">
+  <div class="flex flex-col gap-2">
+    <h2 class="font-display text-2xl md:text-3xl lg:text-4xl text-black uppercase leading-tight">
+      Participantes Registrados
+    </h2>
+    {(selectedCategory || selectedStatus) && (
+      <div class="flex flex-wrap items-center gap-3">
+        {selectedCategory && (
+          <div class="inline-flex items-center gap-2 px-4 py-2 bg-purple/20 border-2 border-purple rounded-md">
+            <span class="font-heading text-sm font-bold text-purple uppercase">
+              Categoría: {CATEGORY_LABELS[selectedCategory] || selectedCategory}
+            </span>
+            <a 
+              href={buildCategoryFilterUrl()}
+              class="inline-flex items-center justify-center w-6 h-6 bg-purple text-white-warm rounded-full hover:bg-purple/80 transition-colors font-bold text-xs"
+              aria-label="Limpiar filtro de categoría"
+              title="Limpiar filtro de categoría"
+            >
+              ×
+            </a>
+          </div>
+        )}
+        {selectedStatus && (
+          <div class="inline-flex items-center gap-2 px-4 py-2 bg-purple/20 border-2 border-purple rounded-md">
+            <span class="font-heading text-sm font-bold text-purple uppercase">
+              Estado: {getStatusLabel(selectedStatus)}
+            </span>
+            <a 
+              href={buildStatusFilterUrl()}
+              class="inline-flex items-center justify-center w-6 h-6 bg-purple text-white-warm rounded-full hover:bg-purple/80 transition-colors font-bold text-xs"
+              aria-label="Limpiar filtro de estado"
+              title="Limpiar filtro de estado"
+            >
+              ×
+            </a>
+          </div>
+        )}
+        {(selectedCategory || selectedStatus) && (
+          <a 
+            href="/admin"
+            class="inline-flex items-center gap-2 px-4 py-2 bg-yellow border-2 border-black rounded-md font-heading text-sm font-bold uppercase tracking-wide hover:bg-yellow/80 transition-colors shadow-sm"
+          >
+            Limpiar todos los filtros
+          </a>
+        )}
+      </div>
+    )}
+  </div>
+  <div class="font-body text-sm md:text-base text-dark">
+    {(selectedCategory || selectedStatus) ? (
+      <>
+        Mostrando: <span class="font-bold text-black">{filteredCount}</span> de <span class="font-bold text-black">{totalCount}</span> participantes
+      </>
+    ) : (
+      <>
+        Total: <span class="font-bold text-black">{totalCount}</span> participantes
+      </>
+    )}
+  </div>
+</div>
+

@@ -1,0 +1,41 @@
+---
+import Card from '../ui/Card.astro';
+
+interface Props {
+  balance: number;
+  approvedCount: number;
+  registrationPrice: number;
+}
+
+const { balance, approvedCount, registrationPrice } = Astro.props;
+---
+
+<div class="mb-8 md:mb-10">
+  <Card
+    bgColor="bg-gradient-to-r from-success via-success-light to-success"
+    borderWidth="4"
+    shadow="xl"
+    rounded="lg"
+    paddingResponsive={true}
+    hover={false}
+    dataAttributes={{ 'registration-price': registrationPrice }}
+  >
+    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div class="flex-1">
+        <div class="font-heading text-sm md:text-base text-white-warm/90 uppercase tracking-wide mb-2">
+          💰 Balance Total
+        </div>
+        <div class="font-display text-4xl md:text-5xl lg:text-6xl text-white-warm leading-none balance-amount font-bold">
+          ${balance.toFixed(2)}
+        </div>
+      </div>
+      <div class="text-left md:text-right flex-1 md:flex-none">
+        <div class="font-body text-sm md:text-base text-white-warm/90 balance-description font-medium">
+          <div class="mb-1">{approvedCount} inscripciones aprobadas</div>
+          <div class="text-xs opacity-80">× ${registrationPrice.toFixed(2)} por inscripción</div>
+        </div>
+      </div>
+    </div>
+  </Card>
+</div>
+

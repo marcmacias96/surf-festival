@@ -5,11 +5,72 @@ export interface CreateRegistrationData extends RegistrationData {
   payment_receipt_url?: string;
 }
 
+export type RegistrationStatus = 'pending' | 'approved' | 'rejected';
+
+export interface Registration extends RegistrationData {
+  id: string;
+  payment_receipt_url?: string | null;
+  status: RegistrationStatus;
+  created_at: string;
+  updated_at: string;
+}
+
+export async function getRegistrationByEmail(email: string): Promise<Registration | null> {
+  const { data, error } = await supabase
+    .from('registrations')
+    .select('*')
+    .eq('email', email)
+    .maybeSingle();
+
+  if (error && error.code !== 'PGRST116') { // PGRST116 = no rows returned
+    throw new Error(error.message);
+  }
+
+  return data || null;
+}
+
 export async function createRegistration(data: CreateRegistrationData) {
   // Validar datos con Zod (sin payment_receipt_url, se agrega después)
   const { payment_receipt_url, ...registrationData } = data;
   const validated = registrationSchema.parse(registrationData);
 
+  // Verificar si existe un registro con este email
+  const existingRegistration = await getRegistrationByEmail(validated.email);
+
+  if (existingRegistration) {
+    // Si existe un registro rechazado, actualizarlo
+    if (existingRegistration.status === 'rejected') {
+      // Preparar datos para actualización
+      const updateData: any = {
+        ...validated,
+        status: 'pending' // Cambiar estado a pending
+      };
+
+      // Agregar URL del comprobante si existe
+      if (payment_receipt_url) {
+        updateData.payment_receipt_url = payment_receipt_url;
+      }
+
+      // Actualizar el registro existente
+      const { data: result, error } = await supabase
+        .from('registrations')
+        .update(updateData)
+        .eq('id', existingRegistration.id)
+        .select()
+        .single();
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      return result;
+    } else {
+      // Si existe un registro con otro estado (pending o approved), lanzar error
+      throw new Error('Este email ya tiene un registro activo');
+    }
+  }
+
+  // Si no existe registro, crear uno nuevo
   // Preparar datos para inserción
   const insertData: any = {
     ...validated,
@@ -47,16 +108,6 @@ export async function checkEmailExists(email: string): Promise<boolean> {
   }
 
   return !!data;
-}
-
-export type RegistrationStatus = 'pending' | 'approved' | 'rejected';
-
-export interface Registration extends RegistrationData {
-  id: string;
-  payment_receipt_url?: string | null;
-  status: RegistrationStatus;
-  created_at: string;
-  updated_at: string;
 }
 
 export async function getAllRegistrations(): Promise<Registration[]> {

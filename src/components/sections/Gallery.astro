@@ -1,5 +1,6 @@
 ---
 import Section from '../layout/Section.astro';
+import Card from '../ui/Card.astro';
 ---
 
 <Section id="gallery" background="cream">
@@ -20,84 +21,156 @@ import Section from '../layout/Section.astro';
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
       
       <!-- Imagen 1 - Surfista en ola -->
-      <div class="aspect-square bg-gray-light border-[3px] border-black shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] overflow-hidden fade-in-up transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] transition-all cursor-pointer" style="animation-delay: 0.15s;">
+      <Card
+        bgColor="bg-gray-light"
+        borderWidth="3"
+        shadow="md"
+        padding="sm"
+        rounded="none"
+        className="aspect-square overflow-hidden fade-in-up p-0"
+        hover={true}
+        style="animation-delay: 0.15s;"
+      >
         <img 
           src="https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=800&h=800&fit=crop&q=80" 
           alt="Surfista en ola perfecta" 
           loading="lazy" 
           class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
         />
-      </div>
+      </Card>
 
       <!-- Imagen 2 - Longboard en playa -->
-      <div class="aspect-square bg-gray-light border-[3px] border-black shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] overflow-hidden fade-in-up transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] transition-all cursor-pointer" style="animation-delay: 0.2s;">
+      <Card
+        bgColor="bg-gray-light"
+        borderWidth="3"
+        shadow="md"
+        padding="sm"
+        rounded="none"
+        className="aspect-square overflow-hidden fade-in-up p-0"
+        hover={true}
+        style="animation-delay: 0.2s;"
+      >
         <img 
           src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=800&fit=crop&q=80" 
           alt="Longboard en la playa" 
           loading="lazy" 
           class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
         />
-      </div>
+      </Card>
 
       <!-- Imagen 3 - Competencia de surf -->
-      <div class="aspect-square bg-gray-light border-[3px] border-black shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] overflow-hidden fade-in-up transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] transition-all cursor-pointer" style="animation-delay: 0.25s;">
+      <Card
+        bgColor="bg-gray-light"
+        borderWidth="3"
+        shadow="md"
+        padding="sm"
+        rounded="none"
+        className="aspect-square overflow-hidden fade-in-up p-0"
+        hover={true}
+        style="animation-delay: 0.25s;"
+      >
         <img 
           src="https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=800&h=800&fit=crop&q=80" 
           alt="Competencia de surf" 
           loading="lazy" 
           class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
         />
-      </div>
+      </Card>
 
       <!-- Imagen 4 - Atardecer en la playa -->
-      <div class="aspect-square bg-gray-light border-[3px] border-black shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] overflow-hidden fade-in-up transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] transition-all cursor-pointer" style="animation-delay: 0.3s;">
+      <Card
+        bgColor="bg-gray-light"
+        borderWidth="3"
+        shadow="md"
+        padding="sm"
+        rounded="none"
+        className="aspect-square overflow-hidden fade-in-up p-0"
+        hover={true}
+        style="animation-delay: 0.3s;"
+      >
         <img 
           src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=800&fit=crop&q=80" 
           alt="Atardecer en la playa" 
           loading="lazy" 
           class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
         />
-      </div>
+      </Card>
 
       <!-- Imagen 5 - Surfista en acción -->
-      <div class="aspect-square bg-gray-light border-[3px] border-black shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] overflow-hidden fade-in-up transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] transition-all cursor-pointer" style="animation-delay: 0.35s;">
+      <Card
+        bgColor="bg-gray-light"
+        borderWidth="3"
+        shadow="md"
+        padding="sm"
+        rounded="none"
+        className="aspect-square overflow-hidden fade-in-up p-0"
+        hover={true}
+        style="animation-delay: 0.35s;"
+      >
         <img 
           src="https://images.unsplash.com/photo-1506953823976-52e1fdc014c4?w=800&h=800&fit=crop&q=80" 
           alt="Surfista en acción" 
           loading="lazy" 
           class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
         />
-      </div>
+      </Card>
 
       <!-- Imagen 6 - Tabla de surf vintage -->
-      <div class="aspect-square bg-gray-light border-[3px] border-black shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] overflow-hidden fade-in-up transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] transition-all cursor-pointer" style="animation-delay: 0.4s;">
+      <Card
+        bgColor="bg-gray-light"
+        borderWidth="3"
+        shadow="md"
+        padding="sm"
+        rounded="none"
+        className="aspect-square overflow-hidden fade-in-up p-0"
+        hover={true}
+        style="animation-delay: 0.4s;"
+      >
         <img 
           src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=800&fit=crop&q=80" 
           alt="Tabla de surf vintage" 
           loading="lazy" 
           class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
         />
-      </div>
+      </Card>
 
       <!-- Imagen 7 - Olas perfectas -->
-      <div class="aspect-square bg-gray-light border-[3px] border-black shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] overflow-hidden fade-in-up transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] transition-all cursor-pointer" style="animation-delay: 0.45s;">
+      <Card
+        bgColor="bg-gray-light"
+        borderWidth="3"
+        shadow="md"
+        padding="sm"
+        rounded="none"
+        className="aspect-square overflow-hidden fade-in-up p-0"
+        hover={true}
+        style="animation-delay: 0.45s;"
+      >
         <img 
           src="https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=800&h=800&fit=crop&q=80" 
           alt="Olas perfectas para surf" 
           loading="lazy" 
           class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
         />
-      </div>
+      </Card>
 
       <!-- Imagen 8 - Festival en la playa -->
-      <div class="aspect-square bg-gray-light border-[3px] border-black shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] overflow-hidden fade-in-up transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] transition-all cursor-pointer" style="animation-delay: 0.5s;">
+      <Card
+        bgColor="bg-gray-light"
+        borderWidth="3"
+        shadow="md"
+        padding="sm"
+        rounded="none"
+        className="aspect-square overflow-hidden fade-in-up p-0"
+        hover={true}
+        style="animation-delay: 0.5s;"
+      >
         <img 
           src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=800&h=800&fit=crop&q=80" 
           alt="Festival en la playa" 
           loading="lazy" 
           class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
         />
-      </div>
+      </Card>
     </div>
 
     <!-- CTA para ver más -->
@@ -106,18 +179,30 @@ import Section from '../layout/Section.astro';
         Más fotos y videos en nuestras redes sociales
       </p>
       <div class="flex flex-wrap justify-center gap-4">
-        <a 
-          href="https://www.instagram.com/sanmateosurf.fest/" 
-          class="bg-yellow text-black px-6 py-3 rounded-md font-heading font-bold uppercase tracking-wide border-[3px] border-black shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] hover:shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] hover:-translate-x-[2px] hover:-translate-y-[2px] transition-all min-h-[56px] inline-flex items-center justify-center focus-visible:outline-4 focus-visible:outline-orange focus-visible:outline-offset-4"
+        <Card
+          tag="a"
+          href="https://www.instagram.com/sanmateosurf.fest/"
+          bgColor="bg-yellow"
+          borderWidth="3"
+          shadow="md"
+          rounded="md"
+          padding="md"
+          className="text-black font-heading font-bold uppercase tracking-wide min-h-[56px] inline-flex items-center justify-center focus-visible:outline-4 focus-visible:outline-orange focus-visible:outline-offset-4 px-6 py-3"
         >
           Instagram Festival 
-        </a>
-        <a 
-          href="https://www.instagram.com/angelofranco15/" 
-          class="bg-orange text-black px-6 py-3 rounded-md font-heading font-bold uppercase tracking-wide border-[3px] border-black shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] hover:shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] hover:-translate-x-[2px] hover:-translate-y-[2px] transition-all min-h-[56px] inline-flex items-center justify-center focus-visible:outline-4 focus-visible:outline-orange focus-visible:outline-offset-4"
+        </Card>
+        <Card
+          tag="a"
+          href="https://www.instagram.com/angelofranco15/"
+          bgColor="bg-orange"
+          borderWidth="3"
+          shadow="md"
+          rounded="md"
+          padding="md"
+          className="text-black font-heading font-bold uppercase tracking-wide min-h-[56px] inline-flex items-center justify-center focus-visible:outline-4 focus-visible:outline-orange focus-visible:outline-offset-4 px-6 py-3"
         >
          Instagram Angelo Franco
-        </a>
+        </Card>
       </div>
     </div>
   </div>

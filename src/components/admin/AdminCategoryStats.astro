@@ -1,0 +1,70 @@
+---
+import type { RegistrationStatus } from '../../services/registration';
+import { CATEGORIES, CATEGORY_LABELS } from '../../utils/admin-stats';
+import Card from '../ui/Card.astro';
+
+interface Props {
+  approvedAndRejectedByCategory: Record<string, number>;
+  selectedCategory: string | null;
+  selectedStatus: RegistrationStatus | null;
+}
+
+const { approvedAndRejectedByCategory, selectedCategory, selectedStatus } = Astro.props;
+
+const colors: Record<string, string> = {
+  'Open Hombres': 'bg-info-light',
+  'Open Mujeres': 'bg-pink',
+  'Mujeres Intermedio': 'bg-purple',
+  'Mujeres Principiante': 'bg-yellow',
+  'Niños': 'bg-success-light'
+};
+
+const textColors: Record<string, string> = {
+  'Open Hombres': 'text-white-warm',
+  'Open Mujeres': 'text-white-warm',
+  'Mujeres Intermedio': 'text-white-warm',
+  'Mujeres Principiante': 'text-black',
+  'Niños': 'text-white-warm'
+};
+
+const buildFilterUrl = (category: string) => {
+  const params = new URLSearchParams();
+  params.set('category', category);
+  if (selectedStatus) {
+    params.set('status', selectedStatus);
+  }
+  return `/admin?${params.toString()}`;
+};
+---
+
+<div class="mb-8 md:mb-10">
+  <h2 class="font-display text-2xl md:text-3xl text-black uppercase mb-4 md:mb-6 text-center">
+    Aprobadas y Rechazadas por Categoría
+  </h2>
+  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
+    {CATEGORIES.map((category) => {
+      const count = approvedAndRejectedByCategory[category] || 0;
+      const label = CATEGORY_LABELS[category] || category;
+      const isActive = selectedCategory === category;
+      const filterUrl = buildFilterUrl(category);
+      
+      return (
+        <Card
+          tag="a"
+          href={filterUrl}
+          bgColor={colors[category] || 'bg-white-warm'}
+          borderWidth="4"
+          borderColor={isActive ? 'border-purple' : 'border-black'}
+          shadow={isActive ? 'xl' : 'md'}
+          padding="md"
+          className={`p-5 md:p-6 text-center ${isActive ? 'ring-4 ring-purple/30' : ''}`}
+          rounded="none"
+        >
+          <div class={`font-display text-3xl md:text-4xl ${textColors[category] || 'text-black'} mb-2 leading-none`}>{count}</div>
+          <div class={`font-heading text-xs md:text-sm font-bold ${textColors[category] || 'text-black'} uppercase tracking-wide leading-tight`}>{label}</div>
+        </Card>
+      );
+    })}
+  </div>
+</div>
+

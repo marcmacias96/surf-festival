@@ -1,0 +1,103 @@
+---
+import type { Registration } from '../../services/registration';
+import RegistrationActions from './RegistrationActions';
+
+interface Props {
+  registrations: Registration[];
+}
+
+const { registrations } = Astro.props;
+
+const categoryColors: Record<string, string> = {
+  'Open Hombres': 'bg-yellow/30',
+  'Open Mujeres': 'bg-orange/30',
+  'Mujeres Intermedio': 'bg-pink/30',
+  'Mujeres Principiante': 'bg-yellow/20',
+  'Niños': 'bg-orange/20'
+};
+---
+
+<div class="overflow-x-auto">
+  <table class="w-full border-collapse">
+    <thead>
+      <tr class="bg-black text-white-warm">
+        <th class="font-heading text-xs md:text-sm font-bold uppercase tracking-wide px-4 py-3 md:px-6 md:py-4 text-left border-2 border-black">#</th>
+        <th class="font-heading text-xs md:text-sm font-bold uppercase tracking-wide px-4 py-3 md:px-6 md:py-4 text-left border-2 border-black">Participante</th>
+        <th class="font-heading text-xs md:text-sm font-bold uppercase tracking-wide px-4 py-3 md:px-6 md:py-4 text-left border-2 border-black">Categoría</th>
+        <th class="font-heading text-xs md:text-sm font-bold uppercase tracking-wide px-4 py-3 md:px-6 md:py-4 text-left border-2 border-black">Comprobante</th>
+        <th class="font-heading text-xs md:text-sm font-bold uppercase tracking-wide px-4 py-3 md:px-6 md:py-4 text-left border-2 border-black">Estado</th>
+        <th class="font-heading text-xs md:text-sm font-bold uppercase tracking-wide px-4 py-3 md:px-6 md:py-4 text-left border-2 border-black">Acciones</th>
+      </tr>
+    </thead>
+    <tbody id="registrations-table-body">
+      {registrations.map((reg, index) => {
+        return (
+          <tr 
+            class={`border-2 border-black/20 ${index % 2 === 0 ? 'bg-white-warm' : 'bg-cream'} hover:bg-yellow/20 transition-colors`}
+            data-registration-id={reg.id}
+          >
+            <td class="font-body text-sm md:text-base text-black px-4 py-3 md:px-6 md:py-4 border-2 border-black/10 font-bold">{index + 1}</td>
+            <td class="font-body text-sm md:text-base text-black px-4 py-3 md:px-6 md:py-4 border-2 border-black/10 font-medium">
+              <div class="font-medium">{reg.name}</div>
+              <div class="text-xs text-gray mt-1">{reg.email}</div>
+              <div class="text-xs text-gray">{reg.phone}</div>
+            </td>
+            <td class="font-body text-sm md:text-base px-4 py-3 md:px-6 md:py-4 border-2 border-black/10">
+              <span class={`inline-block px-3 py-1 rounded-md border-2 border-black font-heading text-xs font-bold uppercase ${categoryColors[reg.category] || 'bg-white-warm'} text-black`}>
+                {reg.category}
+              </span>
+            </td>
+            <td class="font-body text-sm md:text-base px-4 py-3 md:px-6 md:py-4 border-2 border-black/10">
+              {reg.payment_receipt_url ? (
+                <a 
+                  href={reg.payment_receipt_url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-2 px-3 py-1.5 bg-yellow border-2 border-black rounded-md font-heading text-xs font-bold uppercase hover:bg-yellow/80 transition-colors shadow-sm"
+                >
+                  <span>📄</span>
+                  <span>Ver</span>
+                </a>
+              ) : (
+                <span class="text-xs text-gray italic">Sin comprobante</span>
+              )}
+            </td>
+            <td class="font-body text-sm md:text-base px-4 py-3 md:px-6 md:py-4 border-2 border-black/10">
+              {reg.status === 'pending' && (
+                <span class="inline-block px-3 py-1 rounded-md border-2 border-yellow bg-yellow text-black font-heading text-xs font-bold uppercase">
+                  Pendiente
+                </span>
+              )}
+              {reg.status === 'approved' && (
+                <span class="inline-block px-3 py-1 rounded-md border-2 border-success bg-success-light text-white-warm font-heading text-xs font-bold uppercase">
+                  Aprobada
+                </span>
+              )}
+              {reg.status === 'rejected' && (
+                <span class="inline-block px-3 py-1 rounded-md border-2 border-error bg-error-light text-white-warm font-heading text-xs font-bold uppercase">
+                  Rechazada
+                </span>
+              )}
+            </td>
+            <td class="font-body text-sm md:text-base px-4 py-3 md:px-6 md:py-4 border-2 border-black/10">
+              <RegistrationActions 
+                client:load
+                registrationId={reg.id}
+                currentStatus={reg.status}
+              />
+            </td>
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
+</div>
+
+<style>
+  @media (max-width: 640px) {
+    table {
+      font-size: 0.75rem;
+    }
+  }
+</style>
+

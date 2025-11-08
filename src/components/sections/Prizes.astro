@@ -1,6 +1,5 @@
 ---
 import Section from '../layout/Section.astro';
-import Button from '../ui/Button';
 ---
 
 <Section id="prizes" background="cream">
@@ -29,58 +28,114 @@ import Button from '../ui/Button';
             <img 
               src="/Group 1.png" 
               alt="" 
-              class="w-24 h-24 md:w-32 md:h-32 object-contain drop-shadow-[4px_4px_0px_rgba(0,0,0,0.3)]" 
+              class="w-24 h-24 md:w-32 md:h-32 object-contain drop-shadow-[4px_4px_0px_rgba(0,0,0,0.3)] animate-float" 
               aria-hidden="true"
               loading="lazy"
             />
           </div>
-          <h3 class="font-display text-3xl md:text-4xl lg:text-5xl mb-4 text-black uppercase leading-tight">
+          <h3 class="font-display text-3xl md:text-4xl lg:text-5xl mb-2 text-black uppercase leading-tight">
             Premios en<br />Efectivo
           </h3>
-          <p class="font-body text-base md:text-lg text-black font-medium mb-6 leading-relaxed">
-            Los mejores riders de cada categoría se llevan premios en efectivo 
-            y productos de nuestros sponsors.
+          <p class="font-body text-sm md:text-base text-black/90 font-medium mb-8 leading-relaxed">
+            Compite por los mejores premios del festival
           </p>
-          <div class="bg-white-warm/90 border-2 border-black p-4 md:p-6 rounded-lg">
-            <p class="font-heading text-sm md:text-base text-black font-bold uppercase mb-2 tracking-wide">
-              Montos por confirmar
-            </p>
-            <p class="font-body text-sm md:text-base text-black">
-              Los premios se distribuyen entre los primeros 3 lugares de cada categoría
-            </p>
-          </div>
-        </div>
-
-        <!-- Reconocimientos Especiales -->
-        <div class="bg-white-warm border-[4px] border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] p-6 md:p-8">
-          <h3 class="font-display text-2xl md:text-3xl font-bold text-black uppercase mb-6 tracking-tight text-center">
-            Reconocimientos<br />Especiales
-          </h3>
+          
+          <!-- Grid de Premios -->
           <div class="space-y-4">
-            <div class="border-2 border-black p-4 bg-yellow/20">
-              <h4 class="font-heading text-base md:text-lg font-bold text-black uppercase mb-2">🏆 Trofeos y Medallas</h4>
-              <p class="font-body text-sm md:text-base text-black leading-relaxed">
-                Todos los ganadores reciben trofeos únicos diseñados especialmente para el festival, además de medallas conmemorativas de la III Edición.
-              </p>
+            <!-- Categorías Open - Destacado -->
+            <div class="bg-white-warm border-[3px] border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] p-5 md:p-6 rounded-lg transform hover:scale-[1.02] transition-transform">
+              <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center gap-2">
+                  <span class="text-2xl md:text-3xl">🏆</span>
+                  <div class="text-left">
+                    <p class="font-heading text-xs md:text-sm text-black/70 font-bold uppercase tracking-wide">
+                      Categorías Open
+                    </p>
+                    <p class="font-body text-xs text-black/60">
+                      Varones y Mujeres
+                    </p>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <p class="font-display text-2xl md:text-3xl lg:text-4xl text-black font-black leading-none">
+                    $1,000
+                  </p>
+                  <p class="font-body text-[10px] md:text-xs text-black/60 uppercase tracking-wide mt-1">
+                    Por Categoría
+                  </p>
+                </div>
+              </div>
+              <div class="bg-yellow/30 border-2 border-black/20 rounded px-3 py-2 mt-3">
+                <p class="font-body text-xs md:text-sm text-black font-semibold">
+                  💰 Premio en efectivo para el ganador
+                </p>
+              </div>
             </div>
-            <div class="border-2 border-black p-4 bg-orange/20">
-              <h4 class="font-heading text-base md:text-lg font-bold text-black uppercase mb-2">🎁 Productos de Sponsors</h4>
-              <p class="font-body text-sm md:text-base text-black leading-relaxed">
-                Equipamiento de surf, ropa técnica, accesorios y productos exclusivos de nuestras marcas patrocinadoras para los primeros lugares.
-              </p>
+
+            <!-- Categorías Intermedias -->
+            <div class="bg-white-warm border-[3px] border-black shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] p-5 md:p-6 rounded-lg transform hover:scale-[1.02] transition-transform">
+              <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center gap-2">
+                  <span class="text-xl md:text-2xl">🥈</span>
+                  <div class="text-left">
+                    <p class="font-heading text-xs md:text-sm text-black/70 font-bold uppercase tracking-wide">
+                      Categorías Intermedias
+                    </p>
+                    <p class="font-body text-xs text-black/60">
+                      Todos los niveles
+                    </p>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <p class="font-display text-xl md:text-2xl lg:text-3xl text-black font-black leading-none">
+                    $100
+                  </p>
+                  <p class="font-body text-[10px] md:text-xs text-black/60 uppercase tracking-wide mt-1">
+                    Premio en Efectivo
+                  </p>
+                </div>
+              </div>
+              <div class="bg-orange/20 border-2 border-black/20 rounded px-3 py-2 mt-3">
+                <p class="font-body text-xs md:text-sm text-black font-semibold">
+                  🎯 Reconocimiento + Premio Monetario
+                </p>
+              </div>
             </div>
-            <div class="border-2 border-black p-4 bg-pink/20">
-              <h4 class="font-heading text-base md:text-lg font-bold text-black uppercase mb-2">📸 Reconocimiento Fotográfico</h4>
-              <p class="font-body text-sm md:text-base text-black leading-relaxed">
-                Los mejores momentos de cada rider serán capturados por nuestro equipo de fotógrafos profesionales. Sesión de fotos incluida para ganadores.
-              </p>
+
+            <!-- Demás Puestos -->
+            <div class="bg-white-warm border-[3px] border-black shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] p-5 md:p-6 rounded-lg transform hover:scale-[1.02] transition-transform">
+              <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center gap-2">
+                  <span class="text-xl md:text-2xl">🎁</span>
+                  <div class="text-left flex-1">
+                    <p class="font-heading text-xs md:text-sm text-black/70 font-bold uppercase tracking-wide">
+                      Demás Puestos
+                    </p>
+                    <p class="font-body text-xs text-black/60">
+                      Todos los participantes
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="bg-pink/20 border-2 border-black/20 rounded px-3 py-2 mt-3">
+                <p class="font-body text-xs md:text-sm text-black font-semibold">
+                  🏄 Equipamiento de surf + Sorpresas exclusivas
+                </p>
+              </div>
             </div>
-            <div class="border-2 border-black p-4 bg-yellow/20">
-              <h4 class="font-heading text-base md:text-lg font-bold text-black uppercase mb-2">⭐ Invitación Edición 2026</h4>
-              <p class="font-body text-sm md:text-base text-black leading-relaxed">
-                Los campeones de cada categoría recibirán invitación especial y descuento garantizado para participar en la IV Edición del festival.
-              </p>
-            </div>
+          </div>
+
+          <!-- Total Pool Badge -->
+          <div class="mt-6 pt-6 border-t-2 border-black/20">
+            <p class="font-body text-xs text-black/70 uppercase tracking-wider mb-2">
+              Pool Total de Premios
+            </p>
+            <p class="font-display text-2xl md:text-3xl text-black font-black">
+              $2,200+
+            </p>
+            <p class="font-body text-[10px] md:text-xs text-black/60 mt-1">
+              + Equipamiento y productos de sponsors
+            </p>
           </div>
         </div>
       </div>
@@ -150,16 +205,44 @@ import Button from '../ui/Button';
       </div>
     </div>
 
+    <!-- Reconocimientos Especiales - Ancho Completo en Desktop -->
+    <div class="fade-in-up" style="animation-delay: 0.3s;">
+      <div class="bg-white-warm border-[4px] border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] p-6 md:p-8 lg:p-10">
+        <h3 class="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-black uppercase mb-8 md:mb-10 tracking-tight text-center">
+          Reconocimientos<br />Especiales
+        </h3>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+          <div class="border-2 border-black p-4 md:p-5 bg-yellow/20 transform hover:scale-[1.02] transition-transform">
+            <h4 class="font-heading text-base md:text-lg font-bold text-black uppercase mb-2">🏆 Trofeos y Medallas</h4>
+            <p class="font-body text-sm md:text-base text-black leading-relaxed">
+              Todos los ganadores reciben trofeos únicos diseñados especialmente para el festival, además de medallas conmemorativas de la III Edición.
+            </p>
+          </div>
+          <div class="border-2 border-black p-4 md:p-5 bg-orange/20 transform hover:scale-[1.02] transition-transform">
+            <h4 class="font-heading text-base md:text-lg font-bold text-black uppercase mb-2">🎁 Productos de Sponsors</h4>
+            <p class="font-body text-sm md:text-base text-black leading-relaxed">
+              Equipamiento de surf, ropa técnica, accesorios y productos exclusivos de nuestras marcas patrocinadoras para los primeros lugares.
+            </p>
+          </div>
+          <div class="border-2 border-black p-4 md:p-5 bg-pink/20 transform hover:scale-[1.02] transition-transform">
+            <h4 class="font-heading text-base md:text-lg font-bold text-black uppercase mb-2">📸 Reconocimiento Fotográfico</h4>
+            <p class="font-body text-sm md:text-base text-black leading-relaxed">
+              Los mejores momentos de cada rider serán capturados por nuestro equipo de fotógrafos profesionales. Sesión de fotos incluida para ganadores.
+            </p>
+          </div>
+          <div class="border-2 border-black p-4 md:p-5 bg-yellow/20 transform hover:scale-[1.02] transition-transform">
+            <h4 class="font-heading text-base md:text-lg font-bold text-black uppercase mb-2">⭐ Invitación Edición 2026</h4>
+            <p class="font-body text-sm md:text-base text-black leading-relaxed">
+              Los campeones de cada categoría recibirán invitación especial y descuento garantizado para participar en la IV Edición del festival.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- CTA -->
-    <div class="flex justify-center fade-in-up" style="animation-delay: 0.3s;">
-      <Button 
-        variant="primary" 
-        size="default"
-        client:load
-        className="w-full sm:w-auto"
-      >
-        VER MÁS DETALLES
-      </Button>
+    <div class="flex justify-center fade-in-up" style="animation-delay: 0.4s;">
+     
     </div>
   </div>
 </Section>

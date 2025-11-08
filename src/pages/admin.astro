@@ -1,9 +1,18 @@
 ---
+import AdminBalanceCard from '../components/admin/AdminBalanceCard.astro';
+import AdminCategoryStats from '../components/admin/AdminCategoryStats.astro';
+import AdminEmptyState from '../components/admin/AdminEmptyState.astro';
+import AdminErrorState from '../components/admin/AdminErrorState.astro';
+import AdminFilters from '../components/admin/AdminFilters.astro';
+import AdminHeader from '../components/admin/AdminHeader.astro';
+import AdminMainStats from '../components/admin/AdminMainStats.astro';
+import AdminRegistrationsTable from '../components/admin/AdminRegistrationsTable.astro';
+import Card from '../components/ui/Card.astro';
 import AdminLayout from '../layouts/AdminLayout.astro';
+import type { Registration, RegistrationStatus } from '../services/registration';
 import { getAllRegistrations, getRegistrationsWithFilters } from '../services/registration';
 import { createServerClient } from '../services/supabase-server';
-import type { Registration, RegistrationStatus } from '../services/registration';
-import RegistrationActions from '../components/admin/RegistrationActions';
+import { calculateBalance, calculateStats } from '../utils/admin-stats';
 
 // Verificar autenticación usando cliente de servidor con cookies
 let isAuthenticated = false;
@@ -35,7 +44,7 @@ try {
 
 // Si no está autenticado, redirigir al login
 if (!isAuthenticated) {
-    console.log('No session found. Redirecting to login.');
+  console.log('No session found. Redirecting to login.');
   return Astro.redirect('/admin/login?redirect=/admin');
 }
 
@@ -57,115 +66,14 @@ try {
   error = e instanceof Error ? e.message : 'Error desconocido al cargar registros';
 }
 
-// Calcular estadísticas
-const totalRegistrations = registrations.length;
-const statsByCategory = registrations.reduce((acc, reg) => {
-  acc[reg.category] = (acc[reg.category] || 0) + 1;
-  return acc;
-}, {} as Record<string, number>);
-
-const statsByStatus = registrations.reduce((acc, reg) => {
-  acc[reg.status] = (acc[reg.status] || 0) + 1;
-  return acc;
-}, {} as Record<RegistrationStatus, number>);
-
-// Estadísticas principales
-const approvedCount = statsByStatus.approved || 0;
-const rejectedCount = statsByStatus.rejected || 0;
-const pendingCount = statsByStatus.pending || 0;
-
-// Estadísticas por categoría - Aprobadas + Rechazadas
-const approvedAndRejectedByCategory = registrations
-  .filter(reg => reg.status === 'approved' || reg.status === 'rejected')
-  .reduce((acc, reg) => {
-    acc[reg.category] = (acc[reg.category] || 0) + 1;
-    return acc;
-  }, {} as Record<string, number>);
-
-// Categorías con nombres más claros para las métricas
-const categories = ['Open Hombres', 'Open Mujeres', 'Mujeres Intermedio', 'Mujeres Principiante', 'Niños'];
-const categoryLabels: Record<string, string> = {
-  'Open Hombres': 'Open H',
-  'Open Mujeres': 'Open M',
-  'Mujeres Intermedio': 'M. Inter',
-  'Mujeres Principiante': 'M. Princ',
-  'Niños': 'Niños'
-};
+// Calcular estadísticas usando el helper
+const stats = calculateStats(registrations);
+const registrationPrice = parseFloat(import.meta.env.PUBLIC_REGISTRATION_PRICE || '10');
+const balance = calculateBalance(stats.approvedCount, registrationPrice);
 ---
 
 <AdminLayout title="Panel de Administración | San Mateo Longboard Festival">
-  <!-- Header Simple del Admin -->
-  <header class="bg-white-warm border-b-[4px] border-black shadow-md sticky top-0 z-50">
-    <div class="container mx-auto px-4 sm:px-6 md:px-8">
-      <div class="flex items-center justify-between py-4">
-        <div class="flex items-center gap-4">
-          <a href="/" class="flex items-center" aria-label="Volver al inicio">
-            <img 
-              src="/logo.png" 
-              alt="San Mateo Longboard Festival" 
-              class="h-10 md:h-12"
-              loading="eager"
-            />
-          </a>
-          <div class="h-8 w-[2px] bg-black"></div>
-          <h1 class="font-display text-xl md:text-2xl text-black uppercase">
-            Admin
-          </h1>
-        </div>
-        
-        <!-- Desktop Menu -->
-        <div class="hidden md:flex items-center gap-3">
-          <a 
-            href="/" 
-            class="px-4 py-2 bg-yellow border-2 border-black rounded-md font-heading text-sm font-bold uppercase tracking-wide hover:bg-yellow/80 transition-colors shadow-sm"
-          >
-            Volver al Sitio
-          </a>
-          <form method="POST" action="/admin/logout">
-            <button
-              type="submit"
-              class="px-4 py-2 bg-error-light text-white-warm border-2 border-black rounded-md font-heading text-sm font-bold uppercase tracking-wide hover:bg-error transition-colors shadow-sm"
-            >
-              Cerrar Sesión
-            </button>
-          </form>
-        </div>
-
-        <!-- Mobile Menu Toggle -->
-        <button
-          id="admin-menu-toggle"
-          class="md:hidden w-12 h-12 border-[3px] border-black rounded-md flex flex-col items-center justify-center gap-1 hover:bg-yellow transition-all"
-          aria-label="Abrir menú"
-          aria-expanded="false"
-        >
-          <span class="admin-toggle-line w-6 h-0.5 bg-black transition-all"></span>
-          <span class="admin-toggle-line w-6 h-0.5 bg-black transition-all"></span>
-          <span class="admin-toggle-line w-6 h-0.5 bg-black transition-all"></span>
-        </button>
-      </div>
-
-      <!-- Mobile Menu -->
-      <div
-        id="admin-mobile-menu"
-        class="hidden md:hidden pb-4 border-t-2 border-gray-light"
-      >
-        <a 
-          href="/" 
-          class="block py-3 px-4 bg-yellow border-2 border-black rounded-md font-heading text-sm font-bold uppercase tracking-wide hover:bg-yellow/80 transition-colors shadow-sm mb-3"
-        >
-          Volver al Sitio
-        </a>
-        <form method="POST" action="/admin/logout">
-          <button
-            type="submit"
-            class="w-full py-3 px-4 bg-error-light text-white-warm border-2 border-black rounded-md font-heading text-sm font-bold uppercase tracking-wide hover:bg-error transition-colors shadow-sm"
-          >
-            Cerrar Sesión
-          </button>
-        </form>
-      </div>
-    </div>
-  </header>
+  <AdminHeader />
 
   <main id="main-content" class="min-h-screen bg-cream py-8 md:py-12">
     <div class="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
@@ -181,242 +89,56 @@ const categoryLabels: Record<string, string> = {
       </div>
 
       {error ? (
-        <!-- Error State -->
-        <div class="bg-error-light/20 border-[4px] border-error shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] p-6 md:p-8 rounded-lg">
-          <h2 class="font-heading text-xl md:text-2xl font-bold text-error uppercase mb-2">
-            Error al cargar registros
-          </h2>
-          <p class="font-body text-dark">{error}</p>
-        </div>
+        <AdminErrorState error={error} />
       ) : (
         <>
-          <!-- Métricas Principales: Totales Generales -->
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-10">
-            <!-- Total Solicitudes Todas -->
-            <a 
-              href="/admin"
-              class={`bg-gradient-to-br from-yellow via-orange to-pink border-[4px] ${selectedStatus === null && !selectedCategory ? 'border-purple shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] ring-4 ring-purple/30' : 'border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)]'} p-6 md:p-8 text-center transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] transition-all cursor-pointer`}
-            >
-              <div class="font-display text-5xl md:text-6xl text-black mb-2 leading-none">{totalRegistrations}</div>
-              <div class="font-heading text-sm md:text-base font-bold text-black uppercase tracking-wide">TOTAL SOLICITUDES</div>
-            </a>
+          <AdminBalanceCard 
+            balance={balance}
+            approvedCount={stats.approvedCount}
+            registrationPrice={registrationPrice}
+          />
 
-            <!-- Total Aprobadas -->
-            <a 
-              href={`/admin?status=approved${selectedCategory ? `&category=${encodeURIComponent(selectedCategory)}` : ''}`}
-              class={`bg-success-light border-[4px] ${selectedStatus === 'approved' ? 'border-purple shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] ring-4 ring-purple/30' : 'border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)]'} p-6 md:p-8 text-center transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] transition-all cursor-pointer`}
-            >
-              <div id="approved-count" class="font-display text-5xl md:text-6xl text-white-warm mb-2 leading-none">{approvedCount}</div>
-              <div class="font-heading text-sm md:text-base font-bold text-white-warm uppercase tracking-wide">TOTAL APROBADAS</div>
-            </a>
+          <AdminMainStats 
+            totalRegistrations={stats.totalRegistrations}
+            pendingCount={stats.pendingCount}
+            approvedCount={stats.approvedCount}
+            rejectedCount={stats.rejectedCount}
+            selectedStatus={selectedStatus}
+            selectedCategory={selectedCategory}
+          />
 
-            <!-- Total Denegadas -->
-            <a 
-              href={`/admin?status=rejected${selectedCategory ? `&category=${encodeURIComponent(selectedCategory)}` : ''}`}
-              class={`bg-error-light border-[4px] ${selectedStatus === 'rejected' ? 'border-purple shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] ring-4 ring-purple/30' : 'border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)]'} p-6 md:p-8 text-center transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] transition-all cursor-pointer`}
-            >
-              <div id="rejected-count" class="font-display text-5xl md:text-6xl text-white-warm mb-2 leading-none">{rejectedCount}</div>
-              <div class="font-heading text-sm md:text-base font-bold text-white-warm uppercase tracking-wide">TOTAL DENEGADAS</div>
-            </a>
-          </div>
-
-          <!-- Total por Categoría Aprobadas + Rechazadas -->
-          <div class="mb-8 md:mb-10">
-            <h2 class="font-display text-2xl md:text-3xl text-black uppercase mb-4 md:mb-6 text-center">
-              Aprobadas y Rechazadas por Categoría
-            </h2>
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
-              {categories.map((category) => {
-                const count = approvedAndRejectedByCategory[category] || 0;
-                const colors = {
-                  'Open Hombres': 'bg-yellow',
-                  'Open Mujeres': 'bg-orange',
-                  'Mujeres Intermedio': 'bg-pink',
-                  'Mujeres Principiante': 'bg-yellow/80',
-                  'Niños': 'bg-orange/80'
-                };
-                const label = categoryLabels[category] || category;
-                const isActive = selectedCategory === category;
-                const filterUrl = `/admin?category=${encodeURIComponent(category)}${selectedStatus ? `&status=${selectedStatus}` : ''}`;
-                return (
-                  <a 
-                    href={filterUrl}
-                    class={`${colors[category as keyof typeof colors] || 'bg-white-warm'} border-[4px] ${isActive ? 'border-purple shadow-[8px_8px_0px_0px_rgba(26,26,26,1)]' : 'border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)]'} p-5 md:p-6 text-center transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] transition-all cursor-pointer ${isActive ? 'ring-4 ring-purple/30' : ''}`}
-                  >
-                    <div class="font-display text-3xl md:text-4xl text-black mb-2 leading-none">{count}</div>
-                    <div class="font-heading text-xs md:text-sm font-bold text-black uppercase tracking-wide leading-tight">{label}</div>
-                  </a>
-                );
-              })}
-            </div>
-          </div>
+          <AdminCategoryStats 
+            approvedAndRejectedByCategory={stats.approvedAndRejectedByCategory}
+            selectedCategory={selectedCategory}
+            selectedStatus={selectedStatus}
+          />
 
           <!-- Lista de Registros -->
-          <div class="bg-white-warm border-[4px] border-black shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] p-6 md:p-8 lg:p-10">
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 md:mb-8 gap-4">
-              <div class="flex flex-col gap-2">
-                <h2 class="font-display text-2xl md:text-3xl lg:text-4xl text-black uppercase leading-tight">
-                  Participantes Registrados
-                </h2>
-                {(selectedCategory || selectedStatus) && (
-                  <div class="flex flex-wrap items-center gap-3">
-                    {selectedCategory && (
-                      <div class="inline-flex items-center gap-2 px-4 py-2 bg-purple/20 border-2 border-purple rounded-md">
-                        <span class="font-heading text-sm font-bold text-purple uppercase">
-                          Categoría: {categoryLabels[selectedCategory] || selectedCategory}
-                        </span>
-                        <a 
-                          href={selectedStatus ? `/admin?status=${selectedStatus}` : '/admin'}
-                          class="inline-flex items-center justify-center w-6 h-6 bg-purple text-white-warm rounded-full hover:bg-purple/80 transition-colors font-bold text-xs"
-                          aria-label="Limpiar filtro de categoría"
-                          title="Limpiar filtro de categoría"
-                        >
-                          ×
-                        </a>
-                      </div>
-                    )}
-                    {selectedStatus && (
-                      <div class="inline-flex items-center gap-2 px-4 py-2 bg-purple/20 border-2 border-purple rounded-md">
-                        <span class="font-heading text-sm font-bold text-purple uppercase">
-                          Estado: {selectedStatus === 'approved' ? 'Aprobadas' : selectedStatus === 'rejected' ? 'Rechazadas' : 'Pendientes'}
-                        </span>
-                        <a 
-                          href={selectedCategory ? `/admin?category=${encodeURIComponent(selectedCategory)}` : '/admin'}
-                          class="inline-flex items-center justify-center w-6 h-6 bg-purple text-white-warm rounded-full hover:bg-purple/80 transition-colors font-bold text-xs"
-                          aria-label="Limpiar filtro de estado"
-                          title="Limpiar filtro de estado"
-                        >
-                          ×
-                        </a>
-                      </div>
-                    )}
-                    {(selectedCategory || selectedStatus) && (
-                      <a 
-                        href="/admin"
-                        class="inline-flex items-center gap-2 px-4 py-2 bg-yellow border-2 border-black rounded-md font-heading text-sm font-bold uppercase tracking-wide hover:bg-yellow/80 transition-colors shadow-sm"
-                      >
-                        Limpiar todos los filtros
-                      </a>
-                    )}
-                  </div>
-                )}
-              </div>
-              <div class="font-body text-sm md:text-base text-dark">
-                {(selectedCategory || selectedStatus) ? (
-                  <>
-                    Mostrando: <span class="font-bold text-black">{filteredRegistrations.length}</span> de <span class="font-bold text-black">{totalRegistrations}</span> participantes
-                  </>
-                ) : (
-                  <>
-                    Total: <span class="font-bold text-black">{totalRegistrations}</span> participantes
-                  </>
-                )}
-              </div>
-            </div>
+          <Card
+            bgColor="bg-white-warm"
+            borderWidth="4"
+            shadow="xl"
+            padding="lg"
+            className="p-6 md:p-8 lg:p-10"
+            hover={false}
+          >
+            <AdminFilters 
+              selectedCategory={selectedCategory}
+              selectedStatus={selectedStatus}
+              totalCount={stats.totalRegistrations}
+              filteredCount={filteredRegistrations.length}
+            />
 
             {filteredRegistrations.length === 0 ? (
-              <div class="text-center py-12 md:py-16">
-                <div class="text-6xl mb-4">📋</div>
-                <p class="font-body text-lg md:text-xl text-dark">
-                  {selectedCategory || selectedStatus
-                    ? `No hay participantes que coincidan con los filtros aplicados`
-                    : 'No hay participantes registrados aún'}
-                </p>
-                {(selectedCategory || selectedStatus) && (
-                  <a 
-                    href="/admin"
-                    class="inline-block mt-4 px-6 py-2 bg-yellow border-2 border-black rounded-md font-heading text-sm font-bold uppercase tracking-wide hover:bg-yellow/80 transition-colors shadow-sm"
-                  >
-                    Ver todos los participantes
-                  </a>
-                )}
-              </div>
+              <AdminEmptyState 
+                hasFilters={!!(selectedCategory || selectedStatus)}
+                selectedCategory={selectedCategory}
+                selectedStatus={selectedStatus}
+              />
             ) : (
-              <div class="overflow-x-auto">
-                <table class="w-full border-collapse">
-                  <thead>
-                    <tr class="bg-black text-white-warm">
-                      <th class="font-heading text-xs md:text-sm font-bold uppercase tracking-wide px-4 py-3 md:px-6 md:py-4 text-left border-2 border-black">#</th>
-                      <th class="font-heading text-xs md:text-sm font-bold uppercase tracking-wide px-4 py-3 md:px-6 md:py-4 text-left border-2 border-black">Participante</th>
-                      <th class="font-heading text-xs md:text-sm font-bold uppercase tracking-wide px-4 py-3 md:px-6 md:py-4 text-left border-2 border-black">Categoría</th>
-                      <th class="font-heading text-xs md:text-sm font-bold uppercase tracking-wide px-4 py-3 md:px-6 md:py-4 text-left border-2 border-black">Comprobante</th>
-                      <th class="font-heading text-xs md:text-sm font-bold uppercase tracking-wide px-4 py-3 md:px-6 md:py-4 text-left border-2 border-black">Estado</th>
-                      <th class="font-heading text-xs md:text-sm font-bold uppercase tracking-wide px-4 py-3 md:px-6 md:py-4 text-left border-2 border-black">Acciones</th>
-                    </tr>
-                  </thead>
-                  <tbody id="registrations-table-body">
-                    {filteredRegistrations.map((reg, index) => {
-                      const categoryColors = {
-                        'Open Hombres': 'bg-yellow/30',
-                        'Open Mujeres': 'bg-orange/30',
-                        'Mujeres Intermedio': 'bg-pink/30',
-                        'Mujeres Principiante': 'bg-yellow/20',
-                        'Niños': 'bg-orange/20'
-                      };
-                      
-                      return (
-                        <tr 
-                          class={`border-2 border-black/20 ${index % 2 === 0 ? 'bg-white-warm' : 'bg-cream'} hover:bg-yellow/20 transition-colors`}
-                          data-registration-id={reg.id}
-                        >
-                          <td class="font-body text-sm md:text-base text-black px-4 py-3 md:px-6 md:py-4 border-2 border-black/10 font-bold">{index + 1}</td>
-                          <td class="font-body text-sm md:text-base text-black px-4 py-3 md:px-6 md:py-4 border-2 border-black/10 font-medium">
-                            <div class="font-medium">{reg.name}</div>
-                            <div class="text-xs text-gray mt-1">{reg.email}</div>
-                            <div class="text-xs text-gray">{reg.phone}</div>
-                          </td>
-                          <td class="font-body text-sm md:text-base px-4 py-3 md:px-6 md:py-4 border-2 border-black/10">
-                            <span class={`inline-block px-3 py-1 rounded-md border-2 border-black font-heading text-xs font-bold uppercase ${categoryColors[reg.category as keyof typeof categoryColors] || 'bg-white-warm'} text-black`}>
-                              {reg.category}
-                            </span>
-                          </td>
-                          <td class="font-body text-sm md:text-base px-4 py-3 md:px-6 md:py-4 border-2 border-black/10">
-                            {reg.payment_receipt_url ? (
-                              <a 
-                                href={reg.payment_receipt_url} 
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                class="inline-flex items-center gap-2 px-3 py-1.5 bg-yellow border-2 border-black rounded-md font-heading text-xs font-bold uppercase hover:bg-yellow/80 transition-colors shadow-sm"
-                              >
-                                <span>📄</span>
-                                <span>Ver</span>
-                              </a>
-                            ) : (
-                              <span class="text-xs text-gray italic">Sin comprobante</span>
-                            )}
-                          </td>
-                          <td class="font-body text-sm md:text-base px-4 py-3 md:px-6 md:py-4 border-2 border-black/10">
-                            {reg.status === 'pending' && (
-                              <span class="inline-block px-3 py-1 rounded-md border-2 border-yellow bg-yellow text-black font-heading text-xs font-bold uppercase">
-                                Pendiente
-                              </span>
-                            )}
-                            {reg.status === 'approved' && (
-                              <span class="inline-block px-3 py-1 rounded-md border-2 border-success bg-success-light text-white-warm font-heading text-xs font-bold uppercase">
-                                Aprobada
-                              </span>
-                            )}
-                            {reg.status === 'rejected' && (
-                              <span class="inline-block px-3 py-1 rounded-md border-2 border-error bg-error-light text-white-warm font-heading text-xs font-bold uppercase">
-                                Rechazada
-                              </span>
-                            )}
-                          </td>
-                          <td class="font-body text-sm md:text-base px-4 py-3 md:px-6 md:py-4 border-2 border-black/10">
-                            <RegistrationActions 
-                              client:load
-                              registrationId={reg.id}
-                              currentStatus={reg.status}
-                            />
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
+              <AdminRegistrationsTable registrations={filteredRegistrations} />
             )}
-          </div>
+          </Card>
         </>
       )}
     </div>
@@ -438,91 +160,7 @@ const categoryLabels: Record<string, string> = {
       transform: translateY(0);
     }
   }
-
-  .admin-toggle-line {
-    transition: all 0.3s ease;
-  }
-
-  #admin-menu-toggle.active .admin-toggle-line:nth-child(1) {
-    transform: rotate(45deg) translateY(7px);
-  }
-
-  #admin-menu-toggle.active .admin-toggle-line:nth-child(2) {
-    opacity: 0;
-  }
-
-  #admin-menu-toggle.active .admin-toggle-line:nth-child(3) {
-    transform: rotate(-45deg) translateY(-7px);
-  }
-
-  @media (max-width: 640px) {
-    table {
-      font-size: 0.75rem;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .admin-toggle-line {
-      transition: none;
-    }
-  }
 </style>
 
-<script>
-  // Toggle menu mobile admin
-  const adminMenuToggle = document.getElementById('admin-menu-toggle');
-  const adminMobileMenu = document.getElementById('admin-mobile-menu');
-  const adminMenuLinks = document.querySelectorAll('#admin-mobile-menu a, #admin-mobile-menu button');
-
-  adminMenuToggle?.addEventListener('click', () => {
-    const isOpen = !adminMobileMenu?.classList.contains('hidden');
-    adminMobileMenu?.classList.toggle('hidden');
-    adminMenuToggle?.setAttribute('aria-expanded', String(!isOpen));
-    
-    // Animar hamburger
-    adminMenuToggle?.classList.toggle('active');
-  });
-
-  // Cerrar menú al hacer click en link
-  adminMenuLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      adminMobileMenu?.classList.add('hidden');
-      adminMenuToggle?.setAttribute('aria-expanded', 'false');
-      adminMenuToggle?.classList.remove('active');
-    });
-  });
-
-  // Escuchar eventos de actualización de estado y actualizar estadísticas
-  window.addEventListener('registration-status-updated', ((event: Event) => {
-    const customEvent = event as CustomEvent<{ registrationId: string; oldStatus: string; newStatus: string }>;
-    const { oldStatus, newStatus } = customEvent.detail;
-    
-    // Obtener elementos de contadores
-    const approvedCountEl = document.getElementById('approved-count');
-    const rejectedCountEl = document.getElementById('rejected-count');
-    
-    if (!approvedCountEl || !rejectedCountEl) return;
-    
-    // Obtener valores actuales
-    let approvedCount = parseInt(approvedCountEl.textContent || '0', 10);
-    let rejectedCount = parseInt(rejectedCountEl.textContent || '0', 10);
-    
-    // Actualizar contadores según el cambio de estado
-    if (oldStatus === 'approved') {
-      approvedCount = Math.max(0, approvedCount - 1);
-    } else if (oldStatus === 'rejected') {
-      rejectedCount = Math.max(0, rejectedCount - 1);
-    }
-    
-    if (newStatus === 'approved') {
-      approvedCount += 1;
-    } else if (newStatus === 'rejected') {
-      rejectedCount += 1;
-    }
-    
-    // Actualizar el DOM
-    approvedCountEl.textContent = approvedCount.toString();
-    rejectedCountEl.textContent = rejectedCount.toString();
-  }) as EventListener);
-</script>
+<script src="../scripts/admin-stats-updater.ts"></script>
 

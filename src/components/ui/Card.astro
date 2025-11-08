@@ -1,0 +1,120 @@
+---
+interface Props {
+  hover?: boolean;
+  shadow?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  borderWidth?: '2' | '3' | '4';
+  padding?: 'sm' | 'md' | 'lg' | 'xl';
+  paddingResponsive?: boolean; // Si true, usa p-6 md:p-8 en lugar de padding fijo
+  rounded?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  bgColor?: string;
+  borderColor?: string; // Color del borde (default: border-black)
+  className?: string;
+  tag?: 'div' | 'section' | 'article' | 'a';
+  href?: string;
+  style?: string; // Para estilos inline
+  // Para data attributes y otros atributos HTML
+  dataAttributes?: Record<string, string | number>;
+}
+
+const {
+  hover = true,
+  shadow = 'lg',
+  borderWidth = '3',
+  padding = 'lg',
+  paddingResponsive = false,
+  rounded = 'xl',
+  bgColor = 'bg-white-warm',
+  borderColor = 'border-black',
+  className = '',
+  tag = 'div',
+  href,
+  style,
+  dataAttributes = {}
+} = Astro.props;
+
+const paddingClasses: Record<string, string> = {
+  sm: 'p-4',
+  md: 'p-5',
+  lg: 'p-6',
+  xl: 'p-8'
+};
+
+const shadowClasses: Record<string, string> = {
+  sm: 'shadow-sm',
+  md: 'shadow-md',
+  lg: 'shadow-lg',
+  xl: 'shadow-xl',
+  '2xl': 'shadow-2xl'
+};
+
+const hoverShadowClasses: Record<string, string> = {
+  sm: 'hover:shadow-md',
+  md: 'hover:shadow-lg',
+  lg: 'hover:shadow-xl',
+  xl: 'hover:shadow-2xl',
+  '2xl': 'hover:shadow-2xl'
+};
+
+const borderClasses: Record<string, string> = {
+  '2': 'border-[2px]',
+  '3': 'border-[3px]',
+  '4': 'border-[4px]'
+};
+
+const roundedClasses: Record<string, string> = {
+  none: 'rounded-none',
+  sm: 'rounded-sm',
+  md: 'rounded-md',
+  lg: 'rounded-lg',
+  xl: 'rounded-xl',
+  '2xl': 'rounded-2xl'
+};
+
+const paddingClass = paddingResponsive 
+  ? 'p-6 md:p-8' 
+  : paddingClasses[padding];
+
+const baseClasses = `
+  ${bgColor}
+  ${borderClasses[borderWidth]}
+  ${borderColor}
+  ${roundedClasses[rounded]}
+  ${paddingClass}
+  ${shadowClasses[shadow]}
+  transition-all
+  ${hover ? `${hoverShadowClasses[shadow]} hover:-translate-x-[2px] hover:-translate-y-[2px] cursor-pointer` : ''}
+  ${className}
+`.trim().replace(/\s+/g, ' ');
+
+const Tag = tag === 'a' && href ? 'a' : tag;
+const attrs: Record<string, string | number> = tag === 'a' && href ? { href } : {};
+
+// Agregar data attributes
+Object.entries(dataAttributes).forEach(([key, value]) => {
+  attrs[`data-${key}`] = value;
+});
+
+// Agregar style si existe
+if (style) {
+  attrs.style = style;
+}
+---
+
+{Tag === 'a' ? (
+  <a {...attrs} class={baseClasses}>
+    <slot />
+  </a>
+) : Tag === 'section' ? (
+  <section {...attrs} class={baseClasses}>
+    <slot />
+  </section>
+) : Tag === 'article' ? (
+  <article {...attrs} class={baseClasses}>
+    <slot />
+  </article>
+) : (
+  <div {...attrs} class={baseClasses}>
+    <slot />
+  </div>
+)}
+

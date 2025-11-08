@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
-import Modal from '../ui/Modal';
-import FormInput from '../ui/FormInput';
-import FileInput from '../ui/FileInput';
-import Button from '../ui/Button';
-import Card from '../ui/Card';
-import { createRegistration, checkEmailExists } from '../../services/registration';
+import { useEffect, useState } from 'react';
+import { z } from 'zod';
+import { createRegistration, getRegistrationByEmail } from '../../services/registration';
 import { uploadPaymentReceipt } from '../../services/storage';
 import { registrationSchema } from '../../utils/validation';
-import { z } from 'zod';
+import Button from '../ui/Button';
+import Card from '../ui/Card';
+import FileInput from '../ui/FileInput';
+import FormInput from '../ui/FormInput';
+import Modal from '../ui/Modal';
 
 interface RegistrationProps {
   isOpen: boolean;
@@ -28,6 +28,7 @@ export default function Registration({ isOpen, onClose }: RegistrationProps) {
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   // Reset form when modal closes
   useEffect(() => {
@@ -36,6 +37,7 @@ export default function Registration({ isOpen, onClose }: RegistrationProps) {
       setPaymentReceipt(null);
       setErrors({});
       setSuccess(false);
+      setIsUpdating(false);
     }
   }, [isOpen]);
 
@@ -65,16 +67,24 @@ export default function Registration({ isOpen, onClose }: RegistrationProps) {
         age: parseInt(formData.age)
       });
 
-      // Verificar si el email ya existe
-      const emailExists = await checkEmailExists(validated.email);
-      if (emailExists) {
-        setErrors({ email: 'Este email ya está registrado' });
+      // Verificar si existe un registro con este email
+      const existingRegistration = await getRegistrationByEmail(validated.email);
+      
+      // Si existe un registro que no está rechazado, mostrar error
+      if (existingRegistration && existingRegistration.status !== 'rejected') {
+        setErrors({ email: 'Este email ya tiene un registro activo' });
         setLoading(false);
         return;
       }
 
+      // Si existe un registro rechazado, marcar que estamos actualizando
+      if (existingRegistration && existingRegistration.status === 'rejected') {
+        setIsUpdating(true);
+      }
+
       // Generar ID temporal para el registro (para usar en el nombre del archivo)
-      const tempId = crypto.randomUUID();
+      // Si estamos actualizando, usar el ID del registro existente
+      const tempId = existingRegistration?.id || crypto.randomUUID();
       let paymentReceiptUrl: string | undefined;
 
       // Subir comprobante de pago si existe
@@ -106,6 +116,7 @@ export default function Registration({ isOpen, onClose }: RegistrationProps) {
       setTimeout(() => {
         onClose();
         setSuccess(false);
+        setIsUpdating(false);
         setFormData({ name: '', email: '', phone: '', category: '', age: '' });
         setPaymentReceipt(null);
       }, 2000);
@@ -120,7 +131,13 @@ export default function Registration({ isOpen, onClose }: RegistrationProps) {
         });
         setErrors(newErrors);
       } else {
-        setErrors({ general: error.message || 'Error al procesar la inscripción. Intenta de nuevo.' });
+        // Si el error está relacionado con email, mostrarlo en el campo de email
+        const errorMessage = error.message || 'Error al procesar la inscripción. Intenta de nuevo.';
+        if (errorMessage.toLowerCase().includes('email') || errorMessage.includes('registro activo') || errorMessage.includes('ya está registrado')) {
+          setErrors({ email: errorMessage });
+        } else {
+          setErrors({ general: errorMessage });
+        }
       }
     } finally {
       setLoading(false);
@@ -133,10 +150,12 @@ export default function Registration({ isOpen, onClose }: RegistrationProps) {
         <div className="text-center py-8">
           <div className="text-6xl mb-4">✅</div>
           <h3 className="font-display text-3xl text-success mb-2">
-            ¡Inscripción Exitosa!
+            {isUpdating ? '¡Registro Actualizado!' : '¡Inscripción Exitosa!'}
           </h3>
           <p className="font-body text-dark">
-            Te esperamos en el festival
+            {isUpdating 
+              ? 'Tu registro ha sido actualizado y está pendiente de revisión'
+              : 'Te esperamos en el festival'}
           </p>
         </div>
       ) : (

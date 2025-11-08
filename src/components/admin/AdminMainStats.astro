@@ -1,0 +1,99 @@
+---
+import type { RegistrationStatus } from '../../services/registration';
+import Card from '../ui/Card.astro';
+
+interface Props {
+  totalRegistrations: number;
+  pendingCount: number;
+  approvedCount: number;
+  rejectedCount: number;
+  selectedStatus: RegistrationStatus | null;
+  selectedCategory: string | null;
+}
+
+const { 
+  totalRegistrations, 
+  pendingCount, 
+  approvedCount, 
+  rejectedCount,
+  selectedStatus,
+  selectedCategory 
+} = Astro.props;
+
+const buildFilterUrl = (status: RegistrationStatus | null) => {
+  if (status === null) return '/admin';
+  const params = new URLSearchParams();
+  params.set('status', status);
+  if (selectedCategory) {
+    params.set('category', selectedCategory);
+  }
+  return `/admin?${params.toString()}`;
+};
+---
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-10">
+  <!-- Total Solicitudes Todas -->
+  <Card
+    tag="a"
+    href="/admin"
+    bgColor="bg-gradient-to-br from-yellow via-orange to-pink"
+    borderWidth="4"
+    borderColor={selectedStatus === null && !selectedCategory ? 'border-purple' : 'border-black'}
+    shadow={selectedStatus === null && !selectedCategory ? 'xl' : 'md'}
+    paddingResponsive={true}
+    rounded="none"
+    className={`text-center ${selectedStatus === null && !selectedCategory ? 'ring-4 ring-purple/30' : ''}`}
+  >
+    <div class="font-display text-5xl md:text-6xl text-black mb-2 leading-none">{totalRegistrations}</div>
+    <div class="font-heading text-sm md:text-base font-bold text-black uppercase tracking-wide">TOTAL SOLICITUDES</div>
+  </Card>
+
+  <!-- Total Pendientes -->
+  <Card
+    tag="a"
+    href={buildFilterUrl('pending')}
+    bgColor="bg-yellow"
+    borderWidth="4"
+    borderColor={selectedStatus === 'pending' ? 'border-purple' : 'border-black'}
+    shadow={selectedStatus === 'pending' ? 'xl' : 'md'}
+    paddingResponsive={true}
+    rounded="none"
+    className={`text-center ${selectedStatus === 'pending' ? 'ring-4 ring-purple/30' : ''}`}
+  >
+    <div id="pending-count" class="font-display text-5xl md:text-6xl text-black mb-2 leading-none">{pendingCount}</div>
+    <div class="font-heading text-sm md:text-base font-bold text-black uppercase tracking-wide">PENDIENTES</div>
+  </Card>
+
+  <!-- Total Aprobadas -->
+  <Card
+    tag="a"
+    href={buildFilterUrl('approved')}
+    bgColor="bg-success-light"
+    borderWidth="4"
+    borderColor={selectedStatus === 'approved' ? 'border-purple' : 'border-black'}
+    shadow={selectedStatus === 'approved' ? 'xl' : 'md'}
+    paddingResponsive={true}
+    rounded="none"
+    className={`text-center ${selectedStatus === 'approved' ? 'ring-4 ring-purple/30' : ''}`}
+  >
+    <div id="approved-count" class="font-display text-5xl md:text-6xl text-white-warm mb-2 leading-none">{approvedCount}</div>
+    <div class="font-heading text-sm md:text-base font-bold text-white-warm uppercase tracking-wide">TOTAL APROBADAS</div>
+  </Card>
+
+  <!-- Total Denegadas -->
+  <Card
+    tag="a"
+    href={buildFilterUrl('rejected')}
+    bgColor="bg-error-light"
+    borderWidth="4"
+    borderColor={selectedStatus === 'rejected' ? 'border-purple' : 'border-black'}
+    shadow={selectedStatus === 'rejected' ? 'xl' : 'md'}
+    paddingResponsive={true}
+    rounded="none"
+    className={`text-center ${selectedStatus === 'rejected' ? 'ring-4 ring-purple/30' : ''}`}
+  >
+    <div id="rejected-count" class="font-display text-5xl md:text-6xl text-white-warm mb-2 leading-none">{rejectedCount}</div>
+    <div class="font-heading text-sm md:text-base font-bold text-white-warm uppercase tracking-wide">TOTAL DENEGADAS</div>
+  </Card>
+</div>
+

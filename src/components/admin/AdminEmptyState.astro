@@ -1,0 +1,29 @@
+---
+import type { RegistrationStatus } from '../../services/registration';
+
+interface Props {
+  hasFilters: boolean;
+  selectedCategory: string | null;
+  selectedStatus: RegistrationStatus | null;
+}
+
+const { hasFilters, selectedCategory, selectedStatus } = Astro.props;
+---
+
+<div class="text-center py-12 md:py-16">
+  <div class="text-6xl mb-4">📋</div>
+  <p class="font-body text-lg md:text-xl text-dark">
+    {hasFilters
+      ? `No hay participantes que coincidan con los filtros aplicados`
+      : 'No hay participantes registrados aún'}
+  </p>
+  {hasFilters && (
+    <a 
+      href="/admin"
+      class="inline-block mt-4 px-6 py-2 bg-yellow border-2 border-black rounded-md font-heading text-sm font-bold uppercase tracking-wide hover:bg-yellow/80 transition-colors shadow-sm"
+    >
+      Ver todos los participantes
+    </a>
+  )}
+</div>
+

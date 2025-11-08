@@ -88,7 +88,10 @@ CREATE POLICY "Allow admin reads" ON registrations
 ```env
 PUBLIC_SUPABASE_URL=your_supabase_url_here
 PUBLIC_SUPABASE_ANON_KEY=your_anon_key_here
+PUBLIC_REGISTRATION_PRICE=10
 ```
+
+**Nota:** `PUBLIC_REGISTRATION_PRICE` es el precio por inscripción usado para calcular el balance total en el panel de administración. El valor por defecto es `10` si no se especifica.
 
 ## 🎨 Sistema de Sprites
 

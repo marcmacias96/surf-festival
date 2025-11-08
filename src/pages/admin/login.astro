@@ -1,5 +1,6 @@
 ---
 import LoginForm from '../../components/admin/LoginForm';
+import Card from '../../components/ui/Card.astro';
 import AdminLayout from '../../layouts/AdminLayout.astro';
 import { createServerClient } from '../../services/supabase-server';
 
@@ -19,7 +20,14 @@ try {
   <div class="min-h-screen bg-cream flex items-center justify-center py-12 px-4">
     <div class="w-full max-w-md">
       <!-- Card de Login -->
-      <div class="bg-white-warm border-[4px] border-black shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] p-8 md:p-10">
+      <Card
+        bgColor="bg-white-warm"
+        borderWidth="4"
+        shadow="xl"
+        padding="xl"
+        className="p-8 md:p-10"
+        hover={false}
+      >
         <!-- Logo y Título -->
         <div class="text-center mb-8">
           <div class="flex justify-center mb-4">
@@ -50,7 +58,7 @@ try {
             ← Volver al sitio principal
           </a>
         </div>
-      </div>
+      </Card>
     </div>
   </div>
 </AdminLayout>

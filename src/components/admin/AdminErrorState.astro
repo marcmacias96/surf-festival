@@ -1,0 +1,25 @@
+---
+import Card from '../ui/Card.astro';
+
+interface Props {
+  error: string;
+}
+
+const { error } = Astro.props;
+---
+
+<Card
+  bgColor="bg-error-light/20"
+  borderWidth="4"
+  borderColor="border-error"
+  shadow="md"
+  rounded="lg"
+  paddingResponsive={true}
+  hover={false}
+>
+  <h2 class="font-heading text-xl md:text-2xl font-bold text-error uppercase mb-2">
+    Error al cargar registros
+  </h2>
+  <p class="font-body text-dark">{error}</p>
+</Card>
+
