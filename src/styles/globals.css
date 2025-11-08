@@ -209,7 +209,7 @@ body {
 }
 
 html {
-  scroll-behavior: smooth;
+  /* scroll-behavior: smooth; - DESHABILITADO: El JavaScript maneja el smooth scroll para mejor compatibilidad con Android */
   width: 100%;
   height: 100%;
   overflow-x: hidden;
