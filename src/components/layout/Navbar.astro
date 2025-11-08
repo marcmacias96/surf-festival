@@ -118,6 +118,70 @@
     });
   });
 
+  // Detectar si estamos en Android o navegador móvil
+  function isAndroid(): boolean {
+    if (typeof window === 'undefined') return false;
+    const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
+    return /android/i.test(userAgent);
+  }
+
+  // Detectar si el navegador soporta scrollBehavior
+  function supportsSmoothScroll(): boolean {
+    if (typeof window === 'undefined' || typeof document === 'undefined') return false;
+    return 'scrollBehavior' in document.documentElement.style;
+  }
+
+  // Variable para rastrear la animación activa
+  let activeScrollAnimation: number | null = null;
+
+  // Función mejorada de scroll suave compatible con Android
+  function smoothScrollTo(element: HTMLElement, offset: number = 80): void {
+    // Cancelar cualquier animación previa
+    if (activeScrollAnimation !== null) {
+      cancelAnimationFrame(activeScrollAnimation);
+      activeScrollAnimation = null;
+    }
+
+    const startPosition = window.pageYOffset || document.documentElement.scrollTop || 0;
+    const elementRect = element.getBoundingClientRect();
+    const targetPosition = elementRect.top + startPosition - offset;
+    const distance = targetPosition - startPosition;
+    
+    // Si la distancia es muy pequeña, hacer scroll instantáneo
+    if (Math.abs(distance) < 5) {
+      window.scrollTo(0, targetPosition);
+      return;
+    }
+    
+    const duration = Math.min(Math.abs(distance) * 0.5, 1000); // Máximo 1 segundo
+    let startTime: number | null = null;
+
+    // Función de animación con easing
+    function easeInOutCubic(t: number): number {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+
+    function animation(currentTime: number) {
+      if (startTime === null) startTime = currentTime;
+      const timeElapsed = currentTime - startTime;
+      const progress = Math.min(timeElapsed / duration, 1);
+      const easedProgress = easeInOutCubic(progress);
+
+      const currentScroll = startPosition + distance * easedProgress;
+      window.scrollTo(0, currentScroll);
+
+      if (progress < 1) {
+        activeScrollAnimation = requestAnimationFrame(animation);
+      } else {
+        activeScrollAnimation = null;
+        // Asegurar que llegamos exactamente a la posición final
+        window.scrollTo(0, targetPosition);
+      }
+    }
+
+    activeScrollAnimation = requestAnimationFrame(animation);
+  }
+
   // Smooth scroll para todos los links de navegación
   function handleSmoothScroll(e: Event) {
     const anchor = e.currentTarget as HTMLAnchorElement;
@@ -138,11 +202,29 @@
       const targetElement = document.getElementById(targetId);
       
       if (targetElement) {
-        // Usar scrollIntoView con block: start y el scroll-margin-top de CSS se encargará del offset
-        targetElement.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
+        // En Android o navegadores sin soporte de scrollBehavior, usar scroll manual
+        // Esto asegura compatibilidad con todos los navegadores móviles
+        if (isAndroid() || !supportsSmoothScroll()) {
+          // Usar scroll manual para Android o navegadores sin soporte
+          smoothScrollTo(targetElement, 80); // 80px de offset para el navbar
+        } else {
+          // Usar scrollIntoView para navegadores modernos (desktop principalmente)
+          try {
+            // Verificar que el elemento sea visible y esté en el DOM
+            if (targetElement.offsetParent !== null || targetElement === document.body) {
+              targetElement.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+              });
+            } else {
+              // Si el elemento no es visible, usar scroll manual
+              smoothScrollTo(targetElement, 80);
+            }
+          } catch (error) {
+            // Fallback a scroll manual si falla
+            smoothScrollTo(targetElement, 80);
+          }
+        }
         return true;
       }
       return false;
@@ -151,8 +233,14 @@
     // Intentar hacer scroll inmediatamente
     if (!scrollToTarget()) {
       // Si no se encuentra el elemento, intentar de nuevo después de un breve delay
+      // Esto ayuda con contenido cargado dinámicamente
       setTimeout(() => {
-        scrollToTarget();
+        if (!scrollToTarget()) {
+          // Último intento con más delay
+          setTimeout(() => {
+            scrollToTarget();
+          }, 300);
+        }
       }, 100);
     }
   }
