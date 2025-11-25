@@ -16,12 +16,18 @@
 <nav class="fixed top-0 w-full max-w-full bg-white-warm border-b-[3px] border-black z-[200] shadow-md overflow-x-hidden">
   <div class="container mx-auto px-4 max-w-full">
     <div class="flex items-center justify-between py-4">
-      <!-- Logo -->
-      <a href="/" class="flex items-center" aria-label="Ir al inicio">
+      <!-- Logos -->
+      <a href="/" class="flex items-center gap-3" aria-label="Ir al inicio">
         <img 
           src="/logo.png" 
           alt="San Mateo Longboard Festival" 
           class="h-12"
+          loading="eager"
+        />
+        <img 
+          src="/sponsors/tunalia.png" 
+          alt="Tunalia" 
+          class="h-10 md:h-12"
           loading="eager"
         />
       </a>
@@ -46,6 +52,7 @@
         <button
           id="register-btn-desktop"
           class="bg-yellow text-black px-6 py-2 rounded-md font-heading font-bold uppercase shadow-md hover:shadow-sm hover:translate-x-[2px] hover:translate-y-[2px] transition-all min-h-[44px]"
+          style="background-color: #FFD700;"
         >
           Inscríbete
         </button>
@@ -87,6 +94,7 @@
       <button
         id="register-btn-mobile"
         class="w-full bg-yellow text-black px-6 py-3 rounded-md font-heading font-bold uppercase shadow-md mt-4 min-h-[44px]"
+        style="background-color: #FFD700;"
       >
         Inscríbete
       </button>

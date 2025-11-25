@@ -27,6 +27,14 @@ export default {
           DEFAULT: 'var(--color-accent-purple)',
           light: 'var(--color-accent-purple-light)',
         },
+        
+        // Colores Tunalia
+        tunalia: {
+          turquoise: 'var(--color-tunalia-turquoise)',
+          'blue-dark': 'var(--color-tunalia-blue-dark)',
+          'blue-medium': 'var(--color-tunalia-blue-medium)',
+          'blue-copa': 'var(--color-tunalia-blue-copa)',
+        },
 
         // Estados Funcionales
         success: {
@@ -132,6 +140,8 @@ export default {
         'gradient-tropical': 'linear-gradient(180deg, rgba(255, 215, 0, 0.8) 0%, rgba(255, 140, 66, 0.8) 50%, rgba(255, 77, 140, 0.8) 100%)',
         'gradient-subtle': 'linear-gradient(to bottom, #FFF8E7 0%, #FEFDF8 100%)',
         'gradient-shadow': 'linear-gradient(135deg, #FF8C42 0%, #FF4D8C 100%)',
+        'gradient-tunalia-logo': 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e3a8a 100%)',
+        'gradient-night-sky': 'linear-gradient(180deg, #0a0e27 0%, #1a1f3a 50%, #0f1629 100%)',
       },
       animation: {
         'float': 'float 3s ease-in-out infinite',
@@ -143,6 +153,7 @@ export default {
         'slide-in-right': 'slideInRight 350ms cubic-bezier(0.4, 0.0, 0.2, 1)',
         'shake': 'shake 0.4s',
         'spin': 'spin 1s linear infinite',
+        'pulse-tunalia': 'pulse 3s ease-in-out infinite',
       },
       keyframes: {
         float: {
@@ -204,6 +215,10 @@ export default {
         },
         spin: {
           'to': { transform: 'rotate(360deg)' },
+        },
+        pulse: {
+          '0%, 100%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.05)' },
         },
       },
     },
