@@ -211,11 +211,11 @@ export default function Registration({ isOpen, onClose }: RegistrationProps) {
               aria-describedby={errors.category ? 'error-category' : undefined}
             >
               <option value="">Selecciona una categoría</option>
-              <option value="Open Hombres">Open Hombres (18+ años)</option>
-              <option value="Open Mujeres">Open Mujeres (18+ años)</option>
-              <option value="Mujeres Intermedio">Mujeres Intermedio (16+ años)</option>
-              <option value="Mujeres Principiante">Mujeres Principiante (14+ años)</option>
-              <option value="Niños">Niños (8-13 años)</option>
+              <option value="Open Hombres">Open Hombres</option>
+              <option value="Open Mujeres">Open Mujeres</option>
+              <option value="Mujeres Intermedio">Mujeres Intermedio</option>
+              <option value="Mujeres Principiante">Mujeres Principiante</option>
+              <option value="Niños">Niños</option>
             </select>
             {errors.category && (
               <div 
