@@ -1,184 +1,694 @@
 ---
 import Section from '../layout/Section.astro';
+
+// Datos del cronograma - Sábado 6 de Diciembre
+const activities = [
+  {
+    time: "06:30",
+    period: "AM",
+    title: "Actividad",
+    highlight: "Yoga",
+    icon: "🧘",
+    description: "Comienza el día con energía y equilibrio frente al mar",
+    color: "pink"
+  },
+  {
+    time: "07:00",
+    period: "AM",
+    title: "Inicio",
+    highlight: "Torneo",
+    icon: "🏄",
+    description: "Arranca la competencia oficial de longboard",
+    color: "orange",
+    isInteractive: true,
+    link: "/longfest",
+    ctaText: "Ver Heats"
+  },
+  {
+    time: "07:30",
+    period: "AM",
+    title: "Apertura",
+    highlight: "Emprendimientos",
+    icon: "🏪",
+    description: "Más de 30 stands con productos locales y artesanías",
+    color: "yellow"
+  },
+  {
+    time: "08:00",
+    period: "AM",
+    title: "Mingas por",
+    highlight: "El Mar",
+    icon: "🌊",
+    description: "Limpieza comunitaria de la playa, únete a cuidar nuestro océano",
+    color: "pink"
+  },
+  {
+    time: "01:00",
+    period: "PM",
+    title: "Evento",
+    highlight: "Plato Típico",
+    icon: "🍽️",
+    description: "Concurso gastronómico: el mejor plato típico de San Mateo",
+    color: "orange"
+  },
+  {
+    time: "01:15",
+    period: "PM",
+    title: "Actividad",
+    highlight: "Crioterapia",
+    icon: "❄️",
+    description: "Recuperación y bienestar con terapia de frío",
+    color: "yellow"
+  },
+  {
+    time: "05:30",
+    period: "PM",
+    title: "Premiación",
+    highlight: "Ganadores",
+    icon: "🏆",
+    description: "Ceremonia de premiación y cierre del festival",
+    color: "pink"
+  }
+];
 ---
 
 <Section id="activities" background="white">
-  <div class="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-16 md:py-20 lg:py-24">
-    
+  <div class="timeline-container">
+
     <!-- Header -->
-    <div class="text-center mb-12 md:mb-16 fade-in-up">
-      <h2 class="font-display text-4xl md:text-5xl lg:text-6xl text-black uppercase mb-6 md:mb-8 leading-tight tracking-tight">
-        Más que Surf:<br />Cultura y Comunidad
+    <div class="timeline-header fade-in-up">
+      <span class="date-badge">Sábado 6 de Diciembre</span>
+      <h2 class="timeline-title">
+        Cronograma del<br />
+        <span class="title-highlight">Festival</span>
       </h2>
-      <p class="font-body text-base md:text-lg lg:text-xl text-center mb-4 max-w-3xl mx-auto text-dark fade-in-up leading-relaxed px-4" style="animation-delay: 0.1s;">
-        El LongFest es una celebración de todo lo que amamos de la costa. 
-        Mientras los riders compiten, hay un mundo de actividades para 
-        disfrutar en familia.
+      <p class="timeline-subtitle">
+        Un día completo de surf, cultura y comunidad en San Mateo
       </p>
     </div>
 
-    <!-- Grid de Actividades -->
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-12 md:mb-16">
-      
-      <!-- Feria de Emprendimientos -->
-      <div class="bg-white-warm border-[4px] border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] p-6 md:p-8 transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] transition-all fade-in-up flex flex-col" style="animation-delay: 0.2s;">
-        <div class="mb-6 flex justify-center">
-          <div class="bg-yellow/30 p-4 rounded-lg border-2 border-black">
-            <img 
-              src="/sand-cahir.png" 
-              alt="" 
-              class="w-16 h-16 md:w-20 md:h-20 object-contain" 
-              aria-hidden="true"
-              loading="lazy"
-            />
-          </div>
-        </div>
-        <h3 class="font-display text-2xl md:text-3xl text-center mb-4 text-black uppercase leading-tight">
-          Feria de<br />Emprendimientos
-        </h3>
-        <p class="font-body text-center mb-6 text-dark text-sm md:text-base font-medium">
-          Más de 30 stands con productos locales y artesanías
-        </p>
-        <div class="space-y-3 mb-6 flex-grow">
-          <div class="flex items-start gap-3">
-            <span class="text-orange font-bold text-xl flex-shrink-0">✓</span>
-            <span class="font-body text-sm md:text-base text-black">Arte y artesanías locales</span>
-          </div>
-          <div class="flex items-start gap-3">
-            <span class="text-orange font-bold text-xl flex-shrink-0">✓</span>
-            <span class="font-body text-sm md:text-base text-black">Moda surf y skate</span>
-          </div>
-          <div class="flex items-start gap-3">
-            <span class="text-orange font-bold text-xl flex-shrink-0">✓</span>
-            <span class="font-body text-sm md:text-base text-black">Equipamiento deportivo</span>
-          </div>
-          <div class="flex items-start gap-3">
-            <span class="text-orange font-bold text-xl flex-shrink-0">✓</span>
-            <span class="font-body text-sm md:text-base text-black">Productos naturales y orgánicos</span>
-          </div>
-        </div>
-        <div class="bg-yellow/20 border-2 border-black p-4 rounded-lg text-center mt-auto">
-          <p class="font-heading text-xs md:text-sm text-black font-bold uppercase tracking-wide">
-            Horario: Viernes a Domingo<br />10am - 6pm
-          </p>
+    <!-- Timeline -->
+    <div class="timeline">
+      <!-- Línea central -->
+      <div class="timeline-line" aria-hidden="true"></div>
+
+      <!-- Marcador de inicio -->
+      <div class="timeline-marker timeline-start fade-in-up">
+        <div class="marker-content">
+          <span class="marker-icon">🌅</span>
+          <span class="marker-text">Inicio</span>
         </div>
       </div>
 
-      <!-- Concurso Gastronómico -->
-      <div class="bg-white-warm border-[4px] border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] p-6 md:p-8 transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] transition-all fade-in-up flex flex-col" style="animation-delay: 0.25s;">
-        <div class="mb-6 flex justify-center">
-          <div class="bg-orange/30 p-4 rounded-lg border-2 border-black">
-            <img 
-              src="/sea-c-d.png" 
-              alt="" 
-              class="w-16 h-16 md:w-20 md:h-20 object-contain" 
-              aria-hidden="true"
-              loading="lazy"
-            />
+      <!-- Actividades -->
+      {activities.map((activity, index) => (
+        <div
+          class={`timeline-item timeline-item--${activity.color} ${activity.isInteractive ? 'timeline-item--interactive' : ''} fade-in-up`}
+          style={`animation-delay: ${0.1 + index * 0.1}s`}
+        >
+          <div class="timeline-dot" aria-hidden="true">
+            <span class="dot-inner"></span>
           </div>
-        </div>
-        <h3 class="font-display text-2xl md:text-3xl text-center mb-4 text-black uppercase leading-tight">
-          Concurso<br />Gastronómico
-        </h3>
-        <div class="bg-orange/20 border-2 border-black p-3 mb-6 rounded-lg text-center">
-          <p class="font-heading text-sm md:text-base text-black font-bold uppercase tracking-wide">
-            "Mejor Plato Típico<br />de San Mateo"
-          </p>
-        </div>
-        <div class="space-y-3 mb-6 flex-grow">
-          <div class="flex items-start gap-3">
-            <span class="text-orange font-bold text-xl flex-shrink-0">✓</span>
-            <span class="font-body text-sm md:text-base text-black">Mariscos frescos</span>
-          </div>
-          <div class="flex items-start gap-3">
-            <span class="text-orange font-bold text-xl flex-shrink-0">✓</span>
-            <span class="font-body text-sm md:text-base text-black">Platos tradicionales costeños</span>
-          </div>
-          <div class="flex items-start gap-3">
-            <span class="text-orange font-bold text-xl flex-shrink-0">✓</span>
-            <span class="font-body text-sm md:text-base text-black">Bebidas artesanales</span>
-          </div>
-          <div class="flex items-start gap-3">
-            <span class="text-orange font-bold text-xl flex-shrink-0">✓</span>
-            <span class="font-body text-sm md:text-base text-black">Postres locales</span>
-          </div>
-          <div class="flex items-start gap-3">
-            <span class="text-orange font-bold text-xl flex-shrink-0">✓</span>
-            <span class="font-body text-sm md:text-base text-black">Jurado + voto público</span>
-          </div>
-        </div>
-        <div class="bg-orange/20 border-2 border-black p-4 rounded-lg text-center mt-auto">
-          <p class="font-heading text-xs md:text-sm text-black font-bold uppercase tracking-wide">
-            Degustación:<br />12pm - 3pm / 6pm - 9pm
-          </p>
-        </div>
-      </div>
 
-      <!-- Zona Familiar -->
-      <div class="bg-white-warm border-[4px] border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] p-6 md:p-8 transform hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] transition-all fade-in-up flex flex-col md:col-span-2 lg:col-span-1" style="animation-delay: 0.3s;">
-        <div class="mb-6 flex justify-center">
-          <div class="bg-pink/30 p-4 rounded-lg border-2 border-black">
-            <img 
-              src="/faro.png" 
-              alt="" 
-              class="w-16 h-16 md:w-20 md:h-20 object-contain" 
-              aria-hidden="true"
-              loading="lazy"
-            />
-          </div>
+          {activity.isInteractive ? (
+            <a href={activity.link} class="timeline-card timeline-card--interactive">
+              <div class="card-time">
+                <span class="time-number">{activity.time}</span>
+                <span class="time-period">{activity.period}</span>
+              </div>
+
+              <div class="card-content">
+                <div class="card-icon" aria-hidden="true">
+                  {activity.icon}
+                </div>
+                <div class="card-text">
+                  <h3 class="card-title">
+                    {activity.title}
+                    <span class={`card-highlight card-highlight--${activity.color}`}>
+                      {activity.highlight}
+                    </span>
+                  </h3>
+                  <p class="card-description">{activity.description}</p>
+                  <span class="card-cta">
+                    {activity.ctaText}
+                    <svg class="cta-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </a>
+          ) : (
+            <div class="timeline-card">
+              <div class="card-time">
+                <span class="time-number">{activity.time}</span>
+                <span class="time-period">{activity.period}</span>
+              </div>
+
+              <div class="card-content">
+                <div class="card-icon" aria-hidden="true">
+                  {activity.icon}
+                </div>
+                <div class="card-text">
+                  <h3 class="card-title">
+                    {activity.title}
+                    <span class={`card-highlight card-highlight--${activity.color}`}>
+                      {activity.highlight}
+                    </span>
+                  </h3>
+                  <p class="card-description">{activity.description}</p>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-        <h3 class="font-display text-2xl md:text-3xl text-center mb-4 text-black uppercase leading-tight">
-          Zona<br />Familiar
-        </h3>
-        <p class="font-body text-center mb-6 text-dark text-sm md:text-base font-medium">
-          Actividades para toda la familia durante todo el festival
-        </p>
-        <div class="space-y-3 mb-6 flex-grow">
-          <div class="flex items-start gap-3">
-            <span class="text-orange font-bold text-xl flex-shrink-0">✓</span>
-            <span class="font-body text-sm md:text-base text-black">Clases de surf para niños</span>
-          </div>
-          <div class="flex items-start gap-3">
-            <span class="text-orange font-bold text-xl flex-shrink-0">✓</span>
-            <span class="font-body text-sm md:text-base text-black">Yoga al amanecer</span>
-          </div>
-          <div class="flex items-start gap-3">
-            <span class="text-orange font-bold text-xl flex-shrink-0">✓</span>
-            <span class="font-body text-sm md:text-base text-black">Pantalla gigante con transmisión en vivo</span>
-          </div>
-          <div class="flex items-start gap-3">
-            <span class="text-orange font-bold text-xl flex-shrink-0">✓</span>
-            <span class="font-body text-sm md:text-base text-black">Food trucks y restaurantes</span>
-          </div>
-          <div class="flex items-start gap-3">
-            <span class="text-orange font-bold text-xl flex-shrink-0">✓</span>
-            <span class="font-body text-sm md:text-base text-black">Área de espectadores con sombra</span>
-          </div>
-        </div>
-        <div class="bg-pink/20 border-2 border-black p-4 rounded-lg text-center mt-auto">
-          <p class="font-heading text-xs md:text-sm text-black font-bold uppercase tracking-wide">
-            Disponible durante<br />todo el festival
-          </p>
+      ))}
+
+      <!-- Marcador de fin -->
+      <div class="timeline-marker timeline-end fade-in-up" style="animation-delay: 0.9s">
+        <div class="marker-content marker-content--end">
+          <span class="marker-icon">🎉</span>
+          <span class="marker-text">Fin del LongFest</span>
         </div>
       </div>
     </div>
 
-    <!-- Información adicional -->
-    <div class="bg-white-warm border-[4px] border-black shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] p-6 md:p-8 fade-in-up" style="animation-delay: 0.35s;">
-      <div class="grid md:grid-cols-3 gap-6 text-center">
-        <div>
-          <div class="font-display text-3xl md:text-4xl text-orange mb-2">1</div>
-          <p class="font-heading text-sm md:text-base text-black font-bold uppercase tracking-wide">Día de Competencia</p>
-        </div>
-        <div>
-          <div class="font-display text-3xl md:text-4xl text-orange mb-2">30+</div>
-          <p class="font-heading text-sm md:text-base text-black font-bold uppercase tracking-wide">Stands de Emprendedores</p>
-        </div>
-        <div>
-          <div class="font-display text-3xl md:text-4xl text-orange mb-2">100%</div>
-          <p class="font-heading text-sm md:text-base text-black font-bold uppercase tracking-wide">Actividades Familiares</p>
-        </div>
-      </div>
-    </div>
   </div>
 </Section>
+
+<style>
+  /* ============================================
+     Timeline Container
+     ============================================ */
+  .timeline-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .timeline-container {
+      padding: 4rem 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .timeline-container {
+      padding: 5rem 2rem;
+    }
+  }
+
+  /* ============================================
+     Header
+     ============================================ */
+  .timeline-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .date-badge {
+    display: inline-block;
+    padding: 0.5rem 1.25rem;
+    background: var(--color-primary-pink);
+    color: white;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border: 3px solid var(--color-neutral-black);
+    box-shadow: 4px 4px 0px var(--color-neutral-black);
+    margin-bottom: 1.5rem;
+  }
+
+  .timeline-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    line-height: 1;
+    color: var(--color-neutral-black);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .title-highlight {
+    color: var(--color-primary-orange);
+    display: block;
+  }
+
+  .timeline-subtitle {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.125rem;
+    color: var(--color-neutral-dark);
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  /* ============================================
+     Timeline Structure
+     ============================================ */
+  .timeline {
+    position: relative;
+    padding: 2rem 0;
+  }
+
+  .timeline-line {
+    position: absolute;
+    left: 20px;
+    top: 3rem;
+    bottom: 3rem;
+    width: 4px;
+    background: linear-gradient(
+      180deg,
+      var(--color-primary-yellow) 0%,
+      var(--color-primary-orange) 50%,
+      var(--color-primary-pink) 100%
+    );
+    border-radius: 2px;
+  }
+
+  @media (min-width: 768px) {
+    .timeline-line {
+      left: 50%;
+      transform: translateX(-50%);
+      top: 4rem;
+      bottom: 4rem;
+    }
+  }
+
+  /* ============================================
+     Timeline Markers (Start/End)
+     ============================================ */
+  .timeline-marker {
+    position: relative;
+    margin-bottom: 2rem;
+    padding-left: 60px;
+  }
+
+  .timeline-marker.timeline-end {
+    margin-bottom: 0;
+    margin-top: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .timeline-marker {
+      padding-left: 0;
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  .marker-content {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--color-neutral-black);
+    color: white;
+    border: 3px solid var(--color-neutral-black);
+    box-shadow: 4px 4px 0px var(--color-primary-orange);
+  }
+
+  .marker-content--end {
+    background: var(--color-primary-pink);
+    box-shadow: 4px 4px 0px var(--color-neutral-black);
+  }
+
+  .marker-icon {
+    font-size: 1.5rem;
+  }
+
+  .marker-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* ============================================
+     Timeline Items
+     ============================================ */
+  .timeline-item {
+    position: relative;
+    padding-left: 60px;
+    margin-bottom: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .timeline-item {
+      padding-left: 0;
+      width: 50%;
+      margin-bottom: 3rem;
+    }
+
+    .timeline-item:nth-child(odd) {
+      margin-left: 50%;
+      padding-left: 40px;
+    }
+
+    .timeline-item:nth-child(even) {
+      margin-right: 50%;
+      padding-right: 40px;
+      text-align: right;
+    }
+
+    .timeline-item:nth-child(even) .timeline-card {
+      flex-direction: row-reverse;
+    }
+
+    .timeline-item:nth-child(even) .card-content {
+      flex-direction: row-reverse;
+    }
+
+    .timeline-item:nth-child(even) .card-text {
+      text-align: right;
+    }
+
+    .timeline-item:nth-child(even) .card-title {
+      justify-content: flex-end;
+    }
+  }
+
+  /* Timeline Dot */
+  .timeline-dot {
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    background: white;
+    border: 4px solid var(--color-neutral-black);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+
+  .timeline-item--yellow .timeline-dot {
+    background: var(--color-primary-yellow);
+  }
+
+  .timeline-item--orange .timeline-dot {
+    background: var(--color-primary-orange);
+  }
+
+  .timeline-item--pink .timeline-dot {
+    background: var(--color-primary-pink);
+  }
+
+  .dot-inner {
+    width: 8px;
+    height: 8px;
+    background: var(--color-neutral-black);
+    border-radius: 50%;
+  }
+
+  @media (min-width: 768px) {
+    .timeline-dot {
+      left: auto;
+      right: -14px;
+    }
+
+    .timeline-item:nth-child(odd) .timeline-dot {
+      left: -14px;
+      right: auto;
+    }
+  }
+
+  /* ============================================
+     Timeline Card
+     ============================================ */
+  .timeline-card {
+    display: flex;
+    gap: 1rem;
+    background: var(--color-neutral-white);
+    border: 4px solid var(--color-neutral-black);
+    box-shadow: 6px 6px 0px var(--color-neutral-black);
+    padding: 1.25rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .timeline-item--yellow .timeline-card {
+    box-shadow: 6px 6px 0px var(--color-primary-yellow);
+  }
+
+  .timeline-item--orange .timeline-card {
+    box-shadow: 6px 6px 0px var(--color-primary-orange);
+  }
+
+  .timeline-item--pink .timeline-card {
+    box-shadow: 6px 6px 0px var(--color-primary-pink);
+  }
+
+  .timeline-card:hover {
+    transform: translate(-3px, -3px);
+  }
+
+  .timeline-item--yellow .timeline-card:hover {
+    box-shadow: 9px 9px 0px var(--color-primary-yellow);
+  }
+
+  .timeline-item--orange .timeline-card:hover {
+    box-shadow: 9px 9px 0px var(--color-primary-orange);
+  }
+
+  .timeline-item--pink .timeline-card:hover {
+    box-shadow: 9px 9px 0px var(--color-primary-pink);
+  }
+
+  /* Card Time */
+  .card-time {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 70px;
+    padding: 0.5rem;
+    background: var(--color-neutral-black);
+    color: white;
+  }
+
+  .time-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.75rem;
+    line-height: 1;
+  }
+
+  .time-period {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  /* Card Content */
+  .card-content {
+    display: flex;
+    gap: 1rem;
+    flex: 1;
+  }
+
+  .card-icon {
+    font-size: 2.5rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .card-text {
+    flex: 1;
+  }
+
+  .card-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem 0.5rem;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    color: var(--color-neutral-black);
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+  }
+
+  .card-highlight {
+    display: block;
+    font-size: 1.5rem;
+  }
+
+  .card-highlight--yellow {
+    color: var(--color-primary-orange);
+  }
+
+  .card-highlight--orange {
+    color: var(--color-primary-pink);
+  }
+
+  .card-highlight--pink {
+    color: var(--color-primary-pink);
+  }
+
+  .card-description {
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.875rem;
+    color: var(--color-neutral-dark);
+    line-height: 1.4;
+  }
+
+  @media (min-width: 768px) {
+    .card-title {
+      font-size: 1.5rem;
+    }
+
+    .card-highlight {
+      font-size: 1.75rem;
+    }
+
+    .card-description {
+      font-size: 1rem;
+    }
+  }
+
+  /* ============================================
+     Animations
+     ============================================ */
+  .fade-in-up {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.6s ease forwards;
+  }
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Pulse animation for dots */
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+  }
+
+  .timeline-item:hover .dot-inner {
+    animation: pulse 0.6s ease;
+  }
+
+  /* ============================================
+     Interactive Card Styles
+     ============================================ */
+  .timeline-card--interactive {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+  }
+
+  .timeline-card--interactive::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 12px;
+    height: 12px;
+    background: var(--color-primary-pink);
+    border: 2px solid var(--color-neutral-black);
+    border-radius: 50%;
+    animation: pulse-dot 1.5s ease-in-out infinite;
+    z-index: 5;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.3);
+      opacity: 0.8;
+    }
+  }
+
+  .timeline-item--interactive .timeline-card:hover {
+    transform: translate(-5px, -5px);
+  }
+
+  .timeline-item--interactive.timeline-item--orange .timeline-card:hover {
+    box-shadow: 11px 11px 0px var(--color-primary-orange);
+  }
+
+  /* CTA Badge */
+  .card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    padding: 0.4rem 0.75rem;
+    background: var(--color-primary-orange);
+    color: var(--color-neutral-black);
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 2px solid var(--color-neutral-black);
+    box-shadow: 2px 2px 0px var(--color-neutral-black);
+    transition: all 0.2s ease;
+  }
+
+  .timeline-card--interactive:hover .card-cta {
+    background: var(--color-primary-yellow);
+    transform: translate(-1px, -1px);
+    box-shadow: 3px 3px 0px var(--color-neutral-black);
+  }
+
+  .cta-arrow {
+    transition: transform 0.2s ease;
+  }
+
+  .timeline-card--interactive:hover .cta-arrow {
+    transform: translateX(3px);
+  }
+
+  @media (min-width: 768px) {
+    .card-cta {
+      font-size: 0.875rem;
+      padding: 0.5rem 1rem;
+    }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .fade-in-up {
+      opacity: 1;
+      transform: none;
+      animation: none;
+    }
+
+    .timeline-card,
+    .cta-button {
+      transition: none;
+    }
+
+    .timeline-item:hover .dot-inner {
+      animation: none;
+    }
+
+    .timeline-card--interactive::before {
+      animation: none;
+    }
+
+    .cta-arrow,
+    .card-cta {
+      transition: none;
+    }
+  }
+</style>

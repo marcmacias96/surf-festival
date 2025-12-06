@@ -1,0 +1,517 @@
+---
+import Footer from '../components/layout/Footer.astro';
+import Navbar from '../components/layout/Navbar.astro';
+import Layout from '../layouts/Layout.astro';
+
+// Datos del cronograma - Point 1
+const point1Heats = [
+  { category: "DAMAS PRINCIP.", stage: "1ª Ronda", series: 5, duration: 15, start: "7:00", end: "8:15", type: "round" },
+  { category: "DAMAS PRINCIP.", stage: "2ª Ronda", series: 3, duration: 15, start: "8:15", end: "9:00", type: "round" },
+  { category: "OPEN VARONES", stage: "1ª Ronda", series: 8, duration: 15, start: "9:00", end: "11:00", type: "round" },
+  { category: "OPEN VARONES", stage: "2ª Ronda", series: 4, duration: 15, start: "11:00", end: "12:00", type: "round" },
+  { category: "DAMAS INTERME.", stage: "1ª Ronda", series: 3, duration: 15, start: "12:00", end: "12:45", type: "round" },
+  { category: "DAMAS INTERME.", stage: "SEMIFINAL", series: 2, duration: 15, start: "12:45", end: "13:15", type: "semifinal" },
+  { category: "BREAK", stage: "-", series: null, duration: 15, start: "13:15", end: "13:30", type: "break" },
+  { category: "OPEN DAMAS", stage: "1ª Ronda", series: 2, duration: 15, start: "13:30", end: "14:00", type: "round" },
+  { category: "DAMAS PRINCIP.", stage: "SEMIFINAL", series: 2, duration: 15, start: "14:00", end: "14:30", type: "semifinal" },
+  { category: "OPEN VARONES", stage: "SEMIFINAL", series: 2, duration: 15, start: "14:30", end: "15:00", type: "semifinal" },
+  { category: "DAMAS INTERME.", stage: "FINAL", series: 1, duration: 15, start: "15:00", end: "15:15", type: "final" },
+  { category: "OPEN DAMAS", stage: "FINAL", series: 1, duration: 15, start: "15:15", end: "15:30", type: "final" },
+  { category: "DAMAS PRINCIP.", stage: "FINAL", series: 1, duration: 15, start: "15:30", end: "15:45", type: "final" },
+  { category: "OPEN VARONES", stage: "FINAL", series: 1, duration: 20, start: "15:45", end: "16:05", type: "final" },
+  { category: "PREMIACIÓN", stage: "-", series: null, duration: 60, start: "16:05", end: "17:05", type: "ceremony" },
+];
+
+// Datos del cronograma - Point 2
+const point2Heats = [
+  { category: "ESPUMITA NIÑOS", stage: "1ª Ronda", series: 3, duration: 15, start: "7:00", end: "7:45", type: "round" },
+  { category: "ESPUMITA NIÑOS", stage: "2ª Ronda", series: 2, duration: 15, start: "7:45", end: "8:15", type: "round" },
+  { category: "ESPUMITA NIÑAS", stage: "FINAL", series: 1, duration: 15, start: "8:15", end: "8:30", type: "final" },
+  { category: "ESPUMITA NIÑOS", stage: "FINAL", series: 1, duration: 15, start: "8:30", end: "8:45", type: "final" },
+];
+
+const point1TotalSeries = point1Heats.reduce((acc, h) => acc + (h.series || 0), 0);
+const point2TotalSeries = point2Heats.reduce((acc, h) => acc + (h.series || 0), 0);
+---
+
+<Layout title="Cronograma de Heats | San Mateo Longboard Festival 2025">
+  <Navbar />
+  <main id="main-content" class="w-full max-w-full overflow-x-hidden">
+
+    <section class="heats-section">
+      <div class="heats-container">
+
+        <!-- Header -->
+        <header class="heats-header">
+          <a href="/#activities" class="back-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            Volver
+          </a>
+
+          <div class="header-content">
+            <div class="event-badge">
+              <span class="badge-date">6 DIC 2025</span>
+            </div>
+            <h1 class="heats-title">CRONOGRAMA DE HEATS</h1>
+            <p class="heats-subtitle">III Edición San Mateo Longboard Festival</p>
+          </div>
+        </header>
+
+        <!-- Points Grid -->
+        <div class="points-grid">
+
+          <!-- POINT 1 -->
+          <div class="point-section">
+            <div class="point-header">
+              <div class="point-badge">POINT 1</div>
+              <span class="point-series">{point1TotalSeries} series</span>
+            </div>
+
+            <div class="table-wrapper">
+              <table class="heats-table">
+                <thead>
+                  <tr>
+                    <th class="col-category">Categoría</th>
+                    <th class="col-stage">Etapa</th>
+                    <th class="col-series">N° Series</th>
+                    <th class="col-duration">Min.</th>
+                    <th class="col-time">Inicio</th>
+                    <th class="col-time">Fin</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {point1Heats.map((heat) => (
+                    <tr class={`row-${heat.type}`}>
+                      <td class="col-category">
+                        <span class="category-name">{heat.category}</span>
+                      </td>
+                      <td class="col-stage">
+                        {heat.stage !== "-" ? (
+                          <span class={`stage-badge stage-${heat.type}`}>{heat.stage}</span>
+                        ) : (
+                          <span class="stage-dash">—</span>
+                        )}
+                      </td>
+                      <td class="col-series">
+                        {heat.series !== null ? heat.series : "—"}
+                      </td>
+                      <td class="col-duration">{heat.duration}</td>
+                      <td class="col-time">{heat.start}</td>
+                      <td class="col-time">{heat.end}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- POINT 2 -->
+          <div class="point-section point-section--secondary">
+            <div class="point-header">
+              <div class="point-badge point-badge--secondary">POINT 2</div>
+              <span class="point-series">{point2TotalSeries} series</span>
+            </div>
+
+            <div class="table-wrapper">
+              <table class="heats-table">
+                <thead>
+                  <tr>
+                    <th class="col-category">Categoría</th>
+                    <th class="col-stage">Etapa</th>
+                    <th class="col-series">N° Series</th>
+                    <th class="col-duration">Min.</th>
+                    <th class="col-time">Inicio</th>
+                    <th class="col-time">Fin</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {point2Heats.map((heat) => (
+                    <tr class={`row-${heat.type}`}>
+                      <td class="col-category">
+                        <span class="category-name">{heat.category}</span>
+                      </td>
+                      <td class="col-stage">
+                        {heat.stage !== "-" ? (
+                          <span class={`stage-badge stage-${heat.type}`}>{heat.stage}</span>
+                        ) : (
+                          <span class="stage-dash">—</span>
+                        )}
+                      </td>
+                      <td class="col-series">
+                        {heat.series !== null ? heat.series : "—"}
+                      </td>
+                      <td class="col-duration">{heat.duration}</td>
+                      <td class="col-time">{heat.start}</td>
+                      <td class="col-time">{heat.end}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Disclaimer -->
+        <footer class="heats-footer">
+          <p class="disclaimer">
+            <svg class="disclaimer-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            El programa puede estar sujeto a cambios por factores naturales como mareas y vientos.
+          </p>
+        </footer>
+
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  /* ============================================
+     Base Section
+     ============================================ */
+  .heats-section {
+    background: #f5f5f5;
+    min-height: 100vh;
+    padding-top: 80px;
+  }
+
+  .heats-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .heats-container {
+      padding: 3rem 2rem;
+    }
+  }
+
+  /* ============================================
+     Header
+     ============================================ */
+  .heats-header {
+    margin-bottom: 2rem;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1.5rem;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #333;
+    text-decoration: none;
+    background: white;
+    border: 2px solid #1a1a1a;
+    transition: all 0.15s ease;
+  }
+
+  .back-link:hover {
+    background: #1a1a1a;
+    color: white;
+  }
+
+  .header-content {
+    text-align: center;
+  }
+
+  .event-badge {
+    display: inline-flex;
+    margin-bottom: 1rem;
+    border: 2px solid #1a1a1a;
+    overflow: hidden;
+  }
+
+  .badge-date {
+    padding: 0.5rem 1.25rem;
+    background: #FF8C42;
+    color: white;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.05em;
+  }
+
+  .heats-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    color: #1a1a1a;
+    letter-spacing: 0.02em;
+    margin-bottom: 0.5rem;
+    line-height: 1;
+  }
+
+  .heats-subtitle {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 1rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* ============================================
+     Points Grid
+     ============================================ */
+  .points-grid {
+    display: grid;
+    gap: 2rem;
+  }
+
+  @media (min-width: 1024px) {
+    .points-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+  }
+
+  /* ============================================
+     Point Section
+     ============================================ */
+  .point-section {
+    background: white;
+    border: 3px solid #1a1a1a;
+  }
+
+  .point-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    background: #1a1a1a;
+    border-bottom: 3px solid #1a1a1a;
+  }
+
+  .point-badge {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.25rem;
+    color: #FFD700;
+    letter-spacing: 0.05em;
+  }
+
+  .point-badge--secondary {
+    color: #FF8C42;
+  }
+
+  .point-series {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 0.875rem;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* ============================================
+     Table
+     ============================================ */
+  .table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .heats-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 0.875rem;
+    min-width: 500px;
+  }
+
+  .heats-table thead {
+    background: #f0f0f0;
+  }
+
+  .heats-table th {
+    padding: 0.75rem 0.5rem;
+    text-align: left;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    color: #666;
+    border-bottom: 2px solid #1a1a1a;
+  }
+
+  .heats-table td {
+    padding: 0.75rem 0.5rem;
+    border-bottom: 1px solid #e0e0e0;
+    vertical-align: middle;
+  }
+
+  .heats-table tbody tr:hover {
+    background: #fafafa;
+  }
+
+  /* Column widths */
+  .col-category { min-width: 130px; }
+  .col-stage { min-width: 90px; }
+  .col-series {
+    text-align: center;
+    min-width: 60px;
+  }
+  .col-duration {
+    text-align: center;
+    min-width: 50px;
+  }
+  .col-time {
+    text-align: center;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 600;
+    min-width: 55px;
+  }
+
+  .heats-table th.col-series,
+  .heats-table th.col-duration,
+  .heats-table th.col-time {
+    text-align: center;
+  }
+
+  /* Category name */
+  .category-name {
+    font-weight: 600;
+    color: #1a1a1a;
+  }
+
+  /* Stage badges */
+  .stage-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    border-radius: 2px;
+  }
+
+  .stage-round {
+    background: #e8e8e8;
+    color: #333;
+  }
+
+  .stage-semifinal {
+    background: #FFD700;
+    color: #1a1a1a;
+  }
+
+  .stage-final {
+    background: #1a1a1a;
+    color: white;
+  }
+
+  .stage-dash {
+    color: #999;
+  }
+
+  /* Special rows */
+  .row-break {
+    background: #fff3e0 !important;
+  }
+
+  .row-break .category-name {
+    color: #FF8C42;
+    font-style: italic;
+  }
+
+  .row-ceremony {
+    background: #e8f5e9 !important;
+  }
+
+  .row-ceremony .category-name {
+    color: #2e7d32;
+    font-weight: 700;
+  }
+
+  .row-final {
+    background: #fafafa;
+  }
+
+  .row-final .category-name {
+    font-weight: 700;
+  }
+
+  /* ============================================
+     Footer / Disclaimer
+     ============================================ */
+  .heats-footer {
+    margin-top: 2rem;
+    text-align: center;
+  }
+
+  .disclaimer {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: #fff3e0;
+    border: 2px solid #FF8C42;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.8rem;
+    color: #1a1a1a;
+  }
+
+  .disclaimer-icon {
+    color: #FF8C42;
+    flex-shrink: 0;
+  }
+
+  /* ============================================
+     Responsive adjustments
+     ============================================ */
+  @media (min-width: 768px) {
+    .heats-table {
+      font-size: 0.9rem;
+    }
+
+    .heats-table th {
+      font-size: 0.75rem;
+      padding: 1rem 0.75rem;
+    }
+
+    .heats-table td {
+      padding: 0.875rem 0.75rem;
+    }
+
+    .stage-badge {
+      font-size: 0.75rem;
+      padding: 0.3rem 0.6rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .point-section--secondary {
+      align-self: start;
+    }
+  }
+
+  /* ============================================
+     Print styles
+     ============================================ */
+  @media print {
+    .heats-section {
+      padding-top: 0;
+      background: white;
+    }
+
+    .back-link {
+      display: none;
+    }
+
+    .point-section {
+      break-inside: avoid;
+    }
+  }
+
+</style>
