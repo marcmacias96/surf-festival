@@ -1,28 +1,10 @@
 ---
 import Button from '../ui/Button';
-import RegistrationWrapper from './RegistrationWrapper';
 ---
 
 <section class="relative min-h-screen flex items-center justify-center overflow-x-hidden overflow-y-auto marine-ocean-effect w-full pt-0">
   <!-- Indicador de scroll (flecha animada) -->
-  <div class="absolute bottom-4 sm:bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 z-20 fade-in-up" style="animation-delay: 1s;">
-    <a 
-      href="#about" 
-      class="flex flex-col items-center gap-2 text-white hover:text-yellow transition-colors group"
-      aria-label="Scroll hacia abajo"
-    >
-      <span class="font-body text-xs uppercase tracking-wider opacity-80">Scroll</span>
-      <svg 
-        class="w-6 h-6 animate-bounce opacity-80 group-hover:opacity-100" 
-        fill="none" 
-        stroke="currentColor" 
-        viewBox="0 0 24 24"
-        aria-hidden="true"
-      >
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-      </svg>
-    </a>
-  </div>
+ 
 
   <!-- Elementos visuales decorativos -->
 
@@ -112,95 +94,82 @@ import RegistrationWrapper from './RegistrationWrapper';
     </style>
   </div>
 
-  <!-- Contenido principal - Layout centrado -->
-  <div class="relative z-[10] container mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-8 sm:pt-6 sm:pb-12 md:pt-8 md:pb-16">
-    <div class="max-w-5xl mx-auto text-center">
-      
-      <!-- Badge "PRESENTADO POR" -->
-      <div class="mb-4 fade-in-up">
-        <span class="presented-by-badge">PRESENTADO POR</span>
-      </div>
+  <!-- Contenido principal - Layout centrado, optimizado para mobile -->
+  <div class="relative z-[10] container mx-auto px-3 sm:px-6 lg:px-8 pt-6 sm:pt-12 md:pt-20 pb-2 sm:pb-8 md:pb-12">
+    <div class="max-w-6xl mx-auto text-center">
 
-      <!-- Logo Tunalia -->
-      <div class="mb-6 fade-in-up" style="animation-delay: 0.1s;">
-        <img 
-          src="/sponsors/tunalia.png" 
-          alt="Tunalia" 
-          class="animate-pulse-tunalia mx-auto drop-shadow-[4px_4px_0px_rgba(255,255,255,0.3)]"
-          style="width: 180px; height: auto;"
+      <!-- Título principal - DOMINANTE (más grande en mobile) -->
+      <h1 class="mb-5 sm:mb-4 md:mb-6 fade-in-up">
+        <img
+          src="/hero/longfest-text.png"
+          alt="San Mateo Longboard Fest"
+          class="mx-auto w-[92vw] sm:w-[300px] md:w-[415px] lg:w-[525px] xl:w-[600px] max-w-[600px] h-auto drop-shadow-[4px_4px_0px_rgba(0,0,0,0.6)]"
           loading="eager"
-          id="tunalia-logo-hero"
         />
-        <style>
-          @media (min-width: 768px) {
-            #tunalia-logo-hero {
-              width: 240px !important;
-            }
-          }
-        </style>
-      </div>
-
-      <!-- Título principal -->
-      <h1 class="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-3 md:mb-4 text-white leading-[0.95] tracking-tight fade-in-up" style="animation-delay: 0.2s; text-shadow: 2px 2px 4px rgba(0,0,0,0.6), 0 0 20px rgba(0,0,0,0.3);">
-        SAN MATEO<br />
-        <span class="text-white" style="text-shadow: 3px 3px 6px rgba(0,0,0,0.7), 0 0 25px rgba(0,0,0,0.4);">
-          LONGBOARD FESTIVAL
-        </span>
       </h1>
 
-      <!-- Subtítulo "COPA TUNALIA" -->
-      <p class="copa-tunalia-text text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl mb-3 md:mb-4 fade-in-up" style="animation-delay: 0.3s;">
-        COPA TUNALIA
-      </p>
+      <!-- Subtítulo "COPA TUNALIA" (más grande en mobile) -->
+      <div class="mb-5 sm:mb-3 md:mb-4 fade-in-up" style="animation-delay: 0.1s;">
+        <img
+          src="/hero/copa-tunalia.png"
+          alt="Copa Tunalia"
+          class="mx-auto w-[51vw] sm:w-[200px] md:w-[280px] lg:w-[350px] max-w-[350px] h-auto drop-shadow-[2px_2px_0px_rgba(0,0,0,0.5)]"
+          loading="eager"
+        />
+      </div>
 
-      <!-- Edición y Fecha -->
-      <div class="mb-6 md:mb-8 fade-in-up" style="animation-delay: 0.4s;">
-        <p class="font-heading text-lg sm:text-xl md:text-2xl lg:text-3xl mb-2 text-white font-bold tracking-wide" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.6), 0 0 15px rgba(0,0,0,0.3);">
-          III EDICIÓN
-        </p>
-        <p class="font-heading text-sm sm:text-base md:text-lg lg:text-xl text-white font-semibold tracking-wide" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.6), 0 0 10px rgba(0,0,0,0.3);">
-          Diciembre 2025 • El Faro, San Mateo, Manabí, Ecuador
+      <!-- Edición y Fecha (más grande en mobile) -->
+      <div class="mb-6 sm:mb-5 md:mb-6 fade-in-up" style="animation-delay: 0.2s;">
+        <img
+          src="/hero/faro-3-edicion.png"
+          alt="III Edición"
+          class="mx-auto w-[45vw] sm:w-[130px] md:w-[180px] lg:w-[220px] max-w-[220px] h-auto mb-3 sm:mb-2 drop-shadow-[2px_2px_0px_rgba(0,0,0,0.5)]"
+          loading="eager"
+        />
+        <p class="font-heading text-sm sm:text-base md:text-lg lg:text-xl text-white font-semibold tracking-wide" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.7), 0 0 15px rgba(0,0,0,0.4);">
+          6 de Diciembre 2025 • San Mateo, Manabí, Ecuador
         </p>
       </div>
 
-      <!-- CTAs -->
-      <div class="flex flex-col sm:flex-row gap-4 justify-center items-stretch sm:items-center mb-6 md:mb-8 fade-in-up" style="animation-delay: 0.5s;">
-        <button
-          id="hero-register-btn"
-          class="bg-yellow text-black px-6 sm:px-8 py-4 rounded-md font-heading font-bold uppercase tracking-wide border-[3px] border-black shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] hover:shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] hover:-translate-x-[2px] hover:-translate-y-[2px] active:translate-x-[4px] active:translate-y-[4px] active:shadow-[2px_2px_0px_0px_rgba(26,26,26,1)] transition-all min-h-[56px] sm:min-h-[64px] text-base sm:text-lg focus-visible:outline-4 focus-visible:outline-orange focus-visible:outline-offset-4"
+      <!-- CTAs (compactos en mobile) -->
+      <div class="flex flex-row gap-2 sm:gap-3 justify-center items-center mb-5 sm:mb-6 md:mb-8 fade-in-up" style="animation-delay: 0.3s;">
+        <a
+          href="/longfest"
+          class="bg-yellow text-black px-5 sm:px-8 py-2.5 sm:py-4 rounded-md font-heading font-bold uppercase tracking-wide border-2 sm:border-[3px] border-black shadow-[3px_3px_0px_0px_rgba(26,26,26,1)] sm:shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] hover:shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] hover:-translate-x-[2px] hover:-translate-y-[2px] active:translate-x-[4px] active:translate-y-[4px] active:shadow-[2px_2px_0px_0px_rgba(26,26,26,1)] transition-all text-sm sm:text-lg focus-visible:outline-4 focus-visible:outline-orange focus-visible:outline-offset-4 no-underline"
           style="background-color: #FFD700;"
         >
-          INSCRÍBETE AHORA - $10
-        </button>
-        <a 
-          href="#categories"
-          class="w-full sm:w-auto"
+          VER HEATS
+        </a>
+        <a
+          href="#activities"
+          class="inline-block"
         >
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             size="large"
             client:load
-            className="w-full sm:w-auto !border-white !text-white hover:!bg-white hover:!text-black"
+            className="!px-5 sm:!px-8 !py-2.5 sm:!py-4 !text-sm sm:!text-lg !border-2 sm:!border-[3px] !border-white !text-white hover:!bg-white hover:!text-black !min-h-0"
           >
-            VER CATEGORÍAS
+            VER CRONOGRAMA
           </Button>
         </a>
+      </div>
+
+      <!-- Sponsor - Posición secundaria -->
+      <div class="fade-in-up" style="animation-delay: 0.4s;">
+        <div class="inline-flex flex-col sm:flex-row items-center gap-1 sm:gap-3 bg-white/10 backdrop-blur-sm px-5 sm:px-4 py-2.5 sm:py-2 rounded-2xl sm:rounded-full border border-white/20">
+          <span class="text-white/80 text-[10px] sm:text-sm font-body uppercase tracking-wider">Presentado por</span>
+          <a href="https://tunalia.com/" target="_blank" rel="noopener noreferrer" aria-label="Visitar Tunalia">
+            <img
+              src="/sponsors/tunalia.png"
+              alt="Tunalia"
+              class="h-8 sm:h-8 w-auto"
+              loading="eager"
+            />
+          </a>
+        </div>
       </div>
     </div>
   </div>
   
-  <!-- Modal de Registro -->
-  <RegistrationWrapper client:load />
 </section>
-
-<script>
-  // Manejar apertura del modal desde botones
-  if (typeof window !== 'undefined') {
-    // Botón del hero
-    const heroBtn = document.getElementById('hero-register-btn');
-    heroBtn?.addEventListener('click', () => {
-      const event = new CustomEvent('open-registration-modal');
-      window.dispatchEvent(event);
-    });
-  }
-</script>
